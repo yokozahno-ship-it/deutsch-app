@@ -1,0 +1,2246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutsch Lernapp — Schritte plus neu 4</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F2ED;
+  --surface: #FFFFFF;
+  --surface2: #F0EDE8;
+  --border: #E2DDD6;
+  --border2: #D0C9BF;
+  --text: #1A1714;
+  --text2: #6B6259;
+  --text3: #9E9589;
+  --accent: #2B5F3F;
+  --accent-light: #E8F2EC;
+  --accent2: #8B4513;
+  --accent2-light: #F5EDE6;
+  --red: #C0392B;
+  --red-light: #FBEAE8;
+  --green: #27633F;
+  --green-light: #E8F3EC;
+  --gold: #C9A84C;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ===== サイドバー ===== */
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 10;
+}
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-logo h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--accent);
+  line-height: 1.2;
+}
+.sidebar-logo p {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+.sidebar-nav {
+  padding: 16px 12px;
+  flex: 1;
+}
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0 12px;
+  margin: 16px 0 6px;
+}
+.nav-section-label:first-child { margin-top: 0; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active { background: var(--accent-light); color: var(--accent); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; }
+
+.sidebar-stats {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+.stat-box {
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 8px 4px;
+  text-align: center;
+}
+.stat-num { font-size: 18px; font-weight: 600; color: var(--text); }
+.stat-lbl { font-size: 9px; color: var(--text3); margin-top: 1px; letter-spacing: 0.03em; }
+.progress-wrap { margin-top: 10px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+.progress-bar { height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s ease; }
+.reset-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 7px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: none;
+  font-size: 11px;
+  color: var(--text3);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.reset-btn:hover { background: var(--surface2); color: var(--text2); }
+
+/* ===== メインコンテンツ ===== */
+.main {
+  margin-left: 220px;
+  flex: 1;
+  min-height: 100vh;
+  padding: 40px 48px;
+  max-width: calc(100vw - 220px);
+}
+.page { display: none; }
+.page.active { display: block; }
+.page-header { margin-bottom: 28px; }
+.page-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--text);
+}
+.page-header p { font-size: 13px; color: var(--text3); margin-top: 4px; }
+
+/* ===== カード ===== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.card + .card { margin-top: 16px; }
+
+/* ===== フィルターバー ===== */
+.filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.filter-btn {
+  padding: 5px 13px;
+  border-radius: 99px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.filter-btn:hover { background: var(--surface2); }
+.filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.filter-btn.active-L1 { background: #3D4BB5; color: #fff; border-color: #3D4BB5; }
+.filter-btn.active-L11 { background: #185FA5; color: #fff; border-color: #185FA5; }
+.filter-btn.active-GR { background: #993556; color: #fff; border-color: #993556; }
+
+/* ===== 単語カード ===== */
+.q-label { font-size: 10px; font-weight: 600; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.q-text { font-size: 26px; font-family: 'DM Serif Display', serif; color: var(--text); margin-bottom: 24px; line-height: 1.3; }
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt-btn {
+  padding: 13px 16px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  transition: all 0.15s;
+  line-height: 1.4;
+  font-weight: 400;
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-light); }
+.opt-btn.correct { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 500; }
+.opt-btn.wrong { background: var(--red-light); border-color: var(--red); color: var(--red); }
+.opt-btn:disabled { cursor: default; }
+
+.feedback-box {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  display: none;
+  line-height: 1.5;
+}
+.feedback-box.correct { background: var(--green-light); color: var(--green); }
+.feedback-box.wrong { background: var(--red-light); color: var(--red); }
+
+.btn-row { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.btn-primary {
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-primary:hover { background: #234f34; }
+.btn-secondary {
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border2);
+  background: var(--surface);
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { background: var(--surface2); color: var(--text); }
+
+.btn-review {
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid #E8A838;
+  background: #FFFBF0;
+  color: #9A6A00;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+}
+.btn-review:hover { background: #FFF0C0; }
+.btn-review:disabled { opacity: 0.4; cursor: default; }
+.btn-review.active-review {
+  background: #E8A838;
+  color: #fff;
+  border-color: #C88A00;
+}
+
+/* ===== 文法穴埋め ===== */
+.grammar-sentence {
+  font-size: 18px;
+  color: var(--text);
+  line-height: 2;
+  margin-bottom: 16px;
+}
+.blank-span {
+  display: inline-block;
+  min-width: 80px;
+  border-bottom: 2.5px solid var(--accent);
+  margin: 0 4px;
+  text-align: center;
+  padding: 0 4px;
+}
+.grammar-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--surface2);
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--text);
+  margin-bottom: 10px;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.grammar-input:focus { border-color: var(--accent); background: var(--surface); }
+.grammar-hint {
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.cat-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.badge-L1 { background: #E8EAFF; color: #3D4BB5; }
+.badge-L2 { background: #E3F4E8; color: #1E7A3E; }
+.badge-L3 { background: #FFF3E0; color: #E65100; }
+.badge-L4 { background: #F3E8FF; color: #7B2FA0; }
+.badge-L5 { background: #E8F8F5; color: #1A7A5E; }
+.badge-L6 { background: #FEF9E7; color: #B7770D; }
+.badge-L7 { background: #FDEDEC; color: #C0392B; }
+.badge-L8 { background: #EAF2FF; color: #1A5276; }
+.badge-L9 { background: #F4ECF7; color: #7D3C98; }
+.badge-L10 { background: #E8F8F5; color: #0E6655; }
+.badge-L11 { background: #E6F1FB; color: #185FA5; }
+.badge-L12 { background: #FEF5E7; color: #A04000; }
+.badge-L13 { background: #EAFAF1; color: #1E8449; }
+.badge-L14 { background: #FDFEFE; color: #424949; border: 1px solid #ccc; }
+.badge-GR { background: #FBEAF0; color: #993556; }
+
+/* ===== ライティング ===== */
+.topic-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.topic-btn {
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text2);
+  line-height: 1.4;
+  transition: all 0.15s;
+  font-weight: 400;
+}
+.topic-btn:hover { border-color: var(--accent); color: var(--text); }
+.topic-btn.sel { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 500; }
+.ref-hint {
+  background: var(--surface2);
+  border-left: 3px solid var(--gold);
+  padding: 10px 14px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 12.5px;
+  color: var(--text2);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.ref-hint strong { color: var(--accent2); }
+.writing-area {
+  width: 100%;
+  min-height: 130px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--surface2);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  resize: vertical;
+  line-height: 1.7;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.writing-area:focus { border-color: var(--accent); background: var(--surface); }
+.ai-result {
+  background: var(--surface2);
+  border-radius: var(--radius);
+  padding: 16px;
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.8;
+  margin-top: 14px;
+  white-space: pre-wrap;
+  display: none;
+  border-left: 3px solid var(--accent);
+}
+.loading-dot { display: inline-block; animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:.2} 50%{opacity:1} }
+
+/* ===== 文法参照 ===== */
+.ref-accordion {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.ref-accordion-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  transition: background 0.15s;
+  user-select: none;
+}
+.ref-accordion-head:hover { background: var(--surface2); }
+.ref-accordion-body {
+  display: none;
+  padding: 14px 16px;
+  background: var(--surface2);
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  border-top: 1px solid var(--border);
+}
+.ref-accordion.open .ref-accordion-body { display: block; }
+.ref-chevron { font-size: 11px; color: var(--text3); transition: transform 0.2s; }
+.ref-accordion.open .ref-chevron { transform: rotate(180deg); }
+
+/* ===== ダッシュボード ===== */
+.dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.dash-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dash-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.dash-card-icon { font-size: 28px; margin-bottom: 10px; }
+.dash-card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.dash-card-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+.dash-card-count { font-size: 11px; color: var(--accent); font-weight: 500; margin-top: 8px; }
+.today-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.today-bar-text h3 { font-size: 15px; font-weight: 600; }
+.today-bar-text p { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.streak-badge {
+  margin-left: auto;
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== サイドバー ===== -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Deutsch<br>Lernapp</h1>
+    <p>Schritte plus neu 4</p>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">メニュー</div>
+    <button class="nav-item active" onclick="showPage('home',this)">
+      <span class="nav-icon">🏠</span> ホーム
+    </button>
+    <button class="nav-item" onclick="showPage('vocab',this)">
+      <span class="nav-icon">📚</span> 単語練習
+    </button>
+    <button class="nav-item" onclick="showPage('grammar',this)">
+      <span class="nav-icon">✏️</span> 文法穴埋め
+    </button>
+    <button class="nav-item" onclick="showPage('writing',this)">
+      <span class="nav-icon">📝</span> ライティング
+    </button>
+    <div class="nav-section-label">参考</div>
+    <button class="nav-item" onclick="showPage('ref',this)">
+      <span class="nav-icon">📖</span> 文法参照
+    </button>
+  </nav>
+  <div class="sidebar-stats">
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-num" id="s-correct">0</div><div class="stat-lbl">正解</div></div>
+      <div class="stat-box"><div class="stat-num" id="s-total">0</div><div class="stat-lbl">回答</div></div>
+      <div class="stat-box"><div class="stat-num" id="s-pct">—</div><div class="stat-lbl">正答率</div></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>今日の進捗</span>
+        <span id="s-pct-label">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="s-prog" style="width:0%"></div></div>
+    </div>
+    <button class="reset-btn" onclick="resetStats()">スコアをリセット</button>
+  </div>
+</aside>
+
+<!-- ===== メインコンテンツ ===== -->
+<main class="main">
+
+  <!-- ホーム -->
+  <div id="page-home" class="page active">
+    <div class="page-header">
+      <h2>Guten Tag! 👋</h2>
+      <p>今日もドイツ語を練習しましょう</p>
+    </div>
+    <div class="today-bar" style="margin-bottom:24px">
+      <div>
+        <div style="font-size:24px;margin-bottom:4px">🎯</div>
+      </div>
+      <div class="today-bar-text">
+        <h3>今日の目標</h3>
+        <p>単語 10問 + 文法 5問 に挑戦しよう</p>
+      </div>
+      <div class="streak-badge" id="streak-badge">🔥 0日連続</div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="dash-card" onclick="showPage('vocab', document.querySelector('[onclick*=\"vocab\"]'))">
+        <div class="dash-card-icon">📚</div>
+        <div class="dash-card-title">単語練習</div>
+        <div class="dash-card-desc">独→日・日→独の4択問題。Lektion別に絞り込みも可能。</div>
+        <div class="dash-card-count">796語収録</div>
+      </div>
+      <div class="dash-card" onclick="showPage('grammar', document.querySelector('[onclick*=\"grammar\"]'))">
+        <div class="dash-card-icon">✏️</div>
+        <div class="dash-card-title">文法穴埋め</div>
+        <div class="dash-card-desc">Perfekt・場所変換前置詞・不定代名詞・頻度副詞など。</div>
+        <div class="dash-card-count">57問収録</div>
+      </div>
+      <div class="dash-card" onclick="showPage('writing', document.querySelector('[onclick*=\"writing\"]'))">
+        <div class="dash-card-icon">📝</div>
+        <div class="dash-card-title">ライティング</div>
+        <div class="dash-card-desc">テーマを選んで作文→AIが文法校正。※インターネット必要</div>
+        <div class="dash-card-count">10テーマ</div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--text2)">収録ユニット</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="background:#E8EAFF;color:#3D4BB5;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 1 — 引っ越し・家族・Perfekt</span>
+        <span style="background:#E3F4E8;color:#1E7A3E;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 2 — 住まい・家具・Wechselpräpositionen</span>
+        <span style="background:#FFF3E0;color:#E65100;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 3 — 食事・食器・レストラン</span>
+        <span style="background:#F3E8FF;color:#7B2FA0;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 4 — 職場・労働・スイスの労働事情</span>
+        <span style="background:#E8F8F5;color:#1A7A5E;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 5 — スポーツ・フィットネス・健康</span>
+        <span style="background:#FEF9E7;color:#B7770D;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 6 — 学校・教育・職業訓練</span>
+        <span style="background:#FDEDEC;color:#C0392B;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 7 — お祝い・プレゼント・パーティー</span>
+        <span style="background:#EAF2FF;color:#1A5276;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 8 — 週末・文化・余暇</span>
+        <span style="background:#F4ECF7;color:#7D3C98;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 9 — 持ち物・素材・思い出</span>
+        <span style="background:#E8F8F5;color:#0E6655;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 10 — 郵便・コミュニケーション・コレクション</span>
+        <span style="background:#E6F1FB;color:#185FA5;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 11 — 交通・天気・前置詞</span>
+        <span style="background:#FEF5E7;color:#A04000;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 12 — 旅行・宿泊・観光</span>
+        <span style="background:#EAFAF1;color:#1E8449;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 13 — 銀行・お金・サービス</span>
+        <span style="background:#F2F3F4;color:#424949;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">Lektion 14 — 人生の節目・家族・未来</span>
+        <span style="background:#FBEAF0;color:#993556;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:500">文法総まとめ — 接続詞・Konjunktiv II・受動態</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 単語 -->
+  <div id="page-vocab" class="page">
+    <div class="page-header">
+      <h2>単語練習</h2>
+      <p>4択から正しい訳を選んでください</p>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" id="vm-de" onclick="setVM('de-ja',this)">独 → 日</button>
+      <button class="filter-btn" id="vm-ja" onclick="setVM('ja-de',this)">日 → 独</button>
+      <span style="width:1px;background:var(--border2);margin:0 4px"></span>
+      <button class="filter-btn active" id="vc-all" onclick="setVC('all',this)">すべて</button>
+      <button class="filter-btn" onclick="setVC('L1',this)">Lektion 1</button>
+      <button class="filter-btn" onclick="setVC('L2',this)">Lektion 2</button>
+      <button class="filter-btn" onclick="setVC('L3',this)">Lektion 3</button>
+      <button class="filter-btn" onclick="setVC('L4',this)">Lektion 4</button>
+      <button class="filter-btn" onclick="setVC('L5',this)">Lektion 5</button>
+      <button class="filter-btn" onclick="setVC('L6',this)">Lektion 6</button>
+      <button class="filter-btn" onclick="setVC('L7',this)">Lektion 7</button>
+      <button class="filter-btn" onclick="setVC('L8',this)">Lektion 8</button>
+      <button class="filter-btn" onclick="setVC('L9',this)">Lektion 9</button>
+      <button class="filter-btn" onclick="setVC('L10',this)">Lektion 10</button>
+      <button class="filter-btn" onclick="setVC('L11',this)">Lektion 11</button>
+      <button class="filter-btn" onclick="setVC('L12',this)">Lektion 12</button>
+      <button class="filter-btn" onclick="setVC('L13',this)">Lektion 13</button>
+      <button class="filter-btn" onclick="setVC('L14',this)">Lektion 14</button>
+      <button class="filter-btn" onclick="setVC('GR',this)">文法語彙</button>
+    </div>
+    <div class="card">
+      <div class="q-label" id="v-dir">ドイツ語 → 日本語</div>
+      <div class="q-text" id="v-q">読み込み中...</div>
+      <div class="options-grid" id="v-opts"></div>
+      <div class="feedback-box" id="v-fb"></div>
+      <div class="btn-row">
+        <button class="btn-secondary" id="v-back-btn" onclick="prevV()" style="display:none">← 前へ</button>
+        <button class="btn-primary" onclick="nextV()">次の問題 →</button>
+      </div>
+      <div class="btn-row" style="margin-top:6px;gap:8px">
+        <button class="btn-review" onclick="reviewToday('vocab')" id="v-today-btn">📝 今日の間違い (<span id="v-today-count">0</span>)</button>
+        <button class="btn-review" onclick="reviewLast('vocab')" id="v-last-btn">🔁 前回の間違い (<span id="v-last-count">0</span>)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 文法 -->
+  <div id="page-grammar" class="page">
+    <div class="page-header">
+      <h2>文法穴埋め</h2>
+      <p>空欄に適切な語を入力してください</p>
+    </div>
+    <div class="filter-bar" id="g-cat-bar"></div>
+    <div class="card">
+      <div id="g-badge"></div>
+      <div class="q-label">穴埋め問題</div>
+      <div class="grammar-sentence" id="g-q"></div>
+      <input class="grammar-input" id="g-input" placeholder="ここに入力..." onkeydown="if(event.key==='Enter')checkG()"/>
+      <div class="grammar-hint" id="g-hint"></div>
+      <div class="feedback-box" id="g-fb"></div>
+      <div class="btn-row">
+        <button class="btn-secondary" id="g-back-btn" onclick="prevG()" style="display:none">← 前へ</button>
+        <button class="btn-primary" onclick="checkG()">確認する</button>
+        <button class="btn-secondary" onclick="nextG()">次の問題 →</button>
+      </div>
+      <div class="btn-row" style="margin-top:6px;gap:8px">
+        <button class="btn-review" onclick="reviewToday('grammar')" id="g-today-btn">📝 今日の間違い (<span id="g-today-count">0</span>)</button>
+        <button class="btn-review" onclick="reviewLast('grammar')" id="g-last-btn">🔁 前回の間違い (<span id="g-last-count">0</span>)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ライティング -->
+  <div id="page-writing" class="page">
+    <div class="page-header">
+      <h2>ライティング</h2>
+      <p>テーマを選んでドイツ語で作文し、AIに校正してもらいましょう</p>
+    </div>
+    <div class="card">
+      <div class="q-label">テーマを選択</div>
+      <div class="topic-grid" id="w-topics"></div>
+      <div id="w-prompt-area" style="display:none">
+        <div class="q-label" style="margin-top:4px">お題</div>
+        <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:12px;line-height:1.5" id="w-prompt-text"></div>
+        <div class="ref-hint" id="w-ref-hint"></div>
+        <textarea class="writing-area" id="w-input" placeholder="ここにドイツ語で書いてください..."></textarea>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="btn-primary" onclick="submitWriting()">校正してもらう ↗</button>
+          <button class="btn-secondary" onclick="resetWriting()">テーマを変える</button>
+        </div>
+        <div class="ai-result" id="w-result"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px">
+        <span>⚠️</span>
+        <span>ライティングの校正機能はインターネット接続が必要です。単語・文法練習はオフラインで使用できます。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 文法参照 -->
+  <div id="page-ref" class="page">
+    <div class="page-header">
+      <h2>文法参照</h2>
+      <p>項目をクリックして詳細を表示</p>
+    </div>
+    <div id="ref-container"></div>
+  </div>
+
+</main>
+
+<script>
+// ===== データ =====
+const VOCAB = [
+  // Lektion 1
+  {de:"umziehen",ja:"引っ越す",cat:"L1",jaAlt:["到着する","出発する","荷ほどきをする"],alt:["ankommen","abfahren","auspacken"]},
+  {de:"ankommen",ja:"到着する",cat:"L1",jaAlt:["引っ越す","出発する","荷ほどきをする"],alt:["umziehen","abfahren","auspacken"]},
+  {de:"auspacken",ja:"荷ほどきをする",cat:"L1",jaAlt:["荷造りをする","引っ越す","到着する"],alt:["einpacken","umziehen","ankommen"]},
+  {de:"einpacken",ja:"荷造りをする・詰める",cat:"L1",jaAlt:["荷ほどきをする","引っ越す","片付ける"],alt:["auspacken","umziehen","aufräumen"]},
+  {de:"kennenlernen",ja:"知り合う・出会う",cat:"L1",jaAlt:["忘れる","覚える","理解する"],alt:["vergessen","merken","verstehen"]},
+  {de:"vermissen",ja:"〜が恋しい・懐かしい",cat:"L1",jaAlt:["忘れる","見つける","理解する"],alt:["vergessen","finden","verstehen"]},
+  {de:"vergessen",ja:"忘れる",cat:"L1",jaAlt:["覚える","見つける","理解する"],alt:["merken","finden","verstehen"]},
+  {de:"verlieren",ja:"なくす・失う",cat:"L1",jaAlt:["見つける","忘れる","買う"],alt:["finden","vergessen","kaufen"]},
+  {de:"verpassen",ja:"乗り遅れる・見逃す",cat:"L1",jaAlt:["乗り込む","忘れる","なくす"],alt:["einsteigen","vergessen","verlieren"]},
+  {de:"passieren",ja:"起こる・通り過ぎる",cat:"L1",jaAlt:["始める","終わる","忘れる"],alt:["beginnen","enden","vergessen"]},
+  {de:"erklären",ja:"説明する",cat:"L1",jaAlt:["理解する","尋ねる","忘れる"],alt:["verstehen","fragen","vergessen"]},
+  {de:"verstehen",ja:"理解する",cat:"L1",jaAlt:["説明する","忘れる","尋ねる"],alt:["erklären","vergessen","fragen"]},
+  {de:"erleben",ja:"体験する",cat:"L1",jaAlt:["忘れる","理解する","説明する"],alt:["vergessen","verstehen","erklären"]},
+  {de:"bemerken",ja:"気づく",cat:"L1",jaAlt:["忘れる","理解する","体験する"],alt:["vergessen","verstehen","erleben"]},
+  {de:"besuchen",ja:"訪問する・通う",cat:"L1",jaAlt:["出発する","到着する","引っ越す"],alt:["abfahren","ankommen","umziehen"]},
+  {de:"beginnen",ja:"始まる・始める",cat:"L1",jaAlt:["終わる","続ける","止める"],alt:["enden","weitermachen","aufhören"]},
+  {de:"verkaufen",ja:"売る",cat:"L1",jaAlt:["買う","借りる","貸す"],alt:["kaufen","mieten","verleihen"]},
+  {de:"bezahlen",ja:"支払う",cat:"L1",jaAlt:["受け取る","借りる","返す"],alt:["bekommen","leihen","zurückgeben"]},
+  {de:"die Nichte",ja:"姪（めい）",cat:"L1",jaAlt:["甥（おい）","義理の姉妹","従姉妹"],alt:["der Neffe","die Schwägerin","die Cousine"]},
+  {de:"der Neffe",ja:"甥（おい）",cat:"L1",jaAlt:["姪（めい）","義理の兄弟","従兄弟"],alt:["die Nichte","der Schwager","der Cousin"]},
+  {de:"der Schwager",ja:"義理の兄弟（義兄・義弟）",cat:"L1",jaAlt:["義理の姉妹","甥","姪"],alt:["die Schwägerin","der Neffe","die Nichte"]},
+  {de:"die Schwägerin",ja:"義理の姉妹（義姉・義妹）",cat:"L1",jaAlt:["義理の兄弟","姪","甥"],alt:["der Schwager","die Nichte","der Neffe"]},
+  {de:"der Cousin",ja:"従兄弟（いとこ・男）",cat:"L1",jaAlt:["従姉妹（いとこ・女）","甥","姪"],alt:["die Cousine","der Neffe","die Nichte"]},
+  {de:"die Cousine",ja:"従姉妹（いとこ・女）",cat:"L1",jaAlt:["従兄弟（いとこ・男）","姪","甥"],alt:["der Cousin","die Nichte","der Neffe"]},
+  {de:"der Onkel",ja:"叔父・伯父",cat:"L1",jaAlt:["叔母・伯母","祖父","父"],alt:["die Tante","der Grossvater","der Vater"]},
+  {de:"die Tante",ja:"叔母・伯母",cat:"L1",jaAlt:["叔父・伯父","祖母","母"],alt:["der Onkel","die Grossmutter","die Mutter"]},
+  {de:"verheiratet",ja:"既婚の",cat:"L1",jaAlt:["未婚の","離婚した","一人暮らしの"],alt:["ledig","geschieden","allein lebend"]},
+  {de:"ledig",ja:"未婚の・独身の",cat:"L1",jaAlt:["既婚の","離婚した","同棲している"],alt:["verheiratet","geschieden","zusammenlebend"]},
+  {de:"geschieden",ja:"離婚した",cat:"L1",jaAlt:["既婚の","未婚の","同棲している"],alt:["verheiratet","ledig","zusammenlebend"]},
+  {de:"so ein Pech!",ja:"なんてついていない！",cat:"L1",jaAlt:["なんてラッキー！","大丈夫！","すごい！"],alt:["Zum Glück!","Kein Problem!","So toll!"]},
+  {de:"zum Glück",ja:"幸いなことに・ラッキーにも",cat:"L1",jaAlt:["残念ながら","大変なことに","驚いたことに"],alt:["leider","leider","überraschend"]},
+  {de:"leider",ja:"残念ながら・あいにく",cat:"L1",jaAlt:["幸いなことに","もちろん","たぶん"],alt:["zum Glück","natürlich","vielleicht"]},
+  {de:"pünktlich",ja:"時間通りに・定刻に",cat:"L1",jaAlt:["遅れて","早く","ちょうど"],alt:["zu spät","zu früh","gerade"]},
+  {de:"sofort",ja:"すぐに・直ちに",cat:"L1",jaAlt:["後で","ゆっくり","もうすぐ"],alt:["später","langsam","bald"]},
+  // ===== Lektion 2: 住まい・家具・Wechselpräpositionen =====
+  {de:"stellen",ja:"立てて置く・置く（縦向き）",cat:"L2",jaAlt:["横にして置く","掛ける","刺さる"],alt:["legen","hängen","stecken"]},
+  {de:"legen",ja:"横にして置く・寝かせる",cat:"L2",jaAlt:["立てて置く","掛ける","立っている"],alt:["stellen","hängen","stehen"]},
+  {de:"hängen (transitiv)",ja:"掛ける（他動詞）",cat:"L2",jaAlt:["掛かっている","置く","刺す"],alt:["hängen (intransitiv)","stellen","stecken"]},
+  {de:"stecken",ja:"刺す・差し込む",cat:"L2",jaAlt:["置く","掛ける","横にして置く"],alt:["stellen","hängen","legen"]},
+  {de:"stehen",ja:"立っている（位置）",cat:"L2",jaAlt:["横になっている","掛かっている","刺さっている"],alt:["liegen","hängen","stecken"]},
+  {de:"liegen",ja:"横になっている（位置）",cat:"L2",jaAlt:["立っている","掛かっている","刺さっている"],alt:["stehen","hängen","stecken"]},
+  {de:"hängen (intransitiv)",ja:"掛かっている（位置）",cat:"L2",jaAlt:["立っている","横になっている","刺さっている"],alt:["stehen","liegen","stecken"]},
+  {de:"das Regal",ja:"棚・本棚",cat:"L2",jaAlt:["クローゼット","机","ソファ"],alt:["der Schrank","der Tisch","das Sofa"]},
+  {de:"der Schrank",ja:"クローゼット・戸棚",cat:"L2",jaAlt:["棚","机","ベッド"],alt:["das Regal","der Tisch","das Bett"]},
+  {de:"die Lampe",ja:"ランプ・電灯",cat:"L2",jaAlt:["窓","壁","天井"],alt:["das Fenster","die Wand","die Decke"]},
+  {de:"die Decke",ja:"天井・毛布",cat:"L2",jaAlt:["床","壁","窓"],alt:["der Boden","die Wand","das Fenster"]},
+  {de:"die Wand",ja:"壁",cat:"L2",jaAlt:["天井","床","窓"],alt:["die Decke","der Boden","das Fenster"]},
+  {de:"der Boden",ja:"床・地面",cat:"L2",jaAlt:["天井","壁","窓"],alt:["die Decke","die Wand","das Fenster"]},
+  {de:"das Schloss",ja:"鍵穴・錠前・城",cat:"L2",jaAlt:["鍵","ドア","窓"],alt:["der Schlüssel","die Tür","das Fenster"]},
+  {de:"der Schlüssel",ja:"鍵",cat:"L2",jaAlt:["鍵穴","ドア","窓"],alt:["das Schloss","die Tür","das Fenster"]},
+  {de:"der Briefkasten",ja:"郵便受け",cat:"L2",jaAlt:["ゴミ箱","エレベーター","階段"],alt:["der Abfallcontainer","der Lift","die Treppe"]},
+  {de:"der Lift",ja:"エレベーター",cat:"L2",jaAlt:["階段","廊下","出入口"],alt:["die Treppe","der Gang","die Einfahrt"]},
+  {de:"die Treppe",ja:"階段",cat:"L2",jaAlt:["エレベーター","廊下","出入口"],alt:["der Lift","der Gang","die Einfahrt"]},
+  {de:"der Container",ja:"ゴミ置き場・コンテナ",cat:"L2",jaAlt:["郵便受け","エレベーター","階段"],alt:["der Briefkasten","der Lift","die Treppe"]},
+  {de:"der Bewohner",ja:"住人・居住者",cat:"L2",jaAlt:["管理人","職人","訪問者"],alt:["der Hausbesorger","der Handwerker","der Besucher"]},
+  {de:"der Handwerker",ja:"職人・修理業者",cat:"L2",jaAlt:["住人","管理人","訪問者"],alt:["der Bewohner","der Hausbesorger","der Besucher"]},
+  {de:"die Mitteilung",ja:"お知らせ・連絡",cat:"L2",jaAlt:["賃貸契約","質問","問題"],alt:["der Mietvertrag","die Frage","das Problem"]},
+  {de:"der Mietvertrag",ja:"賃貸契約",cat:"L2",jaAlt:["お知らせ","問題","解決策"],alt:["die Mitteilung","das Problem","die Lösung"]},
+  {de:"die Heizung",ja:"暖房",cat:"L2",jaAlt:["電気","エネルギー","費用"],alt:["der Strom","die Energie","die Kosten"]},
+  {de:"die Kosten (Pl.)",ja:"費用・コスト",cat:"L2",jaAlt:["暖房","節約","費用"],alt:["die Heizung","das Sparen","der Preis"]},
+  {de:"kontrollieren",ja:"点検する・確認する",cat:"L2",jaAlt:["修理する","壊す","掃除する"],alt:["reparieren","kaputt machen","putzen"]},
+  {de:"kündigen",ja:"解約する・辞める",cat:"L2",jaAlt:["延長する","更新する","始める"],alt:["verlängern","erneuern","beginnen"]},
+  {de:"stören",ja:"邪魔する・迷惑をかける",cat:"L2",jaAlt:["助ける","静かにする","去る"],alt:["helfen","ruhig sein","gehen"]},
+  {de:"giessen",ja:"（水を）かける・育てる",cat:"L2",jaAlt:["食べさせる","洗う","取り替える"],alt:["füttern","waschen","wechseln"]},
+  {de:"füttern",ja:"（動物に）餌をやる",cat:"L2",jaAlt:["水をかける","世話をする","飼う"],alt:["giessen","pflegen","halten"]},
+  {de:"dahin",ja:"そこへ（向こうへ）",cat:"L2",jaAlt:["ここへ","上へ","下へ"],alt:["hierhin","hinauf","hinunter"]},
+  {de:"hinauf",ja:"上へ（話し手から遠ざかる）",cat:"L2",jaAlt:["下へ","外へ","中へ"],alt:["hinunter","hinaus","hinein"]},
+  {de:"hinunter",ja:"下へ（話し手から遠ざかる）",cat:"L2",jaAlt:["上へ","外へ","中へ"],alt:["hinauf","hinaus","hinein"]},
+  {de:"hinein",ja:"中へ（入っていく）",cat:"L2",jaAlt:["外へ","上へ","下へ"],alt:["heraus","hinauf","hinunter"]},
+  {de:"heraus",ja:"外へ（こちらへ出てくる）",cat:"L2",jaAlt:["中へ","上へ","向こうへ"],alt:["hinein","hinauf","hinüber"]},
+  {de:"wirklich",ja:"本当に・実際に",cat:"L2",jaAlt:["たぶん","ほとんど","やっと"],alt:["vielleicht","kaum","endlich"]},
+  {de:"ziemlich",ja:"かなり・相当",cat:"L2",jaAlt:["少し","非常に","全然"],alt:["ein bisschen","sehr","gar nicht"]},
+  {de:"niedrig",ja:"低い",cat:"L2",jaAlt:["高い","安い","小さい"],alt:["hoch","billig","klein"]},
+  // ===== Lektion 3: 食事・食器・レストラン =====
+  // A セクション（p.190）
+  {de:"der Honig",ja:"はちみつ",cat:"L3",jaAlt:["ジャム","砂糖","バター"],alt:["die Konfitüre","der Zucker","die Butter"]},
+  {de:"die Konfitüre",ja:"ジャム",cat:"L3",jaAlt:["はちみつ","砂糖","バター"],alt:["der Honig","der Zucker","die Butter"]},
+  {de:"die Mahlzeit",ja:"食事・ミール",cat:"L3",jaAlt:["料理","飲み物","食器"],alt:["das Gericht","das Getränk","das Geschirr"]},
+  {de:"meistens",ja:"たいてい・ほとんど",cat:"L3",jaAlt:["時々","めったに〜ない","いつも"],alt:["manchmal","selten","immer"]},
+  {de:"stimmen",ja:"正しい・合っている",cat:"L3",jaAlt:["間違っている","驚く","同意しない"],alt:["falsch sein","überraschen","ablehnen"]},
+  {de:"unterwegs",ja:"外出中・移動中",cat:"L3",jaAlt:["家に","職場に","学校に"],alt:["zu Hause","bei der Arbeit","in der Schule"]},
+  {de:"morgens",ja:"朝に・毎朝",cat:"L3",jaAlt:["夜に","昼に","夕方に"],alt:["abends","mittags","nachmittags"]},
+  {de:"mittags",ja:"昼に・毎昼",cat:"L3",jaAlt:["朝に","夜に","夕方に"],alt:["morgens","abends","nachmittags"]},
+  {de:"abends",ja:"夕方・夜に",cat:"L3",jaAlt:["朝に","昼に","週末に"],alt:["morgens","mittags","am Wochenende"]},
+  {de:"bestimmt",ja:"きっと・確かに",cat:"L3",jaAlt:["たぶん","めったに","決して"],alt:["vielleicht","selten","nie"]},
+  {de:"das Essen",ja:"食べ物・食事",cat:"L3",jaAlt:["飲み物","料理名","食器"],alt:["das Getränk","das Gericht","das Geschirr"]},
+  {de:"das Mittagessen",ja:"昼食",cat:"L3",jaAlt:["朝食","夕食","おやつ"],alt:["das Frühstück","das Abendessen","der Snack"]},
+  {de:"das Frühstück",ja:"朝食",cat:"L3",jaAlt:["昼食","夕食","おやつ"],alt:["das Mittagessen","das Abendessen","der Snack"]},
+  {de:"das Abendessen",ja:"夕食",cat:"L3",jaAlt:["朝食","昼食","おやつ"],alt:["das Frühstück","das Mittagessen","der Snack"]},
+  {de:"die Kantine",ja:"食堂・カフェテリア",cat:"L3",jaAlt:["レストラン","カフェ","スーパー"],alt:["das Restaurant","das Café","der Supermarkt"]},
+  {de:"das Menü",ja:"定食・セットメニュー",cat:"L3",jaAlt:["料理","デザート","前菜"],alt:["das Gericht","das Dessert","die Vorspeise"]},
+  {de:"vegetarisch",ja:"ベジタリアンの",cat:"L3",jaAlt:["肉入りの","魚料理の","乳製品入りの"],alt:["mit Fleisch","mit Fisch","mit Milchprodukten"]},
+  {de:"fast",ja:"ほとんど・〜に近い",cat:"L3",jaAlt:["全く","少し","全然"],alt:["gar nicht","ein bisschen","überhaupt nicht"]},
+  {de:"die Gewohnheit",ja:"習慣",cat:"L3",jaAlt:["食事","好み","趣味"],alt:["die Mahlzeit","die Vorliebe","das Hobby"]},
+  {de:"übernehmen",ja:"引き継ぐ・受け継ぐ",cat:"L3",jaAlt:["渡す","断る","始める"],alt:["übergeben","ablehnen","beginnen"]},
+  // B セクション（p.191）
+  {de:"das Schwein",ja:"豚・豚肉",cat:"L3",jaAlt:["牛肉","鶏肉","羊肉"],alt:["das Rind","das Geflügel","das Lamm"]},
+  {de:"der Alkohol",ja:"アルコール",cat:"L3",jaAlt:["ジュース","水","お茶"],alt:["der Saft","das Wasser","der Tee"]},
+  {de:"zweimal",ja:"2回・2度",cat:"L3",jaAlt:["1回","3回","毎日"],alt:["einmal","dreimal","täglich"]},
+  {de:"der Löffel",ja:"スプーン",cat:"L3",jaAlt:["フォーク","ナイフ","菜箸"],alt:["die Gabel","das Messer","die Stäbchen"]},
+  {de:"die Gabel",ja:"フォーク",cat:"L3",jaAlt:["スプーン","ナイフ","菜箸"],alt:["der Löffel","das Messer","die Stäbchen"]},
+  {de:"das Messer",ja:"ナイフ",cat:"L3",jaAlt:["スプーン","フォーク","菜箸"],alt:["der Löffel","die Gabel","die Stäbchen"]},
+  {de:"der Teller",ja:"皿・プレート",cat:"L3",jaAlt:["カップ","ボウル","グラス"],alt:["die Tasse","die Schüssel","das Glas"]},
+  {de:"die Tasse",ja:"カップ",cat:"L3",jaAlt:["皿","ボウル","フライパン"],alt:["der Teller","die Schüssel","die Bratpfanne"]},
+  {de:"das Glas",ja:"グラス・コップ",cat:"L3",jaAlt:["カップ","ボウル","ポット"],alt:["die Tasse","die Schüssel","die Kanne"]},
+  {de:"die Kanne",ja:"ポット・水差し",cat:"L3",jaAlt:["フライパン","ボウル","グラス"],alt:["die Bratpfanne","die Schüssel","das Glas"]},
+  {de:"die Schüssel",ja:"ボウル・深皿",cat:"L3",jaAlt:["皿","カップ","フライパン"],alt:["der Teller","die Tasse","die Bratpfanne"]},
+  {de:"die Bratpfanne",ja:"フライパン",cat:"L3",jaAlt:["鍋","ボウル","皿"],alt:["der Topf","die Schüssel","der Teller"]},
+  {de:"das Quartett",ja:"カルテット・4枚組みカード",cat:"L3",jaAlt:["デュエット","トリオ","セット"],alt:["das Duett","das Trio","das Set"]},
+  {de:"der Appetit",ja:"食欲",cat:"L3",jaAlt:["ダイエット","消化","満腹感"],alt:["die Diät","die Verdauung","das Sättigungsgefühl"]},
+  {de:"riechen",ja:"においがする・嗅ぐ",cat:"L3",jaAlt:["見える","聞こえる","触れる"],alt:["aussehen","klingen","anfassen"]},
+  {de:"voll",ja:"いっぱいの・満腹の",cat:"L3",jaAlt:["空の","少ない","ちょうど良い"],alt:["leer","wenig","genau richtig"]},
+  {de:"satt",ja:"お腹がいっぱいの",cat:"L3",jaAlt:["お腹が空いている","喉が渇いている","元気な"],alt:["hungrig","durstig","fit"]},
+  {de:"höflich",ja:"礼儀正しい・丁寧な",cat:"L3",jaAlt:["失礼な","騒がしい","怠慢な"],alt:["unhöflich","laut","faul"]},
+  {de:"vorher",ja:"事前に・前もって",cat:"L3",jaAlt:["後で","今すぐ","いつも"],alt:["danach","sofort","immer"]},
+  {de:"okay",ja:"大丈夫・オーケー",cat:"L3",jaAlt:["問題あり","ダメ","変"],alt:["nicht okay","verboten","seltsam"]},
+  {de:"anders",ja:"違う・別の",cat:"L3",jaAlt:["同じ","似ている","正しい"],alt:["gleich","ähnlich","richtig"]},
+  {de:"genauso",ja:"全く同じように・同様に",cat:"L3",jaAlt:["違うように","より多く","より少なく"],alt:["anders","mehr","weniger"]},
+  {de:"seltsam",ja:"変な・奇妙な",cat:"L3",jaAlt:["普通の","良い","正しい"],alt:["normal","gut","richtig"]},
+  {de:"überraschen",ja:"驚かせる",cat:"L3",jaAlt:["期待する","がっかりさせる","喜ばせる"],alt:["erwarten","enttäuschen","erfreuen"]},
+  {de:"die Diät",ja:"ダイエット・食事療法",cat:"L3",jaAlt:["食欲","習慣","食事"],alt:["der Appetit","die Gewohnheit","die Mahlzeit"]},
+  // C セクション（p.191-192）
+  {de:"der Becher",ja:"カップ・コップ（蓋なし）",cat:"L3",jaAlt:["グラス","カップ（取っ手付き）","ボウル"],alt:["das Glas","die Tasse","die Schüssel"]},
+  {de:"das Wasserglas",ja:"水飲みグラス",cat:"L3",jaAlt:["ワイングラス","ビールジョッキ","カップ"],alt:["das Weinglas","der Bierkrug","die Tasse"]},
+  {de:"der Esslöffel",ja:"大さじ・食事用スプーン",cat:"L3",jaAlt:["ティースプーン","フォーク","ナイフ"],alt:["der Teelöffel","die Gabel","das Messer"]},
+  {de:"der Teelöffel",ja:"ティースプーン",cat:"L3",jaAlt:["大さじ","フォーク","ナイフ"],alt:["der Esslöffel","die Gabel","das Messer"]},
+  {de:"der Geschirrspüler",ja:"食洗機",cat:"L3",jaAlt:["冷蔵庫","電子レンジ","オーブン"],alt:["der Kühlschrank","die Mikrowelle","der Ofen"]},
+  {de:"die Mikrowelle",ja:"電子レンジ",cat:"L3",jaAlt:["食洗機","冷蔵庫","オーブン"],alt:["der Geschirrspüler","der Kühlschrank","der Ofen"]},
+  {de:"der Herd",ja:"コンロ・調理台",cat:"L3",jaAlt:["冷蔵庫","食洗機","電子レンジ"],alt:["der Kühlschrank","der Geschirrspüler","die Mikrowelle"]},
+  // D セクション（p.192）
+  {de:"fett",ja:"脂っこい・油っぽい",cat:"L3",jaAlt:["さっぱりした","新鮮な","辛い"],alt:["leicht","frisch","scharf"]},
+  {de:"sauer",ja:"酸っぱい",cat:"L3",jaAlt:["甘い","辛い","塩辛い"],alt:["süss","scharf","salzig"]},
+  {de:"frisch",ja:"新鮮な",cat:"L3",jaAlt:["古い","脂っこい","辛い"],alt:["alt","fett","scharf"]},
+  {de:"leiten",ja:"率いる・管理する",cat:"L3",jaAlt:["従う","参加する","手伝う"],alt:["folgen","teilnehmen","helfen"]},
+  {de:"rund",ja:"丸い・約〜",cat:"L3",jaAlt:["四角い","長い","短い"],alt:["eckig","lang","kurz"]},
+  {de:"unterschiedlich",ja:"様々な・異なる",cat:"L3",jaAlt:["同じ","同様の","変わらない"],alt:["gleich","ähnlich","unverändert"]},
+  {de:"das Muesli",ja:"ミューズリー（シリアル）",cat:"L3",jaAlt:["ヨーグルト","パン","ケーキ"],alt:["der Joghurt","das Brot","der Kuchen"]},
+  {de:"die Vorspeise",ja:"前菜",cat:"L3",jaAlt:["メインディッシュ","デザート","スープ"],alt:["das Hauptgericht","das Dessert","die Suppe"]},
+  {de:"das Prozent",ja:"パーセント",cat:"L3",jaAlt:["数","量","割合"],alt:["die Zahl","die Menge","der Anteil"]},
+  {de:"der Markt",ja:"市場・マーケット",cat:"L3",jaAlt:["スーパー","レストラン","農場"],alt:["der Supermarkt","das Restaurant","der Bauernhof"]},
+  {de:"das Produkt",ja:"製品・産物",cat:"L3",jaAlt:["食材","料理","飲み物"],alt:["die Zutat","das Gericht","das Getränk"]},
+  {de:"die Region",ja:"地域・地方",cat:"L3",jaAlt:["都市","国","村"],alt:["die Stadt","das Land","das Dorf"]},
+  {de:"das Rind",ja:"牛・牛肉",cat:"L3",jaAlt:["豚肉","鶏肉","羊肉"],alt:["das Schwein","das Geflügel","das Lamm"]},
+  {de:"das Steak",ja:"ステーキ",cat:"L3",jaAlt:["スープ","サラダ","デザート"],alt:["die Suppe","der Salat","das Dessert"]},
+  {de:"gegen",ja:"〜に対して・約〜時",cat:"L3",jaAlt:["〜のために","〜と一緒に","〜から"],alt:["für","mit","von"]},
+  {de:"täglich",ja:"毎日の",cat:"L3",jaAlt:["毎週の","毎月の","毎年の"],alt:["wöchentlich","monatlich","jährlich"]},
+  {de:"planen",ja:"計画する",cat:"L3",jaAlt:["実行する","断る","忘れる"],alt:["ausführen","ablehnen","vergessen"]},
+  // E セクション（p.192-193）
+  {de:"das Schnitzel",ja:"シュニッツェル（薄切り肉のフライ）",cat:"L3",jaAlt:["スープ","ステーキ","デザート"],alt:["die Suppe","das Steak","das Dessert"]},
+  {de:"die Suppe",ja:"スープ",cat:"L3",jaAlt:["肉料理","デザート","前菜"],alt:["das Fleischgericht","das Dessert","die Vorspeise"]},
+  {de:"das Stück",ja:"一切れ・一つ",cat:"L3",jaAlt:["一杯","一本","一枚"],alt:["eine Tasse","eine Flasche","ein Blatt"]},
+  {de:"die Zitrone",ja:"レモン",cat:"L3",jaAlt:["オレンジ","りんご","バナナ"],alt:["die Orange","der Apfel","die Banane"]},
+  {de:"der Braten",ja:"ロースト肉",cat:"L3",jaAlt:["スープ","デザート","前菜"],alt:["die Suppe","das Dessert","die Vorspeise"]},
+  {de:"das Trinkgeld",ja:"チップ・心付け",cat:"L3",jaAlt:["請求書","領収書","支払い"],alt:["die Rechnung","die Quittung","die Zahlung"]},
+  {de:"besetzt",ja:"（席が）ふさがっている",cat:"L3",jaAlt:["空いている","予約済みの","使用中の"],alt:["frei","reserviert","in Benutzung"]},
+  // レストラン動詞
+  {de:"bestellen",ja:"注文する",cat:"L3",jaAlt:["支払う","クレームをつける","予約する"],alt:["bezahlen","reklamieren","reservieren"]},
+  {de:"bezahlen",ja:"支払う",cat:"L3",jaAlt:["注文する","クレームをつける","受け取る"],alt:["bestellen","reklamieren","bekommen"]},
+  {de:"reklamieren",ja:"クレームをつける・苦情を言う",cat:"L3",jaAlt:["注文する","支払う","予約する"],alt:["bestellen","bezahlen","reservieren"]},
+  // 頻度副詞
+  {de:"immer",ja:"いつも・常に",cat:"L3",jaAlt:["決して〜ない","時々","たまに"],alt:["nie","manchmal","selten"]},
+  {de:"oft",ja:"よく・しばしば",cat:"L3",jaAlt:["めったにない","いつも","決して〜ない"],alt:["selten","immer","nie"]},
+  {de:"manchmal",ja:"時々",cat:"L3",jaAlt:["いつも","決して〜ない","よく"],alt:["immer","nie","oft"]},
+  {de:"selten",ja:"めったに〜ない",cat:"L3",jaAlt:["いつも","よく","時々"],alt:["immer","oft","manchmal"]},
+  {de:"nie",ja:"決して〜ない",cat:"L3",jaAlt:["いつも","よく","時々"],alt:["immer","oft","manchmal"]},
+  // ===== Lektion 11: 完全版 =====
+  // A セクション（p.190）- 道案内・移動
+  {de:"wegfahren",ja:"出発する・走り去る",cat:"L11",jaAlt:["到着する","戻る","止まる"],alt:["ankommen","zurückkommen","anhalten"]},
+  {de:"springen",ja:"跳ぶ・飛び込む",cat:"L11",jaAlt:["走る","歩く","転ぶ"],alt:["laufen","gehen","fallen"]},
+  {de:"tanken",ja:"給油する",cat:"L11",jaAlt:["修理する","洗車する","駐車する"],alt:["reparieren","waschen","parken"]},
+  {de:"entlang",ja:"〜に沿って",cat:"L11",jaAlt:["〜の向かいに","〜を通り抜けて","〜まで"],alt:["gegenüber","durch","bis"]},
+  {de:"vorbei",ja:"〜のそばを通って・過ぎて",cat:"L11",jaAlt:["〜に沿って","〜の向かいに","〜を通り抜けて"],alt:["entlang","gegenüber","durch"]},
+  {de:"gegenüber",ja:"〜の向かいに",cat:"L11",jaAlt:["〜に沿って","〜のそばを通って","〜まで"],alt:["entlang","vorbei","bis"]},
+  {de:"die Richtung, -en",ja:"方向・方角",cat:"L11",jaAlt:["交差点","出口","車線"],alt:["die Kreuzung","die Ausfahrt","die Spur"]},
+  {de:"die Kreuzung, -en",ja:"交差点",cat:"L11",jaAlt:["ロータリー","工事現場","出口"],alt:["der Kreisel","die Baustelle","die Ausfahrt"]},
+  {de:"abbiegen",ja:"曲がる",cat:"L11",jaAlt:["追い越す","直進する","止まる"],alt:["überholen","geradeausfahren","anhalten"]},
+  {de:"der Kreisel, -",ja:"ロータリー",cat:"L11",jaAlt:["交差点","出口","車線"],alt:["die Kreuzung","die Ausfahrt","die Spur"]},
+  {de:"die Ausfahrt, -en",ja:"出口・出発",cat:"L11",jaAlt:["入口","交差点","ロータリー"],alt:["die Einfahrt","die Kreuzung","der Kreisel"]},
+  // B セクション（p.190）
+  {de:"der Kopierer, -",ja:"コピー機",cat:"L11",jaAlt:["プリンター","ファックス","スキャナー"],alt:["der Drucker","das Fax","der Scanner"]},
+  {de:"die Cafeteria, Cafeterien",ja:"カフェテリア",cat:"L11",jaAlt:["レストラン","食堂","カフェ"],alt:["das Restaurant","die Kantine","das Café"]},
+  {de:"der Stau, -s",ja:"渋滞",cat:"L11",jaAlt:["故障","工事現場","事故"],alt:["die Panne","die Baustelle","der Unfall"]},
+  {de:"das Trottoir, -s",ja:"歩道",cat:"L11",jaAlt:["車道","自転車道","高速道路"],alt:["die Fahrbahn","der Radweg","die Autobahn"]},
+  {de:"der Velofahrer, -",ja:"自転車に乗る人",cat:"L11",jaAlt:["バイクに乗る人","歩行者","ドライバー"],alt:["der Motorradfahrer","der Fussgänger","der Autofahrer"]},
+  {de:"das Knie, -",ja:"膝（ひざ）",cat:"L11",jaAlt:["肘","足首","手首"],alt:["der Ellbogen","der Knöchel","das Handgelenk"]},
+  {de:"der Schatz, -¨e",ja:"宝・宝物（呼びかけ：ハニー）",cat:"L11",jaAlt:["宝石","お金","贈り物"],alt:["das Juwel","das Geld","das Geschenk"]},
+  {de:"das Pflaster, -",ja:"絆創膏（ばんそうこう）",cat:"L11",jaAlt:["包帯","消毒液","薬"],alt:["der Verband","das Desinfektionsmittel","die Medizin"]},
+  {de:"kleben",ja:"貼る・くっつく",cat:"L11",jaAlt:["切る","剥がす","縫う"],alt:["schneiden","abziehen","nähen"]},
+  // C セクション（p.191）
+  {de:"starten",ja:"出発する・エンジンをかける",cat:"L11",jaAlt:["止まる","着陸する","故障する"],alt:["anhalten","landen","eine Panne haben"]},
+  {de:"das Benzin (Sg.)",ja:"ガソリン",cat:"L11",jaAlt:["ディーゼル","オイル","電気"],alt:["der Diesel","das Öl","der Strom"]},
+  {de:"die Panne, -n",ja:"故障",cat:"L11",jaAlt:["事故","渋滞","工事現場"],alt:["der Unfall","der Stau","die Baustelle"]},
+  {de:"die Batterie, -n",ja:"バッテリー・電池",cat:"L11",jaAlt:["ガソリン","エンジン","タイヤ"],alt:["das Benzin","der Motor","der Reifen"]},
+  {de:"leer",ja:"空の・空っぽの",cat:"L11",jaAlt:["いっぱいの","新しい","使用済みの"],alt:["voll","neu","gebraucht"]},
+  {de:"der Verkehr (Sg.)",ja:"交通・交通量",cat:"L11",jaAlt:["渋滞","事故","工事"],alt:["der Stau","der Unfall","die Baustelle"]},
+  {de:"stürzen",ja:"転倒する・倒れる",cat:"L11",jaAlt:["跳ぶ","走る","曲がる"],alt:["springen","laufen","abbiegen"]},
+  {de:"die Baustelle, -n",ja:"工事現場",cat:"L11",jaAlt:["渋滞","交差点","出口"],alt:["der Stau","die Kreuzung","die Ausfahrt"]},
+  {de:"die Spur, -en",ja:"車線・痕跡",cat:"L11",jaAlt:["道","交差点","出口"],alt:["die Strasse","die Kreuzung","die Ausfahrt"]},
+  {de:"überholen",ja:"追い越す",cat:"L11",jaAlt:["曲がる","ブレーキをかける","止まる"],alt:["abbiegen","bremsen","anhalten"]},
+  {de:"die Fahrbahn, -en",ja:"車道・走行レーン",cat:"L11",jaAlt:["歩道","自転車道","高速道路"],alt:["das Trottoir","der Radweg","die Autobahn"]},
+  {de:"vorsichtig",ja:"注意深い・慎重な",cat:"L11",jaAlt:["危険な","ひどい","無謀な"],alt:["gefährlich","furchtbar","rücksichtslos"]},
+  {de:"wegen",ja:"〜のために・〜の理由で",cat:"L11",jaAlt:["〜にもかかわらず","〜の代わりに","〜の後で"],alt:["trotz","statt","nach"]},
+  // D セクション（p.191）
+  {de:"der Nebel, -",ja:"霧",cat:"L11",jaAlt:["嵐","雷雨","雪"],alt:["der Sturm","das Gewitter","der Schnee"]},
+  {de:"der Sturm, -¨e",ja:"嵐",cat:"L11",jaAlt:["霧","雷雨","雨"],alt:["der Nebel","das Gewitter","der Regen"]},
+  {de:"das Gewitter, -",ja:"雷雨・嵐",cat:"L11",jaAlt:["霧","嵐","雪"],alt:["der Nebel","der Sturm","der Schnee"]},
+  {de:"neblig",ja:"霧がかかった",cat:"L11",jaAlt:["嵐の","晴れた","曇りの"],alt:["stürmisch","sonnig","wolkig"]},
+  {de:"das Chaos (Sg.)",ja:"混乱・カオス",cat:"L11",jaAlt:["秩序","静けさ","平和"],alt:["die Ordnung","die Ruhe","der Frieden"]},
+  {de:"sorgen (für)",ja:"心配する・世話をする",cat:"L11",jaAlt:["楽しむ","忘れる","避ける"],alt:["genießen","vergessen","vermeiden"]},
+  // メインリスト（p.192）
+  {de:"die Situation, -en",ja:"状況・場面",cat:"L11",jaAlt:["問題","解決策","結果"],alt:["das Problem","die Lösung","das Ergebnis"]},
+  {de:"komplett",ja:"完全な・すべて揃った",cat:"L11",jaAlt:["不完全な","部分的な","空の"],alt:["unvollständig","teilweise","leer"]},
+  {de:"stundenlang",ja:"何時間も",cat:"L11",jaAlt:["何分間も","一瞬","すぐに"],alt:["minutenlang","kurz","sofort"]},
+  {de:"das Fahrzeug, -e",ja:"乗り物・車両",cat:"L11",jaAlt:["飛行機","船","自転車"],alt:["das Flugzeug","das Schiff","das Fahrrad"]},
+  {de:"die Hitze (Sg.)",ja:"暑さ・熱",cat:"L11",jaAlt:["寒さ","霧","嵐"],alt:["die Kälte","der Nebel","der Sturm"]},
+  {de:"der Teil, -e",ja:"部分・一部",cat:"L11",jaAlt:["全体","半分","合計"],alt:["das Ganze","die Hälfte","die Summe"]},
+  {de:"kräftig",ja:"強い・力強い",cat:"L11",jaAlt:["弱い","静かな","穏やかな"],alt:["schwach","leise","ruhig"]},
+  {de:"die Gefahr, -en",ja:"危険",cat:"L11",jaAlt:["安全","警告","注意"],alt:["die Sicherheit","die Warnung","die Vorsicht"]},
+  {de:"vermeiden",ja:"避ける",cat:"L11",jaAlt:["探す","引き起こす","試みる"],alt:["suchen","verursachen","versuchen"]},
+  {de:"der Einwohner, - / die Einwohnerin",ja:"住民・住人",cat:"L11",jaAlt:["観光客","訪問者","旅行者"],alt:["der Tourist","der Besucher","der Reisende"]},
+  {de:"die Aussicht, -en",ja:"見通し・眺め・展望",cat:"L11",jaAlt:["天気予報","予定","計画"],alt:["die Wettervorhersage","der Plan","das Programm"]},
+  {de:"sommerlich",ja:"夏らしい・夏の",cat:"L11",jaAlt:["冬らしい","秋らしい","春らしい"],alt:["winterlich","herbstlich","frühlingshaft"]},
+  {de:"dicht",ja:"濃い・密な（霧などが）",cat:"L11",jaAlt:["薄い","透明な","軽い"],alt:["dünn","transparent","leicht"]},
+  {de:"verhindern",ja:"妨げる・防ぐ",cat:"L11",jaAlt:["可能にする","助ける","許可する"],alt:["ermöglichen","helfen","erlauben"]},
+  {de:"die Landung, -en",ja:"着陸",cat:"L11",jaAlt:["離陸","出発","到着"],alt:["der Start","die Abfahrt","die Ankunft"]},
+  {de:"der Start, -s",ja:"離陸・スタート",cat:"L11",jaAlt:["着陸","到着","出口"],alt:["die Landung","die Ankunft","die Ausfahrt"]},
+  {de:"der Flughafen, -¨",ja:"空港",cat:"L11",jaAlt:["駅","港","バスターミナル"],alt:["der Bahnhof","der Hafen","der Busbahnhof"]},
+  // E セクション（p.193）
+  {de:"landen",ja:"着陸する",cat:"L11",jaAlt:["離陸する","出発する","到着する（陸路で）"],alt:["starten","abfliegen","ankommen"]},
+  {de:"der Abflug, -¨e",ja:"出発（飛行機）・離陸",cat:"L11",jaAlt:["着陸","到着","出発（陸路）"],alt:["die Landung","die Ankunft","die Abfahrt"]},
+  {de:"voraussichtlich",ja:"おそらく・予定では",cat:"L11",jaAlt:["確実に","すでに","決して〜ない"],alt:["sicher","schon","nie"]},
+  {de:"gefährlich",ja:"危険な",cat:"L11",jaAlt:["注意深い","安全な","穏やかな"],alt:["vorsichtig","sicher","ruhig"]},
+  {de:"auffallen",ja:"目立つ・気づかせる",cat:"L11",jaAlt:["消える","隠れる","似ている"],alt:["verschwinden","sich verstecken","ähneln"]},
+  {de:"das Moped, -s",ja:"モペット・原動機付き自転車",cat:"L11",jaAlt:["自動車","自転車","バイク"],alt:["das Auto","das Fahrrad","das Motorrad"]},
+  {de:"das Verkehrsmittel, -",ja:"交通手段",cat:"L11",jaAlt:["乗り物全般","道路","交通渋滞"],alt:["das Fahrzeug","die Strasse","der Stau"]},
+  {de:"hupen",ja:"クラクションを鳴らす",cat:"L11",jaAlt:["ブレーキをかける","追い越す","曲がる"],alt:["bremsen","überholen","abbiegen"]},
+  {de:"bremsen",ja:"ブレーキをかける",cat:"L11",jaAlt:["クラクションを鳴らす","加速する","追い越す"],alt:["hupen","beschleunigen","überholen"]},
+  {de:"der Fussgänger, - / die Fussgängerin",ja:"歩行者",cat:"L11",jaAlt:["ドライバー","自転車に乗る人","バスの運転手"],alt:["der Autofahrer","der Velofahrer","der Busfahrer"]},
+  {de:"die Busse, -n",ja:"罰金",cat:"L11",jaAlt:["警告","免許","税金"],alt:["die Warnung","der Führerschein","die Steuer"]},
+  {de:"die Strasse, -n",ja:"道路・通り",cat:"L11",jaAlt:["高速道路","路地","歩道"],alt:["die Autobahn","die Gasse","das Trottoir"]},
+  {de:"anstrengend",ja:"骨の折れる・疲れる",cat:"L11",jaAlt:["楽な","退屈な","面白い"],alt:["leicht","langweilig","interessant"]},
+  {de:"furchtbar",ja:"ひどい・恐ろしい",cat:"L11",jaAlt:["素晴らしい","普通の","楽しい"],alt:["wunderbar","normal","schön"]},
+  {de:"reden",ja:"話す・しゃべる",cat:"L11",jaAlt:["書く","読む","聞く"],alt:["schreiben","lesen","zuhören"]},
+  {de:"das Land, -¨er",ja:"国・地方・田舎",cat:"L11",jaAlt:["都市","島","州"],alt:["die Stadt","die Insel","das Bundesland"]},
+  {de:"der Unterschied, -e",ja:"違い・差異",cat:"L11",jaAlt:["共通点","類似点","特徴"],alt:["die Gemeinsamkeit","die Ähnlichkeit","das Merkmal"]},
+  {de:"das Tempo (Sg.)",ja:"速度・テンポ",cat:"L11",jaAlt:["距離","時間","方向"],alt:["die Entfernung","die Zeit","die Richtung"]},
+  // 天気形容詞（既存を保持・整理）
+  {de:"stürmisch",ja:"嵐の・荒れた",cat:"L11",jaAlt:["晴れた","霧がかかった","穏やかな"],alt:["sonnig","neblig","ruhig"]},
+  {de:"wolkig",ja:"曇りの",cat:"L11",jaAlt:["晴れた","霧がかかった","嵐の"],alt:["sonnig","neblig","stürmisch"]},
+  {de:"sonnig",ja:"晴れた",cat:"L11",jaAlt:["曇りの","霧がかかった","嵐の"],alt:["wolkig","neblig","stürmisch"]},
+  {de:"regnerisch",ja:"雨降りの",cat:"L11",jaAlt:["晴れた","曇りの","霧がかかった"],alt:["sonnig","wolkig","neblig"]},
+  {de:"windig",ja:"風が強い",cat:"L11",jaAlt:["晴れた","霧がかかった","曇りの"],alt:["sonnig","neblig","wolkig"]},
+  {de:"eisig",ja:"氷のように冷たい・凍るような",cat:"L11",jaAlt:["暑い","温かい","穏やかな"],alt:["heiss","warm","mild"]},
+  {de:"die Autobahn, -en",ja:"高速道路",cat:"L11",jaAlt:["国道","市街地道路","歩道"],alt:["die Bundesstrasse","die Stadtstrasse","der Gehweg"]},
+  // ===== Lektion 3: Indefinitpronomen / 頻度副詞 =====
+  {s:"Ich brauche einen Löffel. Hast du ___?",a:"einen",h:"Indefinitpronomen Akkusativ: Löffel=男性 → einen（肯定）/ keinen（否定）",cat:"L3"},
+  {s:"Wo ist die Tasse? Ich sehe hier ___ mehr.",a:"keine",h:"Indefinitpronomen Nominativ: Tasse=女性 → eine（肯定）/ keine（否定）",cat:"L3"},
+  {s:"Haben wir noch Eier? Nein, wir haben ___ mehr.",a:"keine",h:"Indefinitpronomen Plural → welche（肯定）/ keine（否定）",cat:"L3"},
+  {s:"Möchtest du noch ein Dessert? Nein danke, ich möchte ___.",a:"keins",h:"Indefinitpronomen Nominativ: Dessert=中性 → eins（肯定）/ keins（否定）",cat:"L3"},
+  {s:"Gibt es noch Spaghetti? Ja, ich nehme gern noch ___.",a:"welche",h:"Indefinitpronomen Plural（肯定）→ welche",cat:"L3"},
+  {s:"Wo sind die Nüsse? Haben wir noch ___?",a:"welche",h:"Indefinitpronomen Plural（肯定）→ welche（「いくつかある」）",cat:"L3"},
+  {s:"Ich brauche eine Gabel. Da liegt doch ___.",a:"eine",h:"Indefinitpronomen Nominativ: Gabel=女性 → eine（肯定）",cat:"L3"},
+  {s:"Yara geht ___ in die Kantine. (fast nie)",a:"selten",h:"頻度の順: immer → oft → manchmal → selten → nie（決して〜ない）",cat:"L3"},
+  {s:"Mayla isst ___ Fleisch. Sie ist Vegetarierin.",a:"nie",h:"頻度副詞: nie = 決して〜ない（0%）",cat:"L3"},
+  {s:"Francesco trinkt jeden Morgen Kaffee. Er braucht ___ einen Kaffee.",a:"immer",h:"頻度副詞: immer = いつも（100%）",cat:"L3"},
+  {s:"___ darf ich Ihnen bringen?",a:"Was",h:"レストランでウェイターが注文を聞く定型表現: Was darf ich Ihnen bringen?",cat:"L3"},
+  {s:"___ wir zahlen, bitte?",a:"Könnten",h:"丁寧な依頼: Könnten wir zahlen? / Könnte ich zahlen?（Konjunktiv II）",cat:"L3"},
+  {s:"Zusammen ___ getrennt?",a:"oder",h:"レストランでの支払い: Zusammen oder getrennt?（一緒か別々か）",cat:"L3"},
+  // ===== Lektion 4: 仕事・職場・労働 =====
+  // p.194 - Arbeitswelt / フォト聞き取り
+  {de:"die Buchung, -en",ja:"予約",cat:"L4",jaAlt:["確認","キャンセル","変更"],alt:["die Bestätigung","die Stornierung","die Änderung"]},
+  {de:"die Bestätigung, -en",ja:"確認書・確認",cat:"L4",jaAlt:["予約","キャンセル","申込み"],alt:["die Buchung","die Stornierung","die Anmeldung"]},
+  {de:"notieren",ja:"メモする・書き留める",cat:"L4",jaAlt:["読む","消す","送る"],alt:["lesen","löschen","schicken"]},
+  {de:"online",ja:"オンラインで",cat:"L4",jaAlt:["オフラインで","直接","電話で"],alt:["offline","persönlich","telefonisch"]},
+  {de:"schwierig",ja:"難しい・困難な",cat:"L4",jaAlt:["簡単な","面白い","退屈な"],alt:["leicht","interessant","langweilig"]},
+  {de:"die Besprechung, -en",ja:"打ち合わせ・ミーティング",cat:"L4",jaAlt:["休憩","研修","締め切り"],alt:["die Pause","die Schulung","die Frist"]},
+  {de:"nämlich",ja:"というのも・つまり",cat:"L4",jaAlt:["しかし","だから","それにもかかわらず"],alt:["aber","deshalb","trotzdem"]},
+  {de:"freundlich",ja:"親切な・愛想のよい",cat:"L4",jaAlt:["失礼な","冷たい","怠慢な"],alt:["unhöflich","kalt","faul"]},
+  {de:"intelligent",ja:"賢い・知的な",cat:"L4",jaAlt:["愚かな","怠慢な","無礼な"],alt:["dumm","faul","unhöflich"]},
+  {de:"der Fehler, -",ja:"ミス・間違い",cat:"L4",jaAlt:["成功","答え","解決"],alt:["der Erfolg","die Antwort","die Lösung"]},
+  {de:"wenn",ja:"もし〜なら・〜のとき",cat:"L4",jaAlt:["〜かどうか","なぜなら","〜ということ"],alt:["ob","weil","dass"]},
+  {de:"sicher",ja:"確かに・安全な",cat:"L4",jaAlt:["不確かに","危険な","たぶん"],alt:["unsicher","gefährlich","vielleicht"]},
+  {de:"das Material, Materialien",ja:"材料・資料",cat:"L4",jaAlt:["道具","機械","書類"],alt:["das Werkzeug","die Maschine","das Dokument"]},
+  {de:"der Teilnehmer, - / die Teilnehmerin, -nen",ja:"参加者",cat:"L4",jaAlt:["主催者","講師","観客"],alt:["der Veranstalter","der Lehrer","der Zuschauer"]},
+  {de:"der Ratschlag, -¨e",ja:"アドバイス・助言",cat:"L4",jaAlt:["批判","命令","質問"],alt:["die Kritik","der Befehl","die Frage"]},
+  {de:"der Tipp, -s",ja:"ヒント・コツ",cat:"L4",jaAlt:["アドバイス（公式）","問題","答え"],alt:["der Ratschlag","das Problem","die Antwort"]},
+  {de:"regelmässig",ja:"定期的に・規則正しく",cat:"L4",jaAlt:["不規則に","たまに","一度だけ"],alt:["unregelmässig","manchmal","einmal"]},
+  // p.195 - B3〜C1
+  {de:"achten auf",ja:"〜に注意する・気をつける",cat:"L4",jaAlt:["〜を無視する","〜を探す","〜を避ける"],alt:["ignorieren","suchen","vermeiden"]},
+  {de:"der Zettel, -",ja:"メモ・紙切れ",cat:"L4",jaAlt:["書類","ノート","封筒"],alt:["das Dokument","das Heft","der Umschlag"]},
+  {de:"nutzen",ja:"使う・利用する",cat:"L4",jaAlt:["捨てる","壊す","避ける"],alt:["wegwerfen","kaputt machen","vermeiden"]},
+  {de:"die Plattform, -en",ja:"プラットフォーム・台",cat:"L4",jaAlt:["フォーラム","ウェブサイト","アプリ"],alt:["das Forum","die Webseite","die App"]},
+  {de:"das Forum, Foren",ja:"フォーラム・掲示板",cat:"L4",jaAlt:["プラットフォーム","グループ","ネットワーク"],alt:["die Plattform","die Gruppe","das Netzwerk"]},
+  {de:"die Lehre, -n",ja:"徒弟制度・教え・職業訓練",cat:"L4",jaAlt:["試験","研修","学校"],alt:["die Prüfung","die Schulung","die Schule"]},
+  {de:"die Gewerkschaft, -en",ja:"労働組合",cat:"L4",jaAlt:["企業","政党","協会"],alt:["das Unternehmen","die Partei","der Verein"]},
+  {de:"die Sicherheit (Sg.)",ja:"安全・安心",cat:"L4",jaAlt:["危険","リスク","問題"],alt:["die Gefahr","das Risiko","das Problem"]},
+  {de:"der Schutz (Sg.)",ja:"保護・防護",cat:"L4",jaAlt:["危険","攻撃","無視"],alt:["die Gefahr","der Angriff","die Vernachlässigung"]},
+  {de:"die Frist, -en",ja:"締め切り・期限",cat:"L4",jaAlt:["休暇","時間","機会"],alt:["der Urlaub","die Zeit","die Chance"]},
+  {de:"die Weiterbildung, -en",ja:"スキルアップ・継続学習",cat:"L4",jaAlt:["休暇","初期研修","解雇"],alt:["der Urlaub","die Ausbildung","die Kündigung"]},
+  {de:"das Interesse (Sg.)",ja:"興味・関心",cat:"L4",jaAlt:["退屈","嫌悪","無関心"],alt:["die Langeweile","der Abscheu","die Gleichgültigkeit"]},
+  {de:"das Personal (Sg.)",ja:"スタッフ・人員",cat:"L4",jaAlt:["機械","設備","材料"],alt:["die Maschine","die Einrichtung","das Material"]},
+  {de:"pensioniert werden",ja:"定年退職する",cat:"L4",jaAlt:["解雇される","転職する","昇進する"],alt:["entlassen werden","wechseln","befördert werden"]},
+  {de:"das Leben, -",ja:"生活・人生",cat:"L4",jaAlt:["仕事","趣味","旅行"],alt:["die Arbeit","das Hobby","die Reise"]},
+  {de:"der Pensionierte, -n / die Pensionierte, -n",ja:"定年退職者",cat:"L4",jaAlt:["求職者","研修生","管理者"],alt:["der Arbeitssuchende","der Auszubildende","der Manager"]},
+  {de:"(sich) wenden",ja:"向く・問い合わせる",cat:"L4",jaAlt:["逃げる","忘れる","断る"],alt:["weglaufen","vergessen","ablehnen"]},
+  {de:"stattfinden",ja:"行われる・開催される",cat:"L4",jaAlt:["終わる","始まる","延期される"],alt:["enden","beginnen","verschoben werden"]},
+  // p.196 - C2〜E1
+  {de:"die Leitung, -en",ja:"経営陣・管理部門・リーダーシップ",cat:"L4",jaAlt:["従業員","組合","部署"],alt:["die Mitarbeiter","die Gewerkschaft","die Abteilung"]},
+  {de:"berichten",ja:"報告する・伝える",cat:"L4",jaAlt:["質問する","命令する","批判する"],alt:["fragen","befehlen","kritisieren"]},
+  {de:"beraten",ja:"アドバイスする・相談にのる",cat:"L4",jaAlt:["命令する","批判する","解雇する"],alt:["befehlen","kritisieren","entlassen"]},
+  {de:"die Kündigung, -en",ja:"解雇通知・契約解除",cat:"L4",jaAlt:["採用","昇進","研修"],alt:["die Einstellung","die Beförderung","die Schulung"]},
+  {de:"die Vorschrift, -en",ja:"規則・規定",cat:"L4",jaAlt:["提案","お願い","アドバイス"],alt:["der Vorschlag","die Bitte","der Ratschlag"]},
+  {de:"die Werkstatt, -¨en",ja:"工房・修理工場",cat:"L4",jaAlt:["事務所","工場","倉庫"],alt:["das Büro","die Fabrik","das Lager"]},
+  {de:"ohne",ja:"〜なしで",cat:"L4",jaAlt:["〜と一緒に","〜のために","〜のそばに"],alt:["mit","für","bei"]},
+  {de:"schützen",ja:"守る・保護する",cat:"L4",jaAlt:["攻撃する","危険にさらす","無視する"],alt:["angreifen","gefährden","ignorieren"]},
+  {de:"(sich) bedanken",ja:"お礼を言う・感謝する",cat:"L4",jaAlt:["文句を言う","謝る","無視する"],alt:["sich beschweren","sich entschuldigen","ignorieren"]},
+  {de:"ausrichten",ja:"伝言する・整える",cat:"L4",jaAlt:["隠す","忘れる","壊す"],alt:["verstecken","vergessen","kaputt machen"]},
+  {de:"der Export, -e",ja:"輸出",cat:"L4",jaAlt:["輸入","生産","販売"],alt:["der Import","die Produktion","der Verkauf"]},
+  {de:"versuchen",ja:"試みる・試す",cat:"L4",jaAlt:["諦める","成功する","失敗する"],alt:["aufgeben","schaffen","scheitern"]},
+  {de:"der Feierabend, -e",ja:"仕事終わり・退社時間",cat:"L4",jaAlt:["始業時間","昼休み","残業"],alt:["der Arbeitsbeginn","die Mittagspause","die Überstunde"]},
+  {de:"der Import, -e",ja:"輸入",cat:"L4",jaAlt:["輸出","生産","販売"],alt:["der Export","die Produktion","der Verkauf"]},
+  {de:"verbinden",ja:"つなぐ・結ぶ（電話を転送する）",cat:"L4",jaAlt:["切る","外す","忘れる"],alt:["trennen","auflegen","vergessen"]},
+  {de:"der Arbeitnehmer, - / die Arbeitnehmerin, -nen",ja:"従業員・被用者",cat:"L4",jaAlt:["雇用主","管理者","自営業者"],alt:["der Arbeitgeber","der Manager","der Selbstständige"]},
+  {de:"durchschnittlich",ja:"平均的な・平均して",cat:"L4",jaAlt:["最高の","最低の","例外的な"],alt:["maximal","minimal","außergewöhnlich"]},
+  {de:"mindestens",ja:"少なくとも・最低限",cat:"L4",jaAlt:["多くとも","ちょうど","おそらく"],alt:["höchstens","genau","vielleicht"]},
+  {de:"die Ahnung, -en",ja:"考え・見当",cat:"L4",jaAlt:["確信","知識","答え"],alt:["die Überzeugung","das Wissen","die Antwort"]},
+  {de:"der Bundesfeiertag, -e",ja:"国民の祝日",cat:"L4",jaAlt:["平日","週末","休暇"],alt:["der Werktag","das Wochenende","der Urlaub"]},
+  // p.197 - E2〜E3
+  {de:"die Überstunde, -n",ja:"残業・時間外労働",cat:"L4",jaAlt:["休憩","休暇","有給"],alt:["die Pause","der Urlaub","der bezahlte Urlaub"]},
+  {de:"bieten",ja:"提供する・与える",cat:"L4",jaAlt:["受け取る","断る","奪う"],alt:["bekommen","ablehnen","wegnehmen"]},
+  {de:"die Regel, -n",ja:"ルール・規則",cat:"L4",jaAlt:["例外","自由","選択"],alt:["die Ausnahme","die Freiheit","die Wahl"]},
+  {de:"der Mensch, -en",ja:"人間・人",cat:"L4",jaAlt:["動物","機械","もの"],alt:["das Tier","die Maschine","das Ding"]},
+  {de:"die Industrie (Sg.)",ja:"産業・工業",cat:"L4",jaAlt:["農業","サービス業","商業"],alt:["die Landwirtschaft","der Dienstleistungssektor","der Handel"]},
+  {de:"die Möglichkeit, -en",ja:"可能性・機会",cat:"L4",jaAlt:["不可能","義務","禁止"],alt:["die Unmöglichkeit","die Pflicht","das Verbot"]},
+  {de:"der Durchschnitt, -e",ja:"平均",cat:"L4",jaAlt:["最大値","最小値","合計"],alt:["das Maximum","das Minimum","die Summe"]},
+  {de:"meiste",ja:"ほとんどの・最も多くの",cat:"L4",jaAlt:["少しの","すべての","いくつかの"],alt:["wenige","alle","einige"]},
+  {de:"insgesamt",ja:"合計して・全部で",cat:"L4",jaAlt:["部分的に","個別に","平均して"],alt:["teilweise","einzeln","durchschnittlich"]},
+  {de:"gelten",ja:"当てはまる・有効である",cat:"L4",jaAlt:["除外される","古くなる","間違っている"],alt:["ausgenommen sein","veralten","falsch sein"]},
+  {de:"der Lohn, -¨e",ja:"賃金・給料",cat:"L4",jaAlt:["税金","費用","罰金"],alt:["die Steuer","die Kosten","die Busse"]},
+
+  // GR
+  {de:"trotzdem",ja:"それにもかかわらず（主文）",cat:"GR",jaAlt:["だから","なぜなら〜だから","〜にもかかわらず（副文）"],alt:["deshalb","weil","obwohl"]},
+  {de:"obwohl",ja:"〜にもかかわらず（副文）",cat:"GR",jaAlt:["それにもかかわらず","なぜなら〜だから","だから"],alt:["trotzdem","weil","deshalb"]},
+  {de:"dass",ja:"〜ということ（従属接続詞）",cat:"GR",jaAlt:["なぜなら〜だから","もし〜なら","〜かどうか"],alt:["weil","wenn","ob"]},
+  {de:"wenn",ja:"もし〜なら・〜のとき",cat:"GR",jaAlt:["〜かどうか","なぜなら〜だから","〜ということ"],alt:["ob","weil","dass"]},
+  {de:"ob",ja:"〜かどうか（間接疑問）",cat:"GR",jaAlt:["〜ということ","なぜなら〜だから","もし〜なら"],alt:["dass","weil","wenn"]},
+  {de:"das Perfekt",ja:"現在完了（話し言葉の過去）",cat:"GR",jaAlt:["過去形（書き言葉）","現在形","未来形"],alt:["das Präteritum","das Präsens","das Futur"]},
+  {de:"das Passiv",ja:"受動態",cat:"GR",jaAlt:["能動態","現在完了","過去形"],alt:["das Aktiv","das Perfekt","das Präteritum"]},
+
+  // ===== Lektion 5: スポーツ・フィットネス・健康 =====
+  // p.198 - Foto-Hörgeschichte / A〜A2
+  {de:"(sich) bewegen",ja:"体を動かす・動く",cat:"L5",jaAlt:["休む","座る","眠る"],alt:["sich ausruhen","sitzen","schlafen"]},
+  {de:"(sich) interessieren für",ja:"〜に興味がある",cat:"L5",jaAlt:["〜を嫌いである","〜に飽きる","〜を恐れる"],alt:["hassen","sich langweilen","sich fürchten"]},
+  {de:"der Tanz, -¨e",ja:"ダンス・踊り",cat:"L5",jaAlt:["ヨガ","水泳","ジョギング"],alt:["das Yoga","das Schwimmen","das Joggen"]},
+  {de:"der Basketball (Sg.)",ja:"バスケットボール",cat:"L5",jaAlt:["バレーボール","テニス","サッカー"],alt:["der Volleyball","das Tennis","der Fussball"]},
+  {de:"(sich) fühlen",ja:"〜と感じる",cat:"L5",jaAlt:["考える","思う","気づく"],alt:["denken","meinen","bemerken"]},
+  {de:"fit",ja:"健康な・体調がよい",cat:"L5",jaAlt:["疲れた","具合が悪い","怠慢な"],alt:["müde","krank","faul"]},
+  {de:"zu wenig",ja:"少なすぎる",cat:"L5",jaAlt:["十分な","多すぎる","ちょうど"],alt:["genug","zu viel","genau"]},
+  {de:"das Video, -s",ja:"動画・ビデオ",cat:"L5",jaAlt:["写真","音楽","映画"],alt:["das Foto","die Musik","der Film"]},
+  {de:"hin-fallen",ja:"転ぶ・倒れる",cat:"L5",jaAlt:["起き上がる","飛ぶ","走る"],alt:["aufstehen","springen","rennen"]},
+  {de:"die Lust (Sg.)",ja:"やる気・したい気持ち",cat:"L5",jaAlt:["疲れ","痛み","恐れ"],alt:["die Müdigkeit","der Schmerz","die Angst"]},
+  {de:"der Versuch, -e",ja:"試み・挑戦",cat:"L5",jaAlt:["成功","失敗","休憩"],alt:["der Erfolg","das Scheitern","die Pause"]},
+  {de:"der Meister, -",ja:"チャンピオン・名人",cat:"L5",jaAlt:["初心者","選手","コーチ"],alt:["der Anfänger","der Spieler","der Trainer"]},
+  {de:"die Sportart, -en",ja:"スポーツの種目",cat:"L5",jaAlt:["スポーツクラブ","競技場","トレーニング"],alt:["der Sportverein","das Stadion","das Training"]},
+  {de:"ziemlich",ja:"かなり・相当",cat:"L5",jaAlt:["少し","全く〜ない","非常に"],alt:["ein bisschen","gar nicht","sehr"]},
+  // p.198 - A2
+  {de:"die Krankenkasse, -n",ja:"健康保険組合",cat:"L5",jaAlt:["病院","薬局","医師"],alt:["das Krankenhaus","die Apotheke","der Arzt"]},
+  {de:"die Entspannung (Sg.)",ja:"リラクゼーション・くつろぎ",cat:"L5",jaAlt:["緊張","運動","ストレス"],alt:["die Anspannung","die Bewegung","der Stress"]},
+  {de:"die Ernährung (Sg.)",ja:"食事・栄養",cat:"L5",jaAlt:["運動","睡眠","休憩"],alt:["die Bewegung","der Schlaf","die Pause"]},
+  {de:"die Bewegung, -en",ja:"運動・動き",cat:"L5",jaAlt:["休憩","睡眠","食事"],alt:["die Pause","der Schlaf","die Ernährung"]},
+  {de:"der Spaziergang, -¨e",ja:"散歩",cat:"L5",jaAlt:["ジョギング","ハイキング","サイクリング"],alt:["das Joggen","das Wandern","das Velofahren"]},
+  {de:"(sich) verabreden",ja:"約束する・待ち合わせする",cat:"L5",jaAlt:["キャンセルする","忘れる","断る"],alt:["absagen","vergessen","ablehnen"]},
+  {de:"(sich) aus-ruhen",ja:"休む・くつろぐ",cat:"L5",jaAlt:["体を動かす","働く","急ぐ"],alt:["sich bewegen","arbeiten","sich beeilen"]},
+  // p.200〜201 - C1〜E
+  {de:"träumen von",ja:"〜を夢見る",cat:"L5",jaAlt:["〜を恐れる","〜を計画する","〜を忘れる"],alt:["sich fürchten vor","planen","vergessen"]},
+  {de:"die Angst, -¨e",ja:"恐怖・不安",cat:"L5",jaAlt:["喜び","勇気","安心"],alt:["die Freude","der Mut","die Sicherheit"]},
+  {de:"ehrlich",ja:"正直な",cat:"L5",jaAlt:["不正直な","親切な","厳しい"],alt:["unehrlich","freundlich","streng"]},
+  {de:"die Saison, -s",ja:"シーズン・季節",cat:"L5",jaAlt:["試合","練習","大会"],alt:["das Spiel","das Training","der Wettkampf"]},
+  {de:"das Gold (Sg.)",ja:"金・金メダル",cat:"L5",jaAlt:["銀","銅","賞"],alt:["das Silber","die Bronze","der Preis"]},
+  {de:"(sich) erinnern an",ja:"〜を思い出す・覚えている",cat:"L5",jaAlt:["〜を忘れる","〜を計画する","〜を楽しむ"],alt:["vergessen","planen","genießen"]},
+  {de:"denken an",ja:"〜のことを考える",cat:"L5",jaAlt:["〜を忘れる","〜を恐れる","〜を夢見る"],alt:["vergessen","sich fürchten vor","träumen von"]},
+  {de:"die Gymnastik (Sg.)",ja:"体操・ジムナスティック",cat:"L5",jaAlt:["ダンス","水泳","ヨガ"],alt:["der Tanz","das Schwimmen","das Yoga"]},
+  {de:"das Tischtennis (Sg.)",ja:"卓球",cat:"L5",jaAlt:["テニス","バドミントン","バレーボール"],alt:["das Tennis","das Badminton","der Volleyball"]},
+  {de:"der Volleyball (Sg.)",ja:"バレーボール",cat:"L5",jaAlt:["バスケットボール","テニス","卓球"],alt:["der Basketball","das Tennis","das Tischtennis"]},
+  {de:"die Fitness (Sg.)",ja:"フィットネス・体力",cat:"L5",jaAlt:["疲れ","病気","怠慢"],alt:["die Müdigkeit","die Krankheit","die Faulheit"]},
+  {de:"der Verein, -e",ja:"クラブ・団体",cat:"L5",jaAlt:["チーム","グループ","大会"],alt:["die Mannschaft","die Gruppe","das Turnier"]},
+  {de:"der Beitrag, -¨e",ja:"会費・貢献",cat:"L5",jaAlt:["報酬","税金","罰金"],alt:["das Gehalt","die Steuer","die Busse"]},
+  {de:"betragen",ja:"〜に達する・〜である（金額）",cat:"L5",jaAlt:["支払う","節約する","借りる"],alt:["bezahlen","sparen","leihen"]},
+  {de:"die Gruppe, -n",ja:"グループ・班",cat:"L5",jaAlt:["個人","チーム","クラス"],alt:["die Einzelperson","die Mannschaft","die Klasse"]},
+  {de:"die Ermässigung, -en",ja:"割引",cat:"L5",jaAlt:["追加料金","税金","罰金"],alt:["der Aufpreis","die Steuer","die Busse"]},
+  {de:"gratis",ja:"無料で",cat:"L5",jaAlt:["有料で","高くて","割引で"],alt:["kostenpflichtig","teuer","vergünstigt"]},
+  {de:"das Mädchen, -",ja:"女の子",cat:"L5",jaAlt:["男の子","女性","子ども"],alt:["der Junge","die Frau","das Kind"]},
+  {de:"der Junge, -n",ja:"男の子",cat:"L5",jaAlt:["女の子","男性","子ども"],alt:["das Mädchen","der Mann","das Kind"]},
+  {de:"aktiv",ja:"活発な・積極的な",cat:"L5",jaAlt:["消極的な","怠慢な","静かな"],alt:["passiv","faul","ruhig"]},
+  {de:"joggen",ja:"ジョギングする",cat:"L5",jaAlt:["泳ぐ","踊る","登る"],alt:["schwimmen","tanzen","klettern"]},
+  {de:"(sich) halten",ja:"〜の状態を保つ・体を維持する",cat:"L5",jaAlt:["変える","失う","壊す"],alt:["verändern","verlieren","kaputt machen"]},
+  // p.201〜202
+  {de:"häufig",ja:"頻繁な・よくある",cat:"L5",jaAlt:["まれな","全くない","たまの"],alt:["selten","nie","manchmal"]},
+  {de:"die Ursache, -n",ja:"原因・理由",cat:"L5",jaAlt:["結果","解決","影響"],alt:["das Ergebnis","die Lösung","der Einfluss"]},
+  {de:"die Krankheit, -en",ja:"病気",cat:"L5",jaAlt:["健康","薬","治療"],alt:["die Gesundheit","das Medikament","die Therapie"]},
+  {de:"der Bildschirm, -e",ja:"画面・モニター",cat:"L5",jaAlt:["キーボード","マウス","プリンター"],alt:["die Tastatur","die Maus","der Drucker"]},
+  {de:"der Körper, -",ja:"体・身体",cat:"L5",jaAlt:["心","精神","魂"],alt:["das Herz","der Geist","die Seele"]},
+  {de:"ausserdem",ja:"そのうえ・さらに",cat:"L5",jaAlt:["しかし","だから","一方で"],alt:["aber","deshalb","dagegen"]},
+  {de:"die Luft (Sg.)",ja:"空気",cat:"L5",jaAlt:["水","土","火"],alt:["das Wasser","die Erde","das Feuer"]},
+  {de:"die Untersuchung, -en",ja:"検査・調査",cat:"L5",jaAlt:["治療","診断","処方"],alt:["die Behandlung","die Diagnose","das Rezept"]},
+  {de:"schaffen",ja:"やり遂げる・達成する",cat:"L5",jaAlt:["諦める","失敗する","忘れる"],alt:["aufgeben","scheitern","vergessen"]},
+  {de:"preiswert",ja:"お値打ちの・安くて良い",cat:"L5",jaAlt:["高価な","安すぎる","品質が悪い"],alt:["teuer","zu billig","qualitativ schlecht"]},
+  {de:"rennen",ja:"走る・疾走する",cat:"L5",jaAlt:["歩く","ジョギングする","散歩する"],alt:["gehen","joggen","spazieren gehen"]},
+  {de:"der Trend, -s",ja:"トレンド・流行",cat:"L5",jaAlt:["伝統","古典","流行遅れ"],alt:["die Tradition","der Klassiker","der Aussteiger"]},
+  {de:"der Spielplatz, -¨e",ja:"遊び場・グラウンド",cat:"L5",jaAlt:["公園","スタジアム","体育館"],alt:["der Park","das Stadion","die Sporthalle"]},
+  {de:"die Natur (Sg.)",ja:"自然",cat:"L5",jaAlt:["都市","文化","技術"],alt:["die Stadt","die Kultur","die Technik"]},
+  {de:"extra",ja:"特別に・追加で",cat:"L5",jaAlt:["通常の","含まれた","無料の"],alt:["normal","inbegriffen","gratis"]},
+  {de:"beliebt",ja:"人気のある",cat:"L5",jaAlt:["嫌われている","無名の","一般的な"],alt:["unbeliebt","unbekannt","gewöhnlich"]},
+  {de:"die Strecke, -n",ja:"区間・道のり",cat:"L5",jaAlt:["目的地","出発点","距離"],alt:["das Ziel","der Ausgangspunkt","die Entfernung"]},
+  {de:"flexibel",ja:"柔軟な・融通のきく",cat:"L5",jaAlt:["固定された","厳格な","頑固な"],alt:["fest","streng","starr"]},
+  {de:"die Umwelt (Sg.)",ja:"環境",cat:"L5",jaAlt:["自然","気候","生態系"],alt:["die Natur","das Klima","das Ökosystem"]},
+  // p.199 - reflexive Verben
+  {de:"(sich) ernähren",ja:"食事をとる・栄養をとる",cat:"L5",jaAlt:["運動する","休む","眠る"],alt:["Sport treiben","sich ausruhen","schlafen"]},
+  {de:"(sich) ärgern",ja:"腹を立てる・イライラする",cat:"L5",jaAlt:["喜ぶ","落ち着く","楽しむ"],alt:["sich freuen","sich beruhigen","sich amüsieren"]},
+  {de:"(sich) schminken",ja:"化粧する",cat:"L5",jaAlt:["洗顔する","着替える","髭を剃る"],alt:["sich waschen","sich anziehen","sich rasieren"]},
+  {de:"(sich) rasieren",ja:"髭を剃る",cat:"L5",jaAlt:["化粧する","くしをかける","着替える"],alt:["sich schminken","sich kämmen","sich anziehen"]},
+  {de:"(sich) um-ziehen",ja:"着替える",cat:"L5",jaAlt:["脱ぐ","洗う","アイロンをかける"],alt:["ausziehen","waschen","bügeln"]},
+  {de:"(sich) kämmen",ja:"髪をとかす",cat:"L5",jaAlt:["洗う","化粧する","剃る"],alt:["waschen","sich schminken","sich rasieren"]},
+  {de:"(sich) waschen",ja:"洗う・体を洗う",cat:"L5",jaAlt:["乾かす","拭く","着る"],alt:["trocknen","abwischen","anziehen"]},
+  {de:"(sich) beeilen",ja:"急ぐ",cat:"L5",jaAlt:["ゆっくりする","待つ","休む"],alt:["sich Zeit nehmen","warten","sich ausruhen"]},
+  {de:"(sich) konzentrieren",ja:"集中する",cat:"L5",jaAlt:["気が散る","休む","諦める"],alt:["sich ablenken","sich ausruhen","aufgeben"]},
+  {de:"(sich) beschweren",ja:"文句を言う・苦情を申し出る",cat:"L5",jaAlt:["褒める","感謝する","黙る"],alt:["loben","sich bedanken","schweigen"]},
+  {de:"überhaupt",ja:"そもそも・全く（否定強調）",cat:"L5",jaAlt:["ちょうど","少なくとも","たぶん"],alt:["genau","mindestens","vielleicht"]},
+  {de:"die Zeitschrift, -en",ja:"雑誌",cat:"L5",jaAlt:["新聞","本","カタログ"],alt:["die Zeitung","das Buch","der Katalog"]},
+  {de:"die Geschichte, -n",ja:"歴史・話・物語",cat:"L5",jaAlt:["地理","数学","物理"],alt:["die Geografie","die Mathematik","die Physik"]},
+  {de:"das Theater, -",ja:"劇場・演劇",cat:"L5",jaAlt:["映画館","コンサートホール","オペラ"],alt:["das Kino","die Konzerthalle","die Oper"]},
+  {de:"die Nachrichten (Pl.)",ja:"ニュース",cat:"L5",jaAlt:["天気予報","広告","番組"],alt:["die Wettervorhersage","die Werbung","das Programm"]},
+  {de:"die Weltmeisterschaft, -en",ja:"世界選手権・ワールドカップ",cat:"L5",jaAlt:["オリンピック","ヨーロッパ選手権","地域大会"],alt:["die Olympischen Spiele","die Europameisterschaft","das Regionalturnier"]},
+  {de:"die Wettervorhersage, -n",ja:"天気予報",cat:"L5",jaAlt:["ニュース","天気","気候"],alt:["die Nachrichten","das Wetter","das Klima"]},
+  {de:"die Freude, -n",ja:"喜び・楽しみ",cat:"L5",jaAlt:["悲しみ","怒り","恐れ"],alt:["die Traurigkeit","die Wut","die Angst"]},
+  {de:"die Mannschaft, -en",ja:"チーム・チームメート",cat:"L5",jaAlt:["個人","グループ","クラブ"],alt:["die Einzelperson","die Gruppe","der Verein"]},
+  {de:"(sich) kümmern um",ja:"〜の世話をする・気にかける",cat:"L5",jaAlt:["〜を無視する","〜を避ける","〜を忘れる"],alt:["ignorieren","vermeiden","vergessen"]},
+  {de:"klar",ja:"明確な・はっきりした",cat:"L5",jaAlt:["不明確な","複雑な","わかりにくい"],alt:["unklar","kompliziert","unverständlich"]},
+  {de:"übertreiben",ja:"大げさに言う・やりすぎる",cat:"L5",jaAlt:["控えめにする","正確に言う","事実を伝える"],alt:["untertreiben","genau sagen","die Wahrheit sagen"]},
+  {de:"selbstverständlich",ja:"当然の・もちろん",cat:"L5",jaAlt:["異例の","驚くべき","わからない"],alt:["ungewöhnlich","erstaunlich","unklar"]},
+
+  // ===== Lektion 6: 学校・教育・職業訓練 =====
+  // p.203 - Foto-Hörgeschichte
+  {de:"das Zeugnis, -se",ja:"成績表・証明書",cat:"L6",jaAlt:["試験","宿題","授業"],alt:["die Prüfung","die Hausaufgabe","der Unterricht"]},
+  {de:"das Fach, -¨er",ja:"教科・科目",cat:"L6",jaAlt:["授業","試験","宿題"],alt:["der Unterricht","die Prüfung","die Hausaufgabe"]},
+  {de:"die Note, -n",ja:"成績・点数",cat:"L6",jaAlt:["試験","レポート","証明書"],alt:["die Prüfung","der Aufsatz","das Zeugnis"]},
+  {de:"die Geografie (Sg.)",ja:"地理",cat:"L6",jaAlt:["歴史","生物","化学"],alt:["die Geschichte","die Biologie","die Chemie"]},
+  {de:"die Sekundarschule, -n",ja:"中等学校",cat:"L6",jaAlt:["小学校","高校","大学"],alt:["die Grundschule","das Gymnasium","die Hochschule"]},
+  {de:"der Vortrag, -¨e",ja:"発表・講義",cat:"L6",jaAlt:["試験","レポート","宿題"],alt:["die Prüfung","der Aufsatz","die Hausaufgabe"]},
+  {de:"repetieren",ja:"繰り返す・復習する",cat:"L6",jaAlt:["忘れる","理解する","諦める"],alt:["vergessen","verstehen","aufgeben"]},
+  {de:"faul",ja:"怠慢な・怠け者の",cat:"L6",jaAlt:["勤勉な","賢い","真面目な"],alt:["fleissig","klug","ernsthaft"]},
+  {de:"schrecklich",ja:"ひどい・恐ろしい",cat:"L6",jaAlt:["素晴らしい","普通の","楽しい"],alt:["wunderbar","normal","schön"]},
+  {de:"fleissig",ja:"勤勉な・まじめな",cat:"L6",jaAlt:["怠慢な","不真面目な","粗雑な"],alt:["faul","unordentlich","nachlässig"]},
+  {de:"streiten",ja:"口論する・争う",cat:"L6",jaAlt:["仲直りする","協力する","同意する"],alt:["sich versöhnen","zusammenarbeiten","zustimmen"]},
+  {de:"dass",ja:"〜ということ（従属接続詞）",cat:"L6",jaAlt:["もし〜なら","〜かどうか","なぜなら"],alt:["wenn","ob","weil"]},
+  {de:"(sich) verbessern",ja:"改善する・進歩する",cat:"L6",jaAlt:["悪化する","諦める","失敗する"],alt:["sich verschlechtern","aufgeben","scheitern"]},
+  {de:"das Verhalten (Sg.)",ja:"行動・ふるまい",cat:"L6",jaAlt:["性格","才能","能力"],alt:["der Charakter","das Talent","die Fähigkeit"]},
+  {de:"streng",ja:"厳しい・厳格な",cat:"L6",jaAlt:["優しい","穏やかな","親切な"],alt:["sanft","mild","freundlich"]},
+  {de:"der Wunsch, -¨e",ja:"願い・希望",cat:"L6",jaAlt:["夢","目標","計画"],alt:["der Traum","das Ziel","der Plan"]},
+  {de:"der Plan, -¨e",ja:"計画・プラン",cat:"L6",jaAlt:["夢","希望","アイデア"],alt:["der Traum","der Wunsch","die Idee"]},
+  {de:"das Gymnasium, Gymnasien",ja:"ギムナジウム（大学進学高校）",cat:"L6",jaAlt:["職業学校","中等学校","専門学校"],alt:["die Berufsschule","die Sekundarschule","die Fachhochschule"]},
+  {de:"der Astronaut, -en / die Astronautin, -nen",ja:"宇宙飛行士",cat:"L6",jaAlt:["パイロット","医師","教師"],alt:["der Pilot","der Arzt","der Lehrer"]},
+  // p.204〜205 - B〜E
+  {de:"mittler-",ja:"中程度の・中位の",cat:"L6",jaAlt:["最高の","最低の","平均の"],alt:["höchst-","niedrigst-","durchschnittlich"]},
+  {de:"die Aktivität, -en",ja:"活動・活動性",cat:"L6",jaAlt:["休憩","受動性","怠慢"],alt:["die Pause","die Passivität","die Faulheit"]},
+  {de:"das System, -e",ja:"システム・制度",cat:"L6",jaAlt:["方法","規則","計画"],alt:["die Methode","die Regel","der Plan"]},
+  {de:"die Hochschule, -n",ja:"高等教育機関・大学",cat:"L6",jaAlt:["中学校","職業学校","専門学校"],alt:["die Sekundarschule","die Berufsschule","die Fachschule"]},
+  {de:"die Fachhochschule, -n",ja:"専門大学・応用科学大学",cat:"L6",jaAlt:["総合大学","ギムナジウム","職業学校"],alt:["die Universität","das Gymnasium","die Berufsschule"]},
+  {de:"die Matura (Sg.)",ja:"大学入学資格試験（スイス）",cat:"L6",jaAlt:["卒業証書","修了証","学士号"],alt:["das Abschlusszeugnis","das Zertifikat","der Bachelor"]},
+  {de:"die Berufsschule, -n",ja:"職業学校",cat:"L6",jaAlt:["総合大学","ギムナジウム","中学校"],alt:["die Universität","das Gymnasium","die Sekundarschule"]},
+  {de:"freiwillig",ja:"自発的な・任意の",cat:"L6",jaAlt:["強制的な","義務の","必須の"],alt:["zwanghaft","pflichtmässig","obligatorisch"]},
+  {de:"die Physik (Sg.)",ja:"物理学",cat:"L6",jaAlt:["化学","生物","数学"],alt:["die Chemie","die Biologie","die Mathematik"]},
+  {de:"die Hauswirtschaft (Sg.)",ja:"家庭科・家政学",cat:"L6",jaAlt:["体育","音楽","美術"],alt:["der Sport","die Musik","die Kunst"]},
+  {de:"die Biologie (Sg.)",ja:"生物学",cat:"L6",jaAlt:["物理","化学","数学"],alt:["die Physik","die Chemie","die Mathematik"]},
+  {de:"die Chemie (Sg.)",ja:"化学",cat:"L6",jaAlt:["物理","生物","数学"],alt:["die Physik","die Biologie","die Mathematik"]},
+  {de:"die Kunst (Sg.)",ja:"美術・芸術",cat:"L6",jaAlt:["音楽","体育","家庭科"],alt:["die Musik","der Sport","die Hauswirtschaft"]},
+  {de:"die Geschichte (Sg.)",ja:"歴史（教科）",cat:"L6",jaAlt:["地理","化学","物理"],alt:["die Geografie","die Chemie","die Physik"]},
+  {de:"hassen",ja:"嫌いである・憎む",cat:"L6",jaAlt:["愛する","好む","楽しむ"],alt:["lieben","mögen","genießen"]},
+  {de:"der Beginn (Sg.)",ja:"始まり・開始",cat:"L6",jaAlt:["終わり","中断","休憩"],alt:["das Ende","die Unterbrechung","die Pause"]},
+  {de:"die Theorie, -n",ja:"理論",cat:"L6",jaAlt:["実践","実習","応用"],alt:["die Praxis","die Übung","die Anwendung"]},
+  {de:"die Einführung, -en",ja:"入門・導入",cat:"L6",jaAlt:["終了","発展","まとめ"],alt:["der Abschluss","die Vertiefung","die Zusammenfassung"]},
+  {de:"speichern",ja:"保存する",cat:"L6",jaAlt:["削除する","開く","送る"],alt:["löschen","öffnen","schicken"]},
+  {de:"die Behörde, -n",ja:"官庁・当局",cat:"L6",jaAlt:["企業","組合","団体"],alt:["das Unternehmen","die Gewerkschaft","der Verein"]},
+  {de:"prüfen",ja:"確認する・審査する",cat:"L6",jaAlt:["承認する","無視する","拒否する"],alt:["genehmigen","ignorieren","ablehnen"]},
+  {de:"kompliziert",ja:"複雑な",cat:"L6",jaAlt:["簡単な","明確な","単純な"],alt:["einfach","klar","simpel"]},
+  {de:"der Bäcker, - / die Bäckerin, -nen",ja:"パン屋",cat:"L6",jaAlt:["肉屋","八百屋","薬剤師"],alt:["der Metzger","der Gemüsehändler","der Apotheker"]},
+  {de:"der Schauspieler, - / die Schauspielerin, -nen",ja:"俳優・女優",cat:"L6",jaAlt:["歌手","ダンサー","音楽家"],alt:["der Sänger","der Tänzer","der Musiker"]},
+  // p.205 - E（移民・就職）
+  {de:"der Migrant, -en / die Migrantin, -nen",ja:"移民・移住者",cat:"L6",jaAlt:["難民","観光客","外国人労働者"],alt:["der Flüchtling","der Tourist","der Gastarbeiter"]},
+  {de:"(sich) bewerben",ja:"応募する・志願する",cat:"L6",jaAlt:["採用する","断る","辞退する"],alt:["einstellen","ablehnen","zurückziehen"]},
+  {de:"präsentieren",ja:"発表する・提示する",cat:"L6",jaAlt:["非表示にする","隠す","削除する"],alt:["verbergen","verstecken","löschen"]},
+  {de:"der Experte, -n / die Expertin, -nen",ja:"専門家・エキスパート",cat:"L6",jaAlt:["初心者","素人","学生"],alt:["der Anfänger","der Laie","der Student"]},
+  {de:"die Vorbereitung, -en",ja:"準備",cat:"L6",jaAlt:["実施","終了","評価"],alt:["die Durchführung","der Abschluss","die Bewertung"]},
+  {de:"möglich",ja:"可能な",cat:"L6",jaAlt:["不可能な","難しい","複雑な"],alt:["unmöglich","schwierig","kompliziert"]},
+  {de:"die Beratung, -en",ja:"相談・カウンセリング",cat:"L6",jaAlt:["批判","命令","指示"],alt:["die Kritik","der Befehl","die Anweisung"]},
+  {de:"(sich) verletzen",ja:"怪我をする",cat:"L6",jaAlt:["治る","回復する","助ける"],alt:["heilen","sich erholen","helfen"]},
+  {de:"bluten",ja:"出血する",cat:"L6",jaAlt:["治癒する","腫れる","痛む"],alt:["heilen","schwellen","schmerzen"]},
+  {de:"der Tagesablauf, -¨e",ja:"一日の流れ・日課",cat:"L6",jaAlt:["週間スケジュール","月間計画","年間行事"],alt:["der Wochenplan","der Monatsplan","der Jahresplan"]},
+  {de:"der Arbeiter, - / die Arbeiterin, -nen",ja:"労働者・作業員",cat:"L6",jaAlt:["管理者","経営者","専門家"],alt:["der Manager","der Unternehmer","der Experte"]},
+  {de:"die Fabrik, -en",ja:"工場",cat:"L6",jaAlt:["事務所","店舗","倉庫"],alt:["das Büro","das Geschäft","das Lager"]},
+  {de:"das Studium (Sg.)",ja:"大学での勉強・学業",cat:"L6",jaAlt:["試験","卒業","入学"],alt:["die Prüfung","der Abschluss","die Immatrikulation"]},
+  {de:"der Test, -s",ja:"テスト・試験",cat:"L6",jaAlt:["宿題","発表","レポート"],alt:["die Hausaufgabe","der Vortrag","der Aufsatz"]},
+  {de:"bestehen",ja:"合格する・乗り越える",cat:"L6",jaAlt:["不合格になる","諦める","失敗する"],alt:["nicht bestehen","aufgeben","scheitern"]},
+  {de:"stolz",ja:"誇りに思う",cat:"L6",jaAlt:["恥ずかしい","謙虚な","残念な"],alt:["beschämt","bescheiden","enttäuscht"]},
+  {de:"elektrisch",ja:"電気の・電動の",cat:"L6",jaAlt:["手動の","機械式の","ガス式の"],alt:["manuell","mechanisch","gasbetrieben"]},
+  {de:"der Betrieb, -e",ja:"企業・職場・運転",cat:"L6",jaAlt:["工場","事務所","店舗"],alt:["die Fabrik","das Büro","das Geschäft"]},
+  {de:"die Technik (Sg.)",ja:"技術・テクノロジー",cat:"L6",jaAlt:["自然","文化","芸術"],alt:["die Natur","die Kultur","die Kunst"]},
+  {de:"der Kontakt, -e",ja:"連絡・接触",cat:"L6",jaAlt:["別れ","無視","孤立"],alt:["die Trennung","das Ignorieren","die Isolation"]},
+  {de:"an-erkennen",ja:"認める・承認する",cat:"L6",jaAlt:["否定する","拒否する","無視する"],alt:["ablehnen","verweigern","ignorieren"]},
+  {de:"die Musik (Sg.)",ja:"音楽",cat:"L6",jaAlt:["美術","体育","演劇"],alt:["die Kunst","der Sport","das Theater"]},
+  {de:"die Mathematik (Sg.)",ja:"数学",cat:"L6",jaAlt:["物理","化学","生物"],alt:["die Physik","die Chemie","die Biologie"]},
+
+  // ===== Lektion 7: お祝い・プレゼント・パーティー =====
+  // p.207 - Foto-Hörgeschichte
+  {de:"unbekannt",ja:"知らない・見知らぬ",cat:"L7",jaAlt:["有名な","知り合いの","有名人の"],alt:["bekannt","vertraut","berühmt"]},
+  {de:"(sich) vorbereiten",ja:"準備する",cat:"L7",jaAlt:["実施する","終了する","評価する"],alt:["durchführen","beenden","bewerten"]},
+  {de:"basteln",ja:"工作する・手作りする",cat:"L7",jaAlt:["壊す","捨てる","売る"],alt:["kaputt machen","wegwerfen","verkaufen"]},
+  {de:"entscheiden",ja:"決める・決断する",cat:"L7",jaAlt:["迷う","諦める","延期する"],alt:["zögern","aufgeben","verschieben"]},
+  {de:"schenken",ja:"プレゼントする・贈る",cat:"L7",jaAlt:["売る","借りる","奪う"],alt:["verkaufen","leihen","stehlen"]},
+  {de:"die Kette, -n",ja:"ネックレス・鎖",cat:"L7",jaAlt:["指輪","ブレスレット","イヤリング"],alt:["der Ring","das Armband","der Ohrring"]},
+  {de:"die Mütze, -n",ja:"帽子・ニット帽",cat:"L7",jaAlt:["スカーフ","手袋","マフラー"],alt:["das Tuch","die Handschuhe","der Schal"]},
+  {de:"raten",ja:"アドバイスする・当てる",cat:"L7",jaAlt:["命令する","尋ねる","批判する"],alt:["befehlen","fragen","kritisieren"]},
+  {de:"die Puppe, -n",ja:"人形",cat:"L7",jaAlt:["ぬいぐるみ","おもちゃ","ゲーム"],alt:["das Kuscheltier","das Spielzeug","das Spiel"]},
+  {de:"das Parfum, -s",ja:"香水",cat:"L7",jaAlt:["クリーム","シャンプー","石鹸"],alt:["die Creme","das Shampoo","die Seife"]},
+  {de:"die Creme, -s",ja:"クリーム",cat:"L7",jaAlt:["香水","シャンプー","石鹸"],alt:["das Parfum","das Shampoo","die Seife"]},
+  {de:"der Rucksack, -¨e",ja:"リュックサック",cat:"L7",jaAlt:["バッグ","スーツケース","財布"],alt:["die Tasche","der Koffer","das Portemonnaie"]},
+  {de:"der Grill, -s",ja:"グリル・バーベキュー台",cat:"L7",jaAlt:["オーブン","フライパン","鍋"],alt:["der Backofen","die Pfanne","der Topf"]},
+  {de:"die Nudel, -n",ja:"ヌードル・パスタ",cat:"L7",jaAlt:["米","パン","じゃがいも"],alt:["der Reis","das Brot","die Kartoffel"]},
+  {de:"liefern",ja:"配達する・届ける",cat:"L7",jaAlt:["受け取る","注文する","返す"],alt:["empfangen","bestellen","zurückgeben"]},
+  {de:"zuverlässig",ja:"信頼できる・確実な",cat:"L7",jaAlt:["不確かな","不誠実な","怠慢な"],alt:["unzuverlässig","unehrlich","faul"]},
+  {de:"Sonder-",ja:"特別〜（複合語前置要素）",cat:"L7",jaAlt:["通常〜","標準〜","一般〜"],alt:["Normal-","Standard-","Allgemein-"]},
+  {de:"nennen",ja:"〜と呼ぶ・名づける",cat:"L7",jaAlt:["忘れる","覚える","書く"],alt:["vergessen","sich erinnern","schreiben"]},
+  {de:"die Schachtel, -n",ja:"箱・小箱",cat:"L7",jaAlt:["袋","缶","瓶"],alt:["die Tüte","die Dose","die Flasche"]},
+  {de:"aus-drucken",ja:"印刷する",cat:"L7",jaAlt:["保存する","送る","削除する"],alt:["speichern","schicken","löschen"]},
+  // p.208 - C〜D
+  {de:"die Briefmarke, -n",ja:"切手",cat:"L7",jaAlt:["封筒","はがき","手紙"],alt:["der Umschlag","die Postkarte","der Brief"]},
+  {de:"die Leute (Pl.)",ja:"人々",cat:"L7",jaAlt:["グループ","仲間","家族"],alt:["die Gruppe","die Freunde","die Familie"]},
+  {de:"die Kirche, -n",ja:"教会",cat:"L7",jaAlt:["市役所","学校","病院"],alt:["das Rathaus","die Schule","das Krankenhaus"]},
+  {de:"die Trauung, -en",ja:"結婚式・挙式",cat:"L7",jaAlt:["誕生日パーティー","記念式","卒業式"],alt:["die Geburtstagsfeier","die Jubiläumsfeier","die Abschlussfeier"]},
+  {de:"die Stimmung (Sg.)",ja:"雰囲気・気分",cat:"L7",jaAlt:["沈黙","混乱","退屈"],alt:["die Stille","das Chaos","die Langeweile"]},
+  {de:"blöd",ja:"馬鹿げた・くだらない",cat:"L7",jaAlt:["賢い","面白い","すばらしい"],alt:["klug","interessant","toll"]},
+  {de:"wunderschön",ja:"とても美しい・すばらしい",cat:"L7",jaAlt:["ひどい","普通の","地味な"],alt:["schrecklich","normal","schlicht"]},
+  {de:"weinen",ja:"泣く",cat:"L7",jaAlt:["笑う","怒る","叫ぶ"],alt:["lachen","sich ärgern","schreien"]},
+  {de:"typisch",ja:"典型的な・らしい",cat:"L7",jaAlt:["異例の","珍しい","異常な"],alt:["untypisch","ungewöhnlich","abnormal"]},
+  {de:"die Torte, -n",ja:"ケーキ・タルト",cat:"L7",jaAlt:["クッキー","パン","チョコレート"],alt:["der Keks","das Brot","die Schokolade"]},
+  {de:"übrigens",ja:"ところで・ちなみに",cat:"L7",jaAlt:["だから","しかし","つまり"],alt:["deshalb","aber","nämlich"]},
+  {de:"besonders",ja:"特に・特別に",cat:"L7",jaAlt:["普通に","一般的に","たまに"],alt:["normal","allgemein","manchmal"]},
+  {de:"treten",ja:"踏む・蹴る",cat:"L7",jaAlt:["掴む","押す","引く"],alt:["greifen","drücken","ziehen"]},
+  {de:"wohl",ja:"おそらく・たぶん（推測）",cat:"L7",jaAlt:["確かに","絶対に","決して"],alt:["sicher","absolut","nie"]},
+  {de:"nervös",ja:"緊張した・神経質な",cat:"L7",jaAlt:["落ち着いた","リラックスした","穏やかな"],alt:["ruhig","entspannt","gelassen"]},
+  {de:"wenigstens",ja:"少なくとも・せめて",cat:"L7",jaAlt:["多くとも","たぶん","決して"],alt:["höchstens","vielleicht","nie"]},
+  {de:"wach",ja:"目が覚めている・覚醒した",cat:"L7",jaAlt:["眠い","疲れた","退屈な"],alt:["schläfrig","müde","gelangweilt"]},
+  {de:"wild",ja:"野生の・激しい",cat:"L7",jaAlt:["穏やかな","静かな","飼い慣らされた"],alt:["ruhig","still","zahm"]},
+  {de:"tragen",ja:"運ぶ・着る・持つ",cat:"L7",jaAlt:["置く","落とす","捨てる"],alt:["stellen","fallen lassen","wegwerfen"]},
+  {de:"aus-geben",ja:"支出する・使う（お金）",cat:"L7",jaAlt:["貯める","受け取る","稼ぐ"],alt:["sparen","bekommen","verdienen"]},
+  {de:"persönlich",ja:"個人的な・直接の",cat:"L7",jaAlt:["一般的な","公式の","非個人的な"],alt:["allgemein","offiziell","unpersönlich"]},
+  {de:"das Herz, -en",ja:"心臓・ハート",cat:"L7",jaAlt:["脳","肺","胃"],alt:["das Gehirn","die Lunge","der Magen"]},
+  {de:"die Heimat (Sg.)",ja:"故郷・ふるさと",cat:"L7",jaAlt:["外国","旅先","新天地"],alt:["das Ausland","das Reiseziel","das neue Land"]},
+  // p.209 - E
+  {de:"per",ja:"〜で・〜を通じて",cat:"L7",jaAlt:["〜なしで","〜の前に","〜の後で"],alt:["ohne","vor","nach"]},
+  {de:"(sich) unterhalten",ja:"楽しむ・会話する",cat:"L7",jaAlt:["退屈する","黙る","去る"],alt:["sich langweilen","schweigen","weggehen"]},
+  {de:"dekorieren",ja:"飾る・装飾する",cat:"L7",jaAlt:["片付ける","壊す","汚す"],alt:["aufräumen","kaputt machen","beschmutzen"]},
+  {de:"die Unterhaltung, -en",ja:"娯楽・会話",cat:"L7",jaAlt:["仕事","退屈","沈黙"],alt:["die Arbeit","die Langeweile","die Stille"]},
+  {de:"überzeugen",ja:"説得する・納得させる",cat:"L7",jaAlt:["疑わせる","混乱させる","怒らせる"],alt:["zweifeln lassen","verwirren","ärgern"]},
+  {de:"die Schokolade, -n",ja:"チョコレート",cat:"L7",jaAlt:["キャンディ","ケーキ","クッキー"],alt:["das Bonbon","die Torte","der Keks"]},
+  {de:"das Praline, -s",ja:"プラリネ・チョコレート菓子",cat:"L7",jaAlt:["キャンディ","ケーキ","クッキー"],alt:["das Bonbon","die Torte","der Keks"]},
+  {de:"das Kochbuch, -¨er",ja:"料理本",cat:"L7",jaAlt:["小説","詩集","辞書"],alt:["der Roman","der Gedichtband","das Wörterbuch"]},
+
+  // ===== Lektion 8: 週末・文化・余暇 =====
+  // p.180 - Foto-Hörgeschichte（Am Wochenende）
+  {de:"das Holz, -¨er",ja:"木材・木",cat:"L8",jaAlt:["金属","プラスチック","石"],alt:["das Metall","der Kunststoff","der Stein"]},
+  {de:"der Hammer, -¨",ja:"ハンマー",cat:"L8",jaAlt:["ネジ回し","のこぎり","釘"],alt:["der Schraubenzieher","die Säge","der Nagel"]},
+  {de:"das Werkzeug, -e",ja:"工具・道具",cat:"L8",jaAlt:["おもちゃ","機械","材料"],alt:["das Spielzeug","die Maschine","das Material"]},
+  {de:"mit-spielen",ja:"一緒に遊ぶ・参加する",cat:"L8",jaAlt:["一人でする","見る","止める"],alt:["alleine machen","zuschauen","aufhören"]},
+  {de:"die Disco, -s / die Discothek, -en",ja:"ディスコ・クラブ",cat:"L8",jaAlt:["バー","映画館","劇場"],alt:["die Bar","das Kino","das Theater"]},
+  {de:"fremd",ja:"外国の・見知らぬ",cat:"L8",jaAlt:["地元の","知り合いの","国内の"],alt:["einheimisch","bekannt","inländisch"]},
+  {de:"aus-gehen",ja:"外出する",cat:"L8",jaAlt:["家にいる","戻る","眠る"],alt:["zu Hause bleiben","zurückkommen","schlafen"]},
+  {de:"verbringen",ja:"（時間を）過ごす",cat:"L8",jaAlt:["無駄にする","急ぐ","節約する"],alt:["verschwenden","sich beeilen","sparen"]},
+  {de:"genug",ja:"十分な・十分に",cat:"L8",jaAlt:["足りない","多すぎる","少なすぎる"],alt:["zu wenig","zu viel","kaum"]},
+  {de:"die Wäsche (Sg.)",ja:"洗濯物",cat:"L8",jaAlt:["掃除","料理","買い物"],alt:["das Putzen","das Kochen","das Einkaufen"]},
+  {de:"unternehmen",ja:"行う・（旅行や計画を）する",cat:"L8",jaAlt:["諦める","延期する","キャンセルする"],alt:["aufgeben","verschieben","absagen"]},
+  {de:"das Ding, -e",ja:"もの・こと",cat:"L8",jaAlt:["人","場所","出来事"],alt:["die Person","der Ort","das Ereignis"]},
+  {de:"das Meer, -e",ja:"海",cat:"L8",jaAlt:["山","湖","川"],alt:["der Berg","der See","der Fluss"]},
+  {de:"trotzdem",ja:"それにもかかわらず",cat:"L8",jaAlt:["だから","しかし","なぜなら"],alt:["deshalb","aber","weil"]},
+  {de:"die Velotour, -en",ja:"サイクリング旅行",cat:"L8",jaAlt:["ハイキング","ドライブ","散歩"],alt:["die Wanderung","die Autofahrt","der Spaziergang"]},
+  {de:"erkältet sein",ja:"風邪をひいている",cat:"L8",jaAlt:["熱がある","疲れている","怪我をしている"],alt:["Fieber haben","müde sein","verletzt sein"]},
+  {de:"ständig",ja:"絶えず・しょっちゅう",cat:"L8",jaAlt:["たまに","めったに","一度だけ"],alt:["manchmal","selten","einmal"]},
+  // p.181〜182
+  {de:"der Vorschlag, -¨e",ja:"提案",cat:"L8",jaAlt:["命令","批判","質問"],alt:["der Befehl","die Kritik","die Frage"]},
+  {de:"die Rundfahrt, -en",ja:"周遊・ツアー",cat:"L8",jaAlt:["片道旅行","帰り旅","遠足"],alt:["die Einzelfahrt","die Rückreise","der Ausflug"]},
+  {de:"einverstanden",ja:"同意した・賛成した",cat:"L8",jaAlt:["反対した","迷っている","怒っている"],alt:["dagegen","unentschlossen","wütend"]},
+  {de:"positiv",ja:"肯定的な・前向きな",cat:"L8",jaAlt:["否定的な","中立の","消極的な"],alt:["negativ","neutral","passiv"]},
+  {de:"reagieren",ja:"反応する",cat:"L8",jaAlt:["行動する","無視する","考える"],alt:["handeln","ignorieren","nachdenken"]},
+  {de:"negativ",ja:"否定的な・マイナスの",cat:"L8",jaAlt:["肯定的な","中立の","積極的な"],alt:["positiv","neutral","aktiv"]},
+  {de:"die Bar, -s",ja:"バー",cat:"L8",jaAlt:["ディスコ","カフェ","レストラン"],alt:["die Disco","das Café","das Restaurant"]},
+  {de:"die Kultur (Sg.)",ja:"文化",cat:"L8",jaAlt:["自然","技術","スポーツ"],alt:["die Natur","die Technik","der Sport"]},
+  {de:"die Oper, -n",ja:"オペラ・オペラ劇場",cat:"L8",jaAlt:["劇場","映画館","コンサートホール"],alt:["das Theater","das Kino","die Konzerthalle"]},
+  {de:"das Konzert, -e",ja:"コンサート",cat:"L8",jaAlt:["演劇","映画","展覧会"],alt:["das Theaterstück","der Film","die Ausstellung"]},
+  {de:"das Schwimmbad, -¨er",ja:"プール・水泳場",cat:"L8",jaAlt:["スポーツホール","体育館","スタジアム"],alt:["die Sporthalle","die Turnhalle","das Stadion"]},
+  {de:"staubsaugen",ja:"掃除機をかける",cat:"L8",jaAlt:["床を拭く","整理する","洗う"],alt:["wischen","aufräumen","waschen"]},
+  {de:"der Treffpunkt, -e",ja:"待ち合わせ場所・集合場所",cat:"L8",jaAlt:["出発点","目的地","終点"],alt:["der Ausgangspunkt","das Ziel","die Endstation"]},
+  {de:"das Rathaus, -¨er",ja:"市役所",cat:"L8",jaAlt:["学校","教会","病院"],alt:["die Schule","die Kirche","das Krankenhaus"]},
+  {de:"die Teilnahme (Sg.)",ja:"参加",cat:"L8",jaAlt:["欠席","退場","排除"],alt:["die Abwesenheit","der Austritt","der Ausschluss"]},
+  {de:"kostenlos",ja:"無料の",cat:"L8",jaAlt:["有料の","高価な","割引の"],alt:["kostenpflichtig","teuer","vergünstigt"]},
+  {de:"auf-treten",ja:"登場する・演じる",cat:"L8",jaAlt:["退場する","引退する","隠れる"],alt:["abtreten","zurücktreten","sich verstecken"]},
+  {de:"der Jazz (Sg.)",ja:"ジャズ",cat:"L8",jaAlt:["クラシック","ロック","ポップ"],alt:["die Klassik","der Rock","der Pop"]},
+  {de:"offen",ja:"開いている・開放的な",cat:"L8",jaAlt:["閉まっている","閉鎖的な","私的な"],alt:["geschlossen","verschlossen","privat"]},
+  {de:"die Volkshochschule, -n",ja:"市民大学・成人学校",cat:"L8",jaAlt:["専門大学","総合大学","職業学校"],alt:["die Fachhochschule","die Universität","die Berufsschule"]},
+  {de:"die Politik (Sg.)",ja:"政治",cat:"L8",jaAlt:["経済","文化","スポーツ"],alt:["die Wirtschaft","die Kultur","der Sport"]},
+  {de:"die Fotografie (Sg.)",ja:"写真（撮影）",cat:"L8",jaAlt:["絵画","彫刻","映像"],alt:["die Malerei","die Bildhauerei","der Film"]},
+  {de:"erforderlich",ja:"必要な・必須の",cat:"L8",jaAlt:["任意の","不要な","オプションの"],alt:["freiwillig","unnötig","optional"]},
+  {de:"das Semester, -",ja:"学期",cat:"L8",jaAlt:["年度","週","月"],alt:["das Schuljahr","die Woche","der Monat"]},
+  {de:"die Wanderung, -en",ja:"ハイキング",cat:"L8",jaAlt:["サイクリング","水泳","ジョギング"],alt:["das Radfahren","das Schwimmen","das Joggen"]},
+  {de:"überall",ja:"どこでも・至る所に",cat:"L8",jaAlt:["どこにも〜ない","ここだけ","そこだけ"],alt:["nirgendwo","nur hier","nur dort"]},
+  {de:"das Programm, -e",ja:"プログラム・番組",cat:"L8",jaAlt:["計画","目標","スケジュール"],alt:["der Plan","das Ziel","der Terminkalender"]},
+  {de:"der Fan, -s",ja:"ファン",cat:"L8",jaAlt:["批評家","ライバル","観客"],alt:["der Kritiker","der Rivale","der Zuschauer"]},
+  {de:"der Künstler, - / die Künstlerin, -nen",ja:"芸術家",cat:"L8",jaAlt:["科学者","政治家","ビジネスマン"],alt:["der Wissenschaftler","der Politiker","der Geschäftsmann"]},
+  {de:"Europa (Sg.)",ja:"ヨーロッパ",cat:"L8",jaAlt:["アジア","アフリカ","アメリカ"],alt:["Asien","Afrika","Amerika"]},
+  {de:"das Spielzeug, -e",ja:"おもちゃ",cat:"L8",jaAlt:["工具","家具","食器"],alt:["das Werkzeug","die Möbel","das Geschirr"]},
+  {de:"die CD, -s",ja:"CD",cat:"L8",jaAlt:["DVD","本","雑誌"],alt:["die DVD","das Buch","die Zeitschrift"]},
+  {de:"der Eintritt, -e",ja:"入場・入場料",cat:"L8",jaAlt:["出口","退場","割引"],alt:["der Ausgang","der Austritt","die Ermässigung"]},
+  {de:"wochentags",ja:"平日に",cat:"L8",jaAlt:["週末に","毎日","休日に"],alt:["am Wochenende","täglich","an Feiertagen"]},
+
+  // ===== Lektion 9: 持ち物・素材・思い出 =====
+  // p.183 - Foto-Hörgeschichte / A〜B
+  {de:"ein-richten",ja:"（部屋を）整える・設置する",cat:"L9",jaAlt:["片付ける","壊す","移動する"],alt:["aufräumen","kaputt machen","umziehen"]},
+  {de:"das Plastik (Sg.)",ja:"プラスチック",cat:"L9",jaAlt:["金属","木材","ガラス"],alt:["das Metall","das Holz","das Glas"]},
+  {de:"das Poster, -",ja:"ポスター",cat:"L9",jaAlt:["絵画","写真","カレンダー"],alt:["das Gemälde","das Foto","der Kalender"]},
+  {de:"die Kerze, -n",ja:"ろうそく",cat:"L9",jaAlt:["ランプ","懐中電灯","電球"],alt:["die Lampe","die Taschenlampe","die Glühbirne"]},
+  {de:"farbig",ja:"カラフルな・色のついた",cat:"L9",jaAlt:["白黒の","透明な","地味な"],alt:["schwarz-weiß","transparent","schlicht"]},
+  {de:"das Feuerzeug, -e",ja:"ライター",cat:"L9",jaAlt:["マッチ","ろうそく","灰皿"],alt:["das Streichholz","die Kerze","der Aschenbecher"]},
+  {de:"die Kamera, -s",ja:"カメラ",cat:"L9",jaAlt:["ビデオカメラ","スマートフォン","望遠鏡"],alt:["die Videokamera","das Smartphone","das Fernrohr"]},
+  {de:"der Bikini, -s",ja:"ビキニ",cat:"L9",jaAlt:["水着","ドレス","スカート"],alt:["der Badeanzug","das Kleid","der Rock"]},
+  // p.184 - C〜D3
+  {de:"der Hut, -¨e",ja:"帽子",cat:"L9",jaAlt:["ニット帽","スカーフ","手袋"],alt:["die Mütze","das Tuch","die Handschuhe"]},
+  {de:"die Liebe (Sg.)",ja:"愛・恋愛",cat:"L9",jaAlt:["友情","憎しみ","孤独"],alt:["die Freundschaft","der Hass","die Einsamkeit"]},
+  {de:"der Roman, -e",ja:"小説",cat:"L9",jaAlt:["詩集","雑誌","漫画"],alt:["der Gedichtband","die Zeitschrift","der Comic"]},
+  {de:"spannend",ja:"わくわくする・面白い",cat:"L9",jaAlt:["退屈な","つまらない","簡単な"],alt:["langweilig","öde","leicht"]},
+  {de:"als",ja:"〜として・〜のとき（過去）",cat:"L9",jaAlt:["〜のように","〜より","〜もし"],alt:["wie","als（比較）","wenn"]},
+  {de:"das Fussballstadion, -stadien",ja:"サッカースタジアム",cat:"L9",jaAlt:["アリーナ","体育館","競技場"],alt:["die Arena","die Sporthalle","das Sportstadion"]},
+  {de:"der PC, -s",ja:"パソコン",cat:"L9",jaAlt:["タブレット","スマートフォン","プリンター"],alt:["das Tablet","das Smartphone","der Drucker"]},
+  {de:"der Pudding, -s",ja:"プリン・プディング",cat:"L9",jaAlt:["ケーキ","アイスクリーム","チョコレート"],alt:["der Kuchen","das Eis","die Schokolade"]},
+  {de:"das Schaufenster, -",ja:"ショーウィンドウ",cat:"L9",jaAlt:["入口","出口","看板"],alt:["der Eingang","der Ausgang","das Schild"]},
+  {de:"vor-schlagen",ja:"提案する",cat:"L9",jaAlt:["断る","要求する","命令する"],alt:["ablehnen","verlangen","befehlen"]},
+  {de:"entfernt",ja:"離れた・遠い",cat:"L9",jaAlt:["近い","隣の","同じ"],alt:["nah","benachbart","gleich"]},
+  {de:"die Statistik, -en",ja:"統計",cat:"L9",jaAlt:["グラフ","表","調査"],alt:["das Diagramm","die Tabelle","die Umfrage"]},
+  {de:"das Nahrungsmittel, -",ja:"食品・食料品",cat:"L9",jaAlt:["飲み物","お菓子","調味料"],alt:["das Getränk","die Süssigkeit","das Gewürz"]},
+  {de:"der Transport (Sg.)",ja:"輸送・交通",cat:"L9",jaAlt:["通信","流通","観光"],alt:["die Kommunikation","der Handel","der Tourismus"]},
+  {de:"die Steuer, -n",ja:"税金",cat:"L9",jaAlt:["罰金","手数料","保険料"],alt:["die Busse","die Gebühr","die Versicherung"]},
+  {de:"der Kredit, -e",ja:"クレジット・ローン",cat:"L9",jaAlt:["現金","貯金","給料"],alt:["das Bargeld","die Ersparnisse","das Gehalt"]},
+  {de:"auf-nehmen",ja:"受け取る・取り上げる・録音する",cat:"L9",jaAlt:["放す","捨てる","送る"],alt:["loslassen","wegwerfen","schicken"]},
+  {de:"sparen",ja:"貯める・節約する",cat:"L9",jaAlt:["使う","浪費する","借りる"],alt:["ausgeben","verschwenden","leihen"]},
+  // p.185 - E3・Sachen und Materialien
+  {de:"die Erinnerung, -en",ja:"思い出・記憶",cat:"L9",jaAlt:["忘却","未来","計画"],alt:["das Vergessen","die Zukunft","der Plan"]},
+  {de:"der Gedanke, -n",ja:"考え・思い",cat:"L9",jaAlt:["感情","行動","言葉"],alt:["das Gefühl","die Handlung","das Wort"]},
+  {de:"wertvoll",ja:"価値のある・貴重な",cat:"L9",jaAlt:["価値のない","安い","無意味な"],alt:["wertlos","billig","bedeutungslos"]},
+  {de:"damals",ja:"当時・あの頃",cat:"L9",jaAlt:["今","将来","最近"],alt:["jetzt","in der Zukunft","neulich"]},
+  {de:"deshalb",ja:"だから・それゆえに",cat:"L9",jaAlt:["しかし","それにもかかわらず","なぜなら"],alt:["aber","trotzdem","weil"]},
+  {de:"drin",ja:"（中に）入っている",cat:"L9",jaAlt:["外に","上に","下に"],alt:["draussen","oben","unten"]},
+  {de:"das Besteck, -e",ja:"カトラリー・食器セット",cat:"L9",jaAlt:["皿","コップ","鍋"],alt:["der Teller","das Glas","der Topf"]},
+  {de:"das Metall, -e",ja:"金属",cat:"L9",jaAlt:["プラスチック","木材","ガラス"],alt:["das Plastik","das Holz","das Glas"]},
+  {de:"die (Salat-)Schüssel, -n",ja:"（サラダ）ボウル",cat:"L9",jaAlt:["皿","コップ","カップ"],alt:["der Teller","das Glas","die Tasse"]},
+  {de:"das Eintrittsticket, -s",ja:"入場券",cat:"L9",jaAlt:["乗車券","映画のチケット","領収書"],alt:["die Fahrkarte","die Kinokarte","die Quittung"]},
+  {de:"das Papier, -e",ja:"紙",cat:"L9",jaAlt:["カード","プラスチック","金属"],alt:["die Karte","das Plastik","das Metall"]},
+  {de:"der Stoff, -e",ja:"布・生地",cat:"L9",jaAlt:["糸","ボタン","ファスナー"],alt:["der Faden","der Knopf","der Reissverschluss"]},
+  {de:"die Platte, -n",ja:"板・プレート・レコード盤",cat:"L9",jaAlt:["棚","箱","袋"],alt:["das Regal","die Schachtel","die Tüte"]},
+  {de:"die Höhe, -n",ja:"高さ・高度",cat:"L9",jaAlt:["幅","深さ","長さ"],alt:["die Breite","die Tiefe","die Länge"]},
+  {de:"der Zustand, -¨e",ja:"状態・状況",cat:"L9",jaAlt:["変化","修理","破損"],alt:["die Veränderung","die Reparatur","der Schaden"]},
+  {de:"dick",ja:"太い・厚い",cat:"L9",jaAlt:["薄い","細い","平たい"],alt:["dünn","schmal","flach"]},
+  {de:"praktisch",ja:"実用的な・便利な",cat:"L9",jaAlt:["装飾的な","不便な","複雑な"],alt:["dekorativ","unpraktisch","kompliziert"]},
+  {de:"die Qualität, -en",ja:"品質・質",cat:"L9",jaAlt:["量","価格","デザイン"],alt:["die Menge","der Preis","das Design"]},
+  {de:"die Lampe, -n",ja:"ランプ・照明",cat:"L9",jaAlt:["電球","ろうそく","懐中電灯"],alt:["die Glühbirne","die Kerze","die Taschenlampe"]},
+  {de:"das Glas, -¨er",ja:"ガラス・グラス",cat:"L9",jaAlt:["金属","プラスチック","木材"],alt:["das Metall","das Plastik","das Holz"]},
+  {de:"die Münze, -n",ja:"硬貨・コイン",cat:"L9",jaAlt:["紙幣","クレジットカード","小切手"],alt:["der Schein","die Kreditkarte","der Scheck"]},
+  {de:"der Bär, -en",ja:"クマ",cat:"L9",jaAlt:["ライオン","オオカミ","キツネ"],alt:["der Löwe","der Wolf","der Fuchs"]},
+  {de:"die Ente, -n",ja:"アヒル",cat:"L9",jaAlt:["ガチョウ","鳥","鶏"],alt:["die Gans","der Vogel","das Huhn"]},
+  {de:"das Souvenir, -s",ja:"お土産・記念品",cat:"L9",jaAlt:["プレゼント","お菓子","工芸品"],alt:["das Geschenk","die Süssigkeit","das Kunstwerk"]},
+  {de:"das Tier, -e",ja:"動物",cat:"L9",jaAlt:["植物","昆虫","魚"],alt:["die Pflanze","das Insekt","der Fisch"]},
+  {de:"der Vogel, -¨",ja:"鳥",cat:"L9",jaAlt:["魚","昆虫","爬虫類"],alt:["der Fisch","das Insekt","das Reptil"]},
+  {de:"un-",ja:"〜でない（否定前置辞）",cat:"L9",jaAlt:["〜すぎる","〜できる","〜された"],alt:["zu-","können","werden"]},
+
+  // ===== Lektion 10: 郵便・コミュニケーション・コレクション =====
+  // p.186〜187
+  {de:"die Fantasie, -n",ja:"ファンタジー・想像力",cat:"L10",jaAlt:["現実","事実","理論"],alt:["die Realität","die Tatsache","die Theorie"]},
+  {de:"reif",ja:"熟した・成熟した",cat:"L10",jaAlt:["未熟な","新鮮な","古い"],alt:["unreif","frisch","alt"]},
+  {de:"weich",ja:"柔らかい",cat:"L10",jaAlt:["硬い","固い","厚い"],alt:["hart","fest","dick"]},
+  {de:"was für ein",ja:"どんな種類の",cat:"L10",jaAlt:["いくつの","どのくらいの","誰の"],alt:["wie viele","wie viel","wessen"]},
+  {de:"denn",ja:"というのも・だって（語気詞）",cat:"L10",jaAlt:["しかし","だから","もし"],alt:["aber","deshalb","wenn"]},
+  {de:"das Einschreiben, -",ja:"書留郵便",cat:"L10",jaAlt:["普通郵便","小包","速達"],alt:["der Brief","das Paket","die Expresssendung"]},
+  {de:"das Päckchen, -",ja:"小さな小包",cat:"L10",jaAlt:["大きな小包","封筒","はがき"],alt:["das Paket","der Umschlag","die Postkarte"]},
+  {de:"wert",ja:"価値がある・〜の価値",cat:"L10",jaAlt:["価値がない","安い","無意味な"],alt:["wertlos","billig","bedeutungslos"]},
+  {de:"der Zoll, -¨e",ja:"関税・税関",cat:"L10",jaAlt:["郵便局","税務署","銀行"],alt:["die Post","das Finanzamt","die Bank"]},
+  {de:"die Sorge, -n",ja:"心配・悩み",cat:"L10",jaAlt:["喜び","安心","期待"],alt:["die Freude","die Erleichterung","die Erwartung"]},
+  {de:"kaputt-gehen",ja:"壊れる",cat:"L10",jaAlt:["直る","新しくなる","改善する"],alt:["sich reparieren","neu werden","sich verbessern"]},
+  {de:"die Eisenbahn, -en",ja:"鉄道",cat:"L10",jaAlt:["バス","飛行機","船"],alt:["der Bus","das Flugzeug","das Schiff"]},
+  {de:"das Blatt, -¨er",ja:"葉っぱ・紙一枚",cat:"L10",jaAlt:["花","木","根"],alt:["die Blume","der Baum","die Wurzel"]},
+  {de:"das Blatt, -¨er",ja:"（紙の）一枚・葉",cat:"L10",jaAlt:["本","雑誌","ノート"],alt:["das Buch","die Zeitschrift","das Heft"]},
+  {de:"der Bär, -en",ja:"クマのぬいぐるみ・クマ",cat:"L10",jaAlt:["ライオン","トラ","象"],alt:["der Löwe","der Tiger","der Elefant"]},
+  {de:"die Münze, -n",ja:"コイン・硬貨",cat:"L10",jaAlt:["紙幣","金塊","宝石"],alt:["der Schein","der Goldbarren","das Juwel"]},
+  {de:"das Souvenir, -s",ja:"記念品・お土産",cat:"L10",jaAlt:["贈り物","賞品","商品"],alt:["das Geschenk","der Preis","die Ware"]},
+  {de:"das Tier, -e",ja:"動物",cat:"L10",jaAlt:["植物","人間","機械"],alt:["die Pflanze","der Mensch","die Maschine"]},
+  {de:"der Vogel, -¨",ja:"鳥",cat:"L10",jaAlt:["魚","犬","猫"],alt:["der Fisch","der Hund","die Katze"]},
+  // p.188 - C3〜E2
+  {de:"spannend",ja:"面白い・スリリングな",cat:"L10",jaAlt:["退屈な","簡単な","平凡な"],alt:["langweilig","leicht","gewöhnlich"]},
+  {de:"der Punkt, -e",ja:"点・ポイント",cat:"L10",jaAlt:["線","面","角"],alt:["die Linie","die Fläche","der Winkel"]},
+  {de:"der Elefant, -en",ja:"ゾウ",cat:"L10",jaAlt:["キリン","サイ","カバ"],alt:["die Giraffe","das Nashorn","das Nilpferd"]},
+  {de:"die Rose, -n",ja:"バラ",cat:"L10",jaAlt:["チューリップ","ひまわり","桜"],alt:["die Tulpe","die Sonnenblume","die Kirschblüte"]},
+  {de:"der Stern, -e",ja:"星",cat:"L10",jaAlt:["月","太陽","惑星"],alt:["der Mond","die Sonne","der Planet"]},
+  {de:"der Himmel, -",ja:"空・天国",cat:"L10",jaAlt:["地面","海","山"],alt:["der Boden","das Meer","der Berg"]},
+  {de:"orange",ja:"オレンジ色の",cat:"L10",jaAlt:["緑色の","紫色の","茶色の"],alt:["grün","violett","braun"]},
+  {de:"das Netzwerk, -e",ja:"ネットワーク",cat:"L10",jaAlt:["システム","プラットフォーム","フォーラム"],alt:["das System","die Plattform","das Forum"]},
+  {de:"testen",ja:"テストする・試す",cat:"L10",jaAlt:["修理する","購入する","設置する"],alt:["reparieren","kaufen","installieren"]},
+  {de:"das Wissen (Sg.)",ja:"知識",cat:"L10",jaAlt:["無知","才能","技術"],alt:["die Unwissenheit","das Talent","die Technik"]},
+  {de:"das Quiz, -",ja:"クイズ",cat:"L10",jaAlt:["試験","テスト","ゲーム"],alt:["die Prüfung","der Test","das Spiel"]},
+  {de:"das Mobiltelefon, -e",ja:"携帯電話",cat:"L10",jaAlt:["固定電話","スマートフォン","タブレット"],alt:["das Festnetztelefon","das Smartphone","das Tablet"]},
+  {de:"das Mail, -s",ja:"メール",cat:"L10",jaAlt:["手紙","はがき","ファックス"],alt:["der Brief","die Postkarte","das Fax"]},
+  {de:"weltweit",ja:"世界規模で・全世界の",cat:"L10",jaAlt:["地域的に","国内で","ヨーロッパで"],alt:["regional","im Inland","in Europa"]},
+  {de:"die Mailbox, -en",ja:"メールボックス・留守電",cat:"L10",jaAlt:["電話","メール","チャット"],alt:["das Telefon","das Mail","der Chat"]},
+  {de:"verschieben",ja:"延期する・移動する",cat:"L10",jaAlt:["取り消す","確認する","早める"],alt:["absagen","bestätigen","vorziehen"]},
+  {de:"der Erfolg, -e",ja:"成功",cat:"L10",jaAlt:["失敗","挫折","問題"],alt:["der Misserfolg","das Scheitern","das Problem"]},
+  {de:"(sich) melden",ja:"連絡する・返事する",cat:"L10",jaAlt:["黙る","無視する","断る"],alt:["schweigen","ignorieren","ablehnen"]},
+  // p.189 - Kommunikation
+  {de:"der Briefkasten, -¨",ja:"郵便受け・ポスト",cat:"L10",jaAlt:["ドア","窓","壁"],alt:["die Tür","das Fenster","die Wand"]},
+  {de:"das Paket, -e",ja:"小包・パッケージ",cat:"L10",jaAlt:["封筒","はがき","手紙"],alt:["der Umschlag","die Postkarte","der Brief"]},
+  {de:"das E-Mail, -s",ja:"Eメール",cat:"L10",jaAlt:["手紙","チャット","はがき"],alt:["der Brief","der Chat","die Postkarte"]},
+  {de:"das Mobiltelefon, -e / das Handy, -s",ja:"携帯電話・スマートフォン",cat:"L10",jaAlt:["固定電話","タブレット","パソコン"],alt:["das Festnetztelefon","das Tablet","der PC"]},
+  {de:"der Chat, -s",ja:"チャット",cat:"L10",jaAlt:["メール","手紙","電話"],alt:["das Mail","der Brief","das Telefon"]},
+  {de:"die Postkarte, -n",ja:"はがき",cat:"L10",jaAlt:["手紙","封筒","小包"],alt:["der Brief","der Umschlag","das Päckchen"]},
+  {de:"allgemein",ja:"一般的な",cat:"L10",jaAlt:["特殊な","個人的な","専門的な"],alt:["speziell","persönlich","fachlich"]},
+  {de:"die Grippe (Sg.)",ja:"インフルエンザ",cat:"L10",jaAlt:["風邪","発熱","咳"],alt:["die Erkältung","das Fieber","der Husten"]},
+  {de:"die Impfung, -en",ja:"予防接種",cat:"L10",jaAlt:["投薬","手術","診断"],alt:["die Medikamentengabe","die Operation","die Diagnose"]},
+  {de:"das Konsulat, -e",ja:"領事館",cat:"L10",jaAlt:["大使館","市役所","警察署"],alt:["die Botschaft","das Rathaus","die Polizei"]},
+  {de:"der Elternbeirat, -¨e",ja:"保護者会",cat:"L10",jaAlt:["学校","クラス","教師会"],alt:["die Schule","die Klasse","die Lehrerkonferenz"]},
+  {de:"der Zoo, -s",ja:"動物園",cat:"L10",jaAlt:["水族館","植物園","博物館"],alt:["das Aquarium","der Botanische Garten","das Museum"]},
+  {de:"der Tiger, -",ja:"トラ",cat:"L10",jaAlt:["ライオン","豹","チーター"],alt:["der Löwe","der Leopard","der Gepard"]},
+  {de:"das Zebra, -s",ja:"シマウマ",cat:"L10",jaAlt:["馬","ロバ","キリン"],alt:["das Pferd","der Esel","die Giraffe"]},
+
+  // ===== Lektion 12: 旅行・宿泊・観光 =====
+  // p.195〜197
+  {de:"die Küste, -n",ja:"海岸・沿岸",cat:"L12",jaAlt:["山","砂漠","森"],alt:["der Berg","die Wüste","der Wald"]},
+  {de:"die Ostsee (Sg.)",ja:"バルト海",cat:"L12",jaAlt:["地中海","北海","大西洋"],alt:["das Mittelmeer","die Nordsee","der Atlantik"]},
+  {de:"die Wahl (Sg.)",ja:"選択・選挙",cat:"L12",jaAlt:["義務","命令","禁止"],alt:["die Pflicht","der Befehl","das Verbot"]},
+  {de:"besichtigen",ja:"見学する・観光する",cat:"L12",jaAlt:["予約する","キャンセルする","写真を撮る"],alt:["buchen","stornieren","fotografieren"]},
+  {de:"dagegen",ja:"それに対して・反対に",cat:"L12",jaAlt:["賛成して","同様に","加えて"],alt:["dafür","ebenfalls","ausserdem"]},
+  {de:"begeistert",ja:"熱狂した・感激した",cat:"L12",jaAlt:["退屈した","失望した","無関心な"],alt:["gelangweilt","enttäuscht","gleichgültig"]},
+  {de:"die Unterkunft, -¨e",ja:"宿泊施設・宿",cat:"L12",jaAlt:["交通手段","観光地","食事"],alt:["das Verkehrsmittel","die Sehenswürdigkeit","das Essen"]},
+  {de:"das Mittelmeer (Sg.)",ja:"地中海",cat:"L12",jaAlt:["北海","大西洋","太平洋"],alt:["die Nordsee","der Atlantik","der Pazifik"]},
+  {de:"Luxemburg",ja:"ルクセンブルク",cat:"L12",jaAlt:["ベルギー","オーストリア","リヒテンシュタイン"],alt:["Belgien","Österreich","Liechtenstein"]},
+  {de:"baden",ja:"水浴びする・入浴する",cat:"L12",jaAlt:["泳ぐ","シャワーを浴びる","釣りをする"],alt:["schwimmen","duschen","angeln"]},
+  {de:"der Sand (Sg.)",ja:"砂",cat:"L12",jaAlt:["石","土","岩"],alt:["der Stein","die Erde","der Felsen"]},
+  {de:"weiter",ja:"さらに・続けて",cat:"L12",jaAlt:["止まって","戻って","ゆっくり"],alt:["anhaltend","zurück","langsam"]},
+  {de:"kühl",ja:"涼しい・冷たい",cat:"L12",jaAlt:["暑い","温かい","蒸し暑い"],alt:["heiss","warm","schwül"]},
+  {de:"der Bauernhof, -¨e",ja:"農場・農家",cat:"L12",jaAlt:["工場","牧場","別荘"],alt:["die Fabrik","die Ranch","das Ferienhaus"]},
+  {de:"die Kuh, -¨e",ja:"牛・乳牛",cat:"L12",jaAlt:["馬","羊","山羊"],alt:["das Pferd","das Schaf","die Ziege"]},
+  {de:"das Pferd, -e",ja:"馬",cat:"L12",jaAlt:["牛","ロバ","ラクダ"],alt:["die Kuh","der Esel","das Kamel"]},
+  {de:"das Schaf, -e",ja:"羊",cat:"L12",jaAlt:["山羊","豚","牛"],alt:["die Ziege","das Schwein","die Kuh"]},
+  {de:"das Boot, -e",ja:"ボート・小型船",cat:"L12",jaAlt:["船","ヨット","カヌー"],alt:["das Schiff","die Jacht","das Kanu"]},
+  {de:"das Festival, -s",ja:"フェスティバル・音楽祭",cat:"L12",jaAlt:["コンサート","展覧会","市場"],alt:["das Konzert","die Ausstellung","der Markt"]},
+  {de:"die Sehenswürdigkeit, -en",ja:"観光名所",cat:"L12",jaAlt:["博物館","公園","ホテル"],alt:["das Museum","der Park","das Hotel"]},
+  {de:"echt",ja:"本物の・本当に",cat:"L12",jaAlt:["偽の","まあまあ","少し"],alt:["falsch","einigermaßen","etwas"]},
+  {de:"trocken",ja:"乾いた・乾燥した",cat:"L12",jaAlt:["濡れた","湿った","蒸し暑い"],alt:["nass","feucht","schwül"]},
+  {de:"die Pension, -en",ja:"民宿・ペンション",cat:"L12",jaAlt:["ホテル","ユースホステル","キャンプ場"],alt:["das Hotel","die Jugendherberge","der Campingplatz"]},
+  {de:"die Lage, -n",ja:"立地・位置",cat:"L12",jaAlt:["広さ","価格","設備"],alt:["die Grösse","der Preis","die Ausstattung"]},
+  // p.196 - Lernwortschatz
+  {de:"die Aussicht (hier nur Sg.)",ja:"眺め・見晴らし",cat:"L12",jaAlt:["入口","景色","展望台"],alt:["der Eingang","die Landschaft","der Aussichtsturm"]},
+  {de:"das Einzelzimmer, -",ja:"シングルルーム",cat:"L12",jaAlt:["ダブルルーム","ツインルーム","スイート"],alt:["das Doppelzimmer","das Zweibettzimmer","die Suite"]},
+  {de:"das Doppelzimmer, -",ja:"ダブルルーム",cat:"L12",jaAlt:["シングルルーム","ツインルーム","スイート"],alt:["das Einzelzimmer","das Zweibettzimmer","die Suite"]},
+  {de:"die Halbpension",ja:"朝夕食付き（ハーフボード）",cat:"L12",jaAlt:["朝食のみ","全食付き","食事なし"],alt:["Frühstück inklusive","Vollpension","ohne Mahlzeiten"]},
+  {de:"der Campingplatz, -¨e",ja:"キャンプ場",cat:"L12",jaAlt:["ホテル","民宿","ユースホステル"],alt:["das Hotel","die Pension","die Jugendherberge"]},
+  {de:"das Tal, -¨er",ja:"谷",cat:"L12",jaAlt:["山","丘","高原"],alt:["der Berg","der Hügel","das Hochland"]},
+  {de:"die Wiese, -n",ja:"草原・牧草地",cat:"L12",jaAlt:["森","砂漠","海岸"],alt:["der Wald","die Wüste","die Küste"]},
+  {de:"romantisch",ja:"ロマンティックな",cat:"L12",jaAlt:["現実的な","退屈な","厳格な"],alt:["realistisch","langweilig","streng"]},
+  {de:"das Schloss, -¨er",ja:"城",cat:"L12",jaAlt:["教会","市役所","博物館"],alt:["die Kirche","das Rathaus","das Museum"]},
+  {de:"historisch",ja:"歴史的な",cat:"L12",jaAlt:["現代的な","未来的な","伝統的な"],alt:["modern","futuristisch","traditionell"]},
+  {de:"zahlreich",ja:"多数の・たくさんの",cat:"L12",jaAlt:["少ない","一つの","いくつかの"],alt:["wenige","ein","einige"]},
+  {de:"die Übernachtung, -en",ja:"宿泊",cat:"L12",jaAlt:["チェックイン","食事","観光"],alt:["das Einchecken","die Mahlzeit","die Besichtigung"]},
+  {de:"berühmt",ja:"有名な",cat:"L12",jaAlt:["無名の","普通の","地味な"],alt:["unbekannt","gewöhnlich","schlicht"]},
+  {de:"der Dom, -e",ja:"大聖堂・ドーム",cat:"L12",jaAlt:["教会","修道院","礼拝堂"],alt:["die Kirche","das Kloster","die Kapelle"]},
+  {de:"die Jugendherberge, -n",ja:"ユースホステル",cat:"L12",jaAlt:["ホテル","民宿","キャンプ場"],alt:["das Hotel","die Pension","der Campingplatz"]},
+  {de:"inklusive",ja:"〜を含めて",cat:"L12",jaAlt:["〜を除いて","〜なしで","〜の代わりに"],alt:["exklusive","ohne","statt"]},
+  {de:"der Aufenthalt, -e",ja:"滞在",cat:"L12",jaAlt:["到着","出発","通過"],alt:["die Ankunft","die Abfahrt","der Transit"]},
+  {de:"buchen",ja:"予約する",cat:"L12",jaAlt:["キャンセルする","確認する","変更する"],alt:["stornieren","bestätigen","ändern"]},
+  {de:"das Reisebüro, -s",ja:"旅行代理店",cat:"L12",jaAlt:["ホテル","観光案内所","空港"],alt:["das Hotel","das Tourismusbüro","der Flughafen"]},
+  {de:"die Verbindung, -en",ja:"接続・乗り継ぎ",cat:"L12",jaAlt:["遅延","到着","出発"],alt:["die Verspätung","die Ankunft","die Abfahrt"]},
+  // p.197 - D〜E
+  {de:"surfen / windsurfen",ja:"サーフィンする",cat:"L12",jaAlt:["ハイキングする","釣りをする","カヌーをする"],alt:["wandern","angeln","Kanu fahren"]},
+  {de:"die Führung, -en",ja:"ガイドツアー・指導",cat:"L12",jaAlt:["地図","パンフレット","チケット"],alt:["die Karte","der Prospekt","das Ticket"]},
+  {de:"die Altstadt, -¨e",ja:"旧市街",cat:"L12",jaAlt:["新市街","郊外","工業地区"],alt:["die Neustadt","die Vorstadt","das Industrieviertel"]},
+  {de:"die Ausstellung, -en",ja:"展覧会・展示",cat:"L12",jaAlt:["映画","コンサート","演劇"],alt:["der Film","das Konzert","das Theaterstück"]},
+  {de:"bekannt",ja:"知られた・有名な",cat:"L12",jaAlt:["無名の","珍しい","地味な"],alt:["unbekannt","selten","schlicht"]},
+  {de:"nirgends",ja:"どこにも〜ない",cat:"L12",jaAlt:["どこでも","ここに","そこに"],alt:["überall","hier","dort"]},
+  {de:"ein-packen",ja:"荷物を詰める・梱包する",cat:"L12",jaAlt:["荷解きする","捨てる","忘れる"],alt:["auspacken","wegwerfen","vergessen"]},
+  {de:"einigen (sich)",ja:"合意する・一致する",cat:"L12",jaAlt:["口論する","断る","迷う"],alt:["streiten","ablehnen","zögern"]},
+  {de:"übernachten",ja:"宿泊する",cat:"L12",jaAlt:["日帰りする","チェックアウトする","移動する"],alt:["einen Tagesausflug machen","auschecken","weiterreisen"]},
+  {de:"dagegen sein",ja:"反対する",cat:"L12",jaAlt:["賛成する","同意する","支持する"],alt:["dafür sein","zustimmen","unterstützen"]},
+  {de:"dafür sein",ja:"賛成する",cat:"L12",jaAlt:["反対する","迷う","棄権する"],alt:["dagegen sein","zögern","sich enthalten"]},
+  {de:"an-nehmen",ja:"受け入れる・採用する",cat:"L12",jaAlt:["断る","拒否する","無視する"],alt:["ablehnen","verweigern","ignorieren"]},
+  {de:"ab-lehnen",ja:"断る・拒否する",cat:"L12",jaAlt:["受け入れる","同意する","支持する"],alt:["annehmen","zustimmen","befürworten"]},
+  {de:"faulenzen",ja:"怠ける・のんびりする",cat:"L12",jaAlt:["働く","勤勉にする","急ぐ"],alt:["arbeiten","fleissig sein","sich beeilen"]},
+
+  // ===== Lektion 13: 銀行・お金・サービス =====
+  // p.198 - Foto-Hörgeschichte
+  {de:"der Betrag, -¨e",ja:"金額・量",cat:"L13",jaAlt:["価格","費用","割引"],alt:["der Preis","die Kosten","der Rabatt"]},
+  {de:"das Konto, Konten",ja:"口座",cat:"L13",jaAlt:["クレジットカード","現金","小切手"],alt:["die Kreditkarte","das Bargeld","der Scheck"]},
+  {de:"eröffnen",ja:"開設する・開く",cat:"L13",jaAlt:["閉鎖する","移転する","解約する"],alt:["schliessen","umziehen","kündigen"]},
+  {de:"beantworten",ja:"答える・回答する",cat:"L13",jaAlt:["質問する","無視する","繰り返す"],alt:["fragen","ignorieren","wiederholen"]},
+  {de:"besorgen",ja:"調達する・手に入れる",cat:"L13",jaAlt:["失う","売る","渡す"],alt:["verlieren","verkaufen","übergeben"]},
+  {de:"ab-heben",ja:"（現金を）引き出す",cat:"L13",jaAlt:["預ける","振り込む","確認する"],alt:["einzahlen","überweisen","überprüfen"]},
+  {de:"der Geldautomat, -en",ja:"ATM・現金自動引出機",cat:"L13",jaAlt:["銀行窓口","郵便局","両替機"],alt:["der Bankschalter","die Post","die Wechselstube"]},
+  {de:"das Privatkonto, -en",ja:"個人口座",cat:"L13",jaAlt:["法人口座","貯蓄口座","当座預金"],alt:["das Firmenkonto","das Sparkonto","das Girokonto"]},
+  // p.199 - B〜C
+  {de:"ob",ja:"〜かどうか（間接疑問）",cat:"L13",jaAlt:["〜ということ","もし〜なら","〜かどうか（直接）"],alt:["dass","wenn","ob（直接）"]},
+  {de:"das Bargeld (Sg.)",ja:"現金",cat:"L13",jaAlt:["クレジットカード","小切手","振込"],alt:["die Kreditkarte","der Scheck","die Überweisung"]},
+  {de:"die Summe, -n",ja:"合計・金額",cat:"L13",jaAlt:["差額","平均","利子"],alt:["die Differenz","der Durchschnitt","die Zinsen"]},
+  {de:"sondern",ja:"〜ではなく〜（逆接）",cat:"L13",jaAlt:["しかし","だから","それとも"],alt:["aber","deshalb","oder"]},
+  {de:"monatlich",ja:"毎月の・月ごとに",cat:"L13",jaAlt:["毎週","毎年","毎日"],alt:["wöchentlich","jährlich","täglich"]},
+  {de:"die Zinsen (Pl.)",ja:"利子・利息",cat:"L13",jaAlt:["元金","手数料","税金"],alt:["das Kapital","die Gebühr","die Steuer"]},
+  {de:"akzeptieren",ja:"受け入れる・承認する",cat:"L13",jaAlt:["断る","拒否する","無視する"],alt:["ablehnen","verweigern","ignorieren"]},
+  {de:"das Taschengeld (Sg.)",ja:"お小遣い",cat:"L13",jaAlt:["給料","ボーナス","報酬"],alt:["das Gehalt","der Bonus","die Vergütung"]},
+  {de:"erledigen",ja:"片付ける・処理する",cat:"L13",jaAlt:["延期する","無視する","諦める"],alt:["verschieben","ignorieren","aufgeben"]},
+  {de:"die Maestro-Karte, -n",ja:"デビットカード",cat:"L13",jaAlt:["クレジットカード","現金","小切手"],alt:["die Kreditkarte","das Bargeld","der Scheck"]},
+  {de:"erkennen",ja:"認識する・見分ける",cat:"L13",jaAlt:["見落とす","忘れる","無視する"],alt:["übersehen","vergessen","ignorieren"]},
+  {de:"der Hersteller, -",ja:"製造業者・メーカー",cat:"L13",jaAlt:["販売者","消費者","輸入業者"],alt:["der Händler","der Verbraucher","der Importeur"]},
+  {de:"das Öl (Sg.)",ja:"オイル・油",cat:"L13",jaAlt:["ガソリン","水","空気"],alt:["das Benzin","das Wasser","die Luft"]},
+  {de:"die Bremse, -n",ja:"ブレーキ",cat:"L13",jaAlt:["アクセル","ハンドル","クラッチ"],alt:["das Gaspedal","das Steuer","die Kupplung"]},
+  {de:"sowie",ja:"〜および・〜と共に",cat:"L13",jaAlt:["または","しかし","だから"],alt:["oder","aber","deshalb"]},
+  {de:"überprüfen",ja:"確認する・点検する",cat:"L13",jaAlt:["無視する","壊す","修理する"],alt:["ignorieren","kaputt machen","reparieren"]},
+  {de:"der Pneu, -s",ja:"タイヤ",cat:"L13",jaAlt:["ホイール","ブレーキ","エンジン"],alt:["die Felge","die Bremse","der Motor"]},
+  {de:"renovieren",ja:"改装する・リノベーションする",cat:"L13",jaAlt:["壊す","建てる","売る"],alt:["abreissen","bauen","verkaufen"]},
+  // p.200 - D〜E
+  {de:"ändern",ja:"変える・修正する",cat:"L13",jaAlt:["保つ","確認する","拒否する"],alt:["behalten","bestätigen","ablehnen"]},
+  {de:"schneiden",ja:"切る・カットする",cat:"L13",jaAlt:["縫う","貼る","包む"],alt:["nähen","kleben","einwickeln"]},
+  {de:"ein-zahlen",ja:"入金する・振り込む",cat:"L13",jaAlt:["引き出す","使う","貯める"],alt:["abheben","ausgeben","sparen"]},
+  {de:"die Broschüre, -n",ja:"パンフレット・冊子",cat:"L13",jaAlt:["本","雑誌","カタログ"],alt:["das Buch","die Zeitschrift","der Katalog"]},
+  {de:"tippen",ja:"タイプする・入力する",cat:"L13",jaAlt:["書く","消す","読む"],alt:["schreiben","löschen","lesen"]},
+  {de:"überweisen",ja:"振り込む・送金する",cat:"L13",jaAlt:["引き出す","使う","借りる"],alt:["abheben","ausgeben","leihen"]},
+  {de:"die Polizei (Sg.)",ja:"警察",cat:"L13",jaAlt:["消防署","救急","裁判所"],alt:["die Feuerwehr","die Ambulanz","das Gericht"]},
+  {de:"böse",ja:"怒った・悪い",cat:"L13",jaAlt:["嬉しい","穏やかな","友好的な"],alt:["froh","ruhig","freundlich"]},
+  {de:"die Laune, -n",ja:"気分・機嫌",cat:"L13",jaAlt:["感情","怒り","悲しみ"],alt:["das Gefühl","die Wut","die Traurigkeit"]},
+  {de:"die Erhöhung, -en",ja:"値上げ・引き上げ",cat:"L13",jaAlt:["値下げ","変更","維持"],alt:["die Senkung","die Änderung","die Beibehaltung"]},
+  {de:"die Kreditkarte, -n",ja:"クレジットカード",cat:"L13",jaAlt:["デビットカード","現金","小切手"],alt:["die Debitkarte","das Bargeld","der Scheck"]},
+  {de:"der Kontoauszug, -¨e",ja:"口座明細書",cat:"L13",jaAlt:["領収書","請求書","納税証明書"],alt:["die Quittung","die Rechnung","der Steuerbescheid"]},
+
+  // ===== Lektion 14: 人生の節目・家族・未来 =====
+  // p.201 - A〜B4
+  {de:"die Umfrage, -n",ja:"アンケート・調査",cat:"L14",jaAlt:["試験","報告","インタビュー"],alt:["die Prüfung","der Bericht","das Interview"]},
+  {de:"kaum",ja:"ほとんど〜ない・かろうじて",cat:"L14",jaAlt:["たくさん","少し","全く〜ない"],alt:["viel","ein bisschen","gar nicht"]},
+  {de:"die Zukunft (Sg.)",ja:"未来・将来",cat:"L14",jaAlt:["過去","現在","歴史"],alt:["die Vergangenheit","die Gegenwart","die Geschichte"]},
+  {de:"die Entscheidung, -en",ja:"決断・決定",cat:"L14",jaAlt:["提案","疑問","計画"],alt:["der Vorschlag","die Frage","der Plan"]},
+  {de:"sterben",ja:"死ぬ・亡くなる",cat:"L14",jaAlt:["生まれる","回復する","生き延びる"],alt:["geboren werden","sich erholen","überleben"]},
+  {de:"die Kindheit, -en",ja:"幼少期・子ども時代",cat:"L14",jaAlt:["青年期","成人期","老年期"],alt:["die Jugend","das Erwachsenenalter","das Alter"]},
+  {de:"nebenan",ja:"隣に・近くに",cat:"L14",jaAlt:["遠くに","向かいに","上に"],alt:["weit entfernt","gegenüber","oben"]},
+  {de:"derselbe / dieselbe / dasselbe",ja:"同じ〜（指示代名詞）",cat:"L14",jaAlt:["別の","新しい","古い"],alt:["ein anderer","ein neuer","ein alter"]},
+  {de:"(sich) verlieben",ja:"恋をする・恋に落ちる",cat:"L14",jaAlt:["失恋する","別れる","友達になる"],alt:["enttäuscht werden","sich trennen","befreundet werden"]},
+  {de:"zufällig",ja:"偶然に・たまたま",cat:"L14",jaAlt:["意図的に","計画的に","必然的に"],alt:["absichtlich","planmässig","zwangsläufig"]},
+  {de:"das Lokal, -e",ja:"飲食店・地元の店",cat:"L14",jaAlt:["ホテル","デパート","スーパー"],alt:["das Hotel","das Kaufhaus","der Supermarkt"]},
+  {de:"seitdem",ja:"それ以来・その時から",cat:"L14",jaAlt:["それまで","最近","当時"],alt:["bis dahin","neulich","damals"]},
+  {de:"einzig-",ja:"唯一の",cat:"L14",jaAlt:["多数の","いくつかの","大半の"],alt:["zahlreiche","einige","die meisten"]},
+  {de:"das Gegenteil, -e",ja:"反対・逆",cat:"L14",jaAlt:["同じ","類似","同様"],alt:["das Gleiche","die Ähnlichkeit","das Entsprechende"]},
+  {de:"egal",ja:"どうでもいい・関係ない",cat:"L14",jaAlt:["重要な","大切な","深刻な"],alt:["wichtig","bedeutsam","ernst"]},
+  {de:"der Streit (Sg.)",ja:"口論・争い",cat:"L14",jaAlt:["和解","友情","協力"],alt:["die Versöhnung","die Freundschaft","die Zusammenarbeit"]},
+  {de:"die Erziehung (Sg.)",ja:"教育・しつけ",cat:"L14",jaAlt:["学習","試験","成績"],alt:["das Lernen","die Prüfung","die Note"]},
+  {de:"die Meinung, -en",ja:"意見・考え",cat:"L14",jaAlt:["事実","証拠","データ"],alt:["die Tatsache","der Beweis","die Daten"]},
+  // p.202 - D〜
+  {de:"die Maus, -¨e",ja:"ネズミ・マウス（PC）",cat:"L14",jaAlt:["ハムスター","リス","うさぎ"],alt:["der Hamster","das Eichhörnchen","der Hase"]},
+  {de:"der Partner, - / die Partnerin, -nen",ja:"パートナー・相手",cat:"L14",jaAlt:["友人","同僚","ライバル"],alt:["der Freund","der Kollege","der Rivale"]},
+  {de:"eher",ja:"むしろ・どちらかというと",cat:"L14",jaAlt:["あまり〜ない","全く〜ない","特に"],alt:["kaum","gar nicht","besonders"]},
+  {de:"der Einfall, -¨e",ja:"思いつき・アイデア",cat:"L14",jaAlt:["計画","目標","結果"],alt:["der Plan","das Ziel","das Ergebnis"]},
+  {de:"populär",ja:"人気のある・大衆的な",cat:"L14",jaAlt:["不人気な","エリート的な","専門的な"],alt:["unpopulär","elitär","fachspezifisch"]},
+  {de:"der Dialekt, -e",ja:"方言",cat:"L14",jaAlt:["標準語","外国語","専門用語"],alt:["die Standardsprache","die Fremdsprache","der Fachausdruck"]},
+  {de:"rein",ja:"純粋な・完全に",cat:"L14",jaAlt:["混じった","不純な","複雑な"],alt:["gemischt","unrein","komplex"]},
+  {de:"dankbar",ja:"感謝している",cat:"L14",jaAlt:["不満な","無関心な","怒っている"],alt:["unzufrieden","gleichgültig","wütend"]},
+  {de:"an-sprechen",ja:"話しかける・取り上げる",cat:"L14",jaAlt:["無視する","避ける","黙る"],alt:["ignorieren","meiden","schweigen"]},
+  {de:"danken",ja:"感謝する",cat:"L14",jaAlt:["文句を言う","批判する","要求する"],alt:["sich beschweren","kritisieren","verlangen"]},
+  {de:"die Welt, -en",ja:"世界",cat:"L14",jaAlt:["国","大陸","宇宙"],alt:["das Land","der Kontinent","das Universum"]},
+  // p.203 - E
+  {de:"das Haustier, -e",ja:"ペット",cat:"L14",jaAlt:["野生動物","農場の動物","動物園の動物"],alt:["das Wildtier","das Nutztier","das Zootier"]},
+  {de:"ernst",ja:"真剣な・厳粛な",cat:"L14",jaAlt:["冗談っぽい","軽い","明るい"],alt:["witzig","leicht","fröhlich"]},
+  {de:"bequem",ja:"快適な・楽な",cat:"L14",jaAlt:["不快な","硬い","不便な"],alt:["unbequem","hart","unpraktisch"]},
+  {de:"das Paar, -e",ja:"カップル・一対",cat:"L14",jaAlt:["グループ","家族","個人"],alt:["die Gruppe","die Familie","die Einzelperson"]},
+];
+
+const GRAMMAR = [
+  {s:"Er ___ gestern nach Zürich gefahren.",a:"ist",h:"移動・変化の動詞はsein + Partizip II。fahren → ist gefahren",cat:"L1"},
+  {s:"Sie ___ ihre Schlüssel vergessen.",a:"hat",h:"一般動詞の多くはhaben + Partizip II。vergessen → hat vergessen",cat:"L1"},
+  {s:"Wir ___ gestern umgezogen.",a:"sind",h:"変化を表すumziehenはsein + Partizip II",cat:"L1"},
+  {s:"Ich ___ meine Freundin am Bahnhof kennengelernt.",a:"habe",h:"kennenlernen → habe kennengelernt（haben）",cat:"L1"},
+  {s:"Er ___ den Zug verpasst.",a:"hat",h:"verpassen（見逃す）→ hat verpasst（haben）",cat:"L1"},
+  {s:"Sie ___ um 8 Uhr angekommen.",a:"ist",h:"ankommen（到着する）→ ist angekommen（sein）",cat:"L1"},
+  {s:"Ich ___ mein Portemonnaie verloren.",a:"habe",h:"verlieren → habe verloren（haben、不規則）",cat:"L1"},
+  {s:"Was ___ denn passiert?",a:"ist",h:"passieren（起こる）→ ist passiert（sein）",cat:"L1"},
+  {s:"Hast du das ___? (verstehen)",a:"verstanden",h:"nicht-trennbar（ver-）→ ge-なし。verstehen → verstanden",cat:"L1"},
+  {s:"Er hat mir alles ___. (erklären)",a:"erklärt",h:"nicht-trennbar（er-）→ ge-なし。erklären → erklärt",cat:"L1"},
+  {s:"Ich habe das nie ___. (erleben)",a:"erlebt",h:"nicht-trennbar（er-）→ ge-なし。erleben → erlebt",cat:"L1"},
+  {s:"Sie hat es sofort ___. (bemerken)",a:"bemerkt",h:"nicht-trennbar（be-）→ ge-なし。bemerken → bemerkt",cat:"L1"},
+  {s:"Er ist traurig, ___ er seine Familie vermisst.",a:"weil",h:"理由の副文: weil（従属接続詞→動詞末尾）",cat:"L1"},
+  {s:"Gehen Sie dann ___ den Park.",a:"durch",h:"通り抜ける: durch + Akkusativ",cat:"L11"},
+  {s:"Gehen Sie ___ die Strasse.",a:"über",h:"横断する: über + Akkusativ",cat:"L11"},
+  {s:"Geht rechts die Strasse ___.",a:"entlang",h:"〜に沿って: Nomen + entlang（名詞の後に置く）",cat:"L11"},
+  {s:"Der Eingang ist genau ___ dem Schwimmbad.",a:"gegenüber",h:"向かいに: gegenüber + Dativ",cat:"L11"},
+  {s:"Fahren Sie ___ den Kreisel herum.",a:"um",h:"ロータリーを回る: um ... herum + Akkusativ",cat:"L11"},
+  {s:"Tobi liebt Tiger. ___ möchte er in den Zoo gehen.",a:"Deshalb",h:"だから（順接）: Deshalb + 動詞2位",cat:"L11"},
+  {s:"Eva hat keine Zeit. ___ kommt sie zur Party.",a:"Trotzdem",h:"時間がないのに来る（逆接）: Trotzdem + 動詞2位",cat:"L11"},
+  {s:"Eva hat keine Zeit. ___ kann sie nicht kommen.",a:"Deshalb",h:"時間がない→来られない（順接）: Deshalb + 動詞2位",cat:"L11"},
+  {s:"Das Auto startet nicht, ___ die Batterie leer ist.",a:"weil",h:"理由の副文: weil（動詞は末尾）",cat:"GR"},
+  {s:"Ich denke, ___ das richtig ist.",a:"dass",h:"〜ということ: dass（従属接続詞→動詞末尾）",cat:"GR"},
+  {s:"Kannst du mir sagen, ___ er kommt?",a:"ob",h:"〜かどうか（間接疑問）: ob",cat:"GR"},
+  {s:"___ es regnet, nehme ich einen Schirm.",a:"Wenn",h:"もし〜なら: Wenn（副文→主文は動詞先頭）",cat:"GR"},
+  {s:"___ sie keine Zeit hat, kommt Eva zur Party.",a:"Obwohl",h:"〜にもかかわらず（副文）: Obwohl + 副文",cat:"GR"},
+  {s:"Ich ___ gern ans Meer fahren.",a:"würde",h:"Konjunktiv II の願望: würde + Infinitiv",cat:"GR"},
+  {s:"Wenn ich mehr Zeit ___, würde ich mehr lernen.",a:"hätte",h:"haben の Konjunktiv II: hätte",cat:"GR"},
+  {s:"Das Formular ___ ausgefüllt.",a:"wird",h:"Passiv Präsens: werden + Partizip II",cat:"GR"},
+  {s:"Im Sommer fahren wir ___ Meer.",a:"ans",h:"海へ: an + das = ans（Akkusativ・方向）",cat:"GR"},
+  {s:"Ich kaufe ___ neuen Mantel. (ein, m. Akk.)",a:"einen",h:"男性・Akkusativ・不定冠詞: einen",cat:"GR"},
+  // ===== Lektion 2: Wechselpräpositionen (Wo? vs Wohin?) =====
+  {s:"Die Lampe hängt ___ der Decke. (Wo?)",a:"an",h:"Wo?（位置）→ Dativ: an der Decke（天井に掛かっている）",cat:"L2"},
+  {s:"Ich hänge die Lampe ___ die Decke. (Wohin?)",a:"an",h:"Wohin?（方向）→ Akkusativ: an die Decke（天井に掛ける）",cat:"L2"},
+  {s:"Das Buch liegt ___ dem Tisch. (Wo?)",a:"auf",h:"Wo?（位置）→ Dativ: auf dem Tisch（テーブルの上にある）",cat:"L2"},
+  {s:"Ich lege das Buch ___ den Tisch. (Wohin?)",a:"auf",h:"Wohin?（方向）→ Akkusativ: auf den Tisch（テーブルの上に置く）",cat:"L2"},
+  {s:"Der Schlüssel steckt ___ Schloss. (Wo?)",a:"im",h:"Wo?（位置）→ Dativ: im Schloss = in dem Schloss（鍵穴に刺さっている）",cat:"L2"},
+  {s:"Steck den Schlüssel ___ das Schloss. (Wohin?)",a:"in",h:"Wohin?（方向）→ Akkusativ: in das Schloss（鍵穴に刺す）",cat:"L2"},
+  {s:"Die Bücher stehen ___ dem Regal. (Wo?)",a:"in",h:"Wo?（位置）→ Dativ: in dem Regal（棚の中に立っている）",cat:"L2"},
+  {s:"Stell die Bücher ___ das Regal. (Wohin?)",a:"in",h:"Wohin?（方向）→ Akkusativ: in das Regal（棚に入れる）",cat:"L2"},
+  {s:"Das Bild hängt ___ der Wand. (Wo?)",a:"an",h:"Wo?（位置）→ Dativ: an der Wand（壁に掛かっている）",cat:"L2"},
+  {s:"Häng das Bild ___ die Wand. (Wohin?)",a:"an",h:"Wohin?（方向）→ Akkusativ: an die Wand（壁に掛ける）",cat:"L2"},
+  {s:"Bring den Abfall bitte ___.",a:"hinaus",h:"方向副詞: hinaus（外へ・話し手から遠ざかる）",cat:"L2"},
+  {s:"Steigen Sie doch bitte ___!",a:"hinauf",h:"方向副詞: hinauf（上へ・話し手から遠ざかる）",cat:"L2"},
+  {s:"Marita geht ___ Haus hinein.",a:"ins",h:"Wohin? ins Haus = in das Haus（家の中へ）",cat:"L2"},
+  {s:"Könntest du bitte ___ Fenster kommen?",a:"ans",h:"Wohin? ans Fenster = an das Fenster（窓のところへ）",cat:"L2"},
+
+  // ===== Lektion 4: wenn / Modalverben Präteritum =====
+  {s:"___ du Zeit hast, ruf mich bitte an.",a:"Wenn",h:"もし〜なら: wenn（従属接続詞→副文末に動詞）",cat:"L4"},
+  {s:"Ich rufe an, ___ ich ankomme.",a:"wenn",h:"〜のとき: wenn（副文→動詞末尾）",cat:"L4"},
+  {s:"Als Kind ___ ich Astronaut werden.",a:"wollte",h:"wollen の過去形（Präteritum）: ich wollte",cat:"L4"},
+  {s:"Sie ___ nicht ins Hotel kommen, weil es voll war.",a:"konnte",h:"können の過去形: sie konnte（できなかった）",cat:"L4"},
+  {s:"Er ___ gestern nicht kommen.",a:"konnte",h:"können Präteritum: er konnte",cat:"L4"},
+  {s:"Wir ___ noch keine Freunde hier.",a:"hatten",h:"haben の過去形: wir hatten（いなかった）",cat:"L4"},
+  {s:"Es ___ sehr kalt draussen.",a:"war",h:"sein の過去形: es war（〜だった）",cat:"L4"},
+  {s:"Ich ___ früh aufstehen, weil der Zug um 6 Uhr fuhr.",a:"musste",h:"müssen の過去形: ich musste（しなければならなかった）",cat:"L4"},
+  {s:"Er ___ nicht ins Büro gehen.",a:"durfte",h:"dürfen の過去形: er durfte nicht（してはいけなかった）",cat:"L4"},
+  {s:"Du ___ nicht so früh aufstehen.",a:"musstest",h:"müssen Präteritum 2人称: du musstest",cat:"L4"},
+
+  // ===== Lektion 5: Reflexive Verben / Verben mit Präpositionen =====
+  {s:"Ich ___ mich jeden Morgen.",a:"wasche",h:"sich waschen（再帰動詞）: ich wasche mich",cat:"L5"},
+  {s:"Du musst dich ___! (beeilen)",a:"beeilen",h:"sich beeilen（急ぐ）: du musst dich beeilen",cat:"L5"},
+  {s:"Er interessiert ___ für Sport.",a:"sich",h:"sich interessieren für（〜に興味がある）",cat:"L5"},
+  {s:"Wir freuen ___ auf den Urlaub.",a:"uns",h:"sich freuen auf（〜を楽しみにしている）",cat:"L5"},
+  {s:"Sie ärgert ___ über den Lärm.",a:"sich",h:"sich ärgern über（〜に腹を立てる）",cat:"L5"},
+  {s:"Ich träume ___ einer Reise nach Japan.",a:"von",h:"träumen von（〜を夢見る）: von + Dativ",cat:"L5"},
+  {s:"Ich habe keine Lust ___ Tanzen.",a:"auf",h:"Lust haben auf（〜したい気分）: auf + Akkusativ",cat:"L5"},
+  {s:"Er wartet ___ eine Antwort.",a:"auf",h:"warten auf（〜を待つ）: auf + Akkusativ",cat:"L5"},
+  {s:"___ freust du dich?",a:"Worüber",h:"sich freuen über → Wor+über = Worüber（前置詞副詞・疑問形）",cat:"L5"},
+  {s:"___ interessierst du dich?",a:"Wofür",h:"sich interessieren für → Wofür?（前置詞副詞）",cat:"L5"},
+  {s:"Sie sprechen ___ der neuen Wohnung.",a:"über",h:"sprechen über（〜について話す）: über + Akkusativ",cat:"L5"},
+  {s:"Ich erinnere mich ___ den Urlaub.",a:"an",h:"sich erinnern an（〜を思い出す）: an + Akkusativ",cat:"L5"},
+
+  // ===== Lektion 6: Modalverben Präteritum / dass =====
+  {s:"Früher ___ er nicht ins Kino gehen.",a:"durfte",h:"dürfen Präteritum: er durfte nicht（してはいけなかった）",cat:"L6"},
+  {s:"Als Kind ___ ich viel spielen.",a:"durfte",h:"dürfen Präteritum: ich durfte（してもよかった）",cat:"L6"},
+  {s:"Ich finde, ___ man viel sprechen muss.",a:"dass",h:"dass（〜ということ）: 副文→動詞末尾",cat:"L6"},
+  {s:"Es ist wichtig, ___ man täglich übt.",a:"dass",h:"Es ist wichtig, dass...（〜することが大切）",cat:"L6"},
+  {s:"Es tut mir leid, ___ du krank bist.",a:"dass",h:"Es tut mir leid, dass...（〜で残念）",cat:"L6"},
+  {s:"Ich ___ als Kind Tänzerin werden.",a:"wollte",h:"wollen Präteritum: ich wollte（〜になりたかった）",cat:"L6"},
+  {s:"Sie ___ nicht schlafen, weil sie Angst hatte.",a:"konnte",h:"können Präteritum: sie konnte nicht（できなかった）",cat:"L6"},
+  {s:"Wir ___ um 8 Uhr da sein.",a:"sollten",h:"sollen Präteritum: wir sollten（〜するはずだった）",cat:"L6"},
+  {s:"Ich bin sicher, ___ das richtig ist.",a:"dass",h:"dass 副文（従属接続詞→動詞末尾）",cat:"L6"},
+
+  // ===== Lektion 7: Dativ als Objekt / Stellung der Objekte =====
+  {s:"Ich schenke ___ Mutter Blumen.",a:"meiner",h:"Dativ: Mutter（女性）→ meiner Mutter（間接目的語）",cat:"L7"},
+  {s:"Er gibt ___ Kind ein Buch.",a:"dem",h:"Dativ: Kind（中性）→ dem Kind（間接目的語）",cat:"L7"},
+  {s:"Jan kauft ___ Freunden Konzertkarten.",a:"seinen",h:"Dativ Plural: Freunden → seinen Freunden",cat:"L7"},
+  {s:"Dimi empfiehlt ___ das Tzatziki. (er)",a:"ihm",h:"Dativpronomen 3人称男性: ihm",cat:"L7"},
+  {s:"Ich bringe ___ die Zeitung. (sie, Sg.)",a:"ihr",h:"Dativpronomen 3人称女性: ihr",cat:"L7"},
+  {s:"Kannst du ___ helfen? (ich)",a:"mir",h:"Dativpronomen 1人称: mir",cat:"L7"},
+  {s:"Er zeigt ___ den Weg. (wir)",a:"uns",h:"Dativpronomen 1人称複数: uns",cat:"L7"},
+  {s:"Sie gibt ___ Konzerkarten. (er → es, ihm)",a:"ihm",h:"語順: Dativ代名詞→Akkusativ名詞: gibt ihm Konzertkarten",cat:"L7"},
+  {s:"Ich kaufe ___ einen Kuchen. (du)",a:"dir",h:"Dativpronomen 2人称: dir",cat:"L7"},
+
+  // ===== Lektion 8: Konjunktiv II =====
+  {s:"Ich ___ gern ans Meer fahren.",a:"würde",h:"Konjunktiv II 願望: würde + Infinitiv（〜したい）",cat:"L8"},
+  {s:"___ du mir helfen?",a:"Könntest",h:"丁寧な依頼 Konjunktiv II: Könntest du...?",cat:"L8"},
+  {s:"Wenn ich mehr Geld ___, würde ich reisen.",a:"hätte",h:"haben の Konjunktiv II: ich hätte（もし持っていたら）",cat:"L8"},
+  {s:"Wenn ich du ___, würde ich das nicht tun.",a:"wäre",h:"sein の Konjunktiv II: ich wäre（もし〜なら）",cat:"L8"},
+  {s:"Sie ___ gern viel Geld haben.",a:"hätte",h:"Konjunktiv II 願望: sie hätte gern（〜があればいいのに）",cat:"L8"},
+  {s:"Wir ___ gern ins Kino gehen.",a:"würden",h:"würden Konjunktiv II 1人称複数",cat:"L8"},
+  {s:"Eva hat keine Zeit. ___ kommt sie trotzdem.",a:"Trotzdem",h:"逆接: Trotzdem（それにもかかわらず）+ 動詞2位",cat:"L8"},
+  {s:"Er hat kein Geld. ___ kauft er das Buch.",a:"Trotzdem",h:"逆接: Trotzdem（Pos. 2: 動詞が2番目）",cat:"L8"},
+  {s:"Du ___ mehr schlafen! (Ratschlag)",a:"solltest",h:"Konjunktiv II の提案: solltest（〜すべきだよ）",cat:"L8"},
+
+  // ===== Lektion 9: Adjektivdeklination / Komparation =====
+  {s:"Das ist ein ___ Laden. (neu, m.)",a:"neuer",h:"不定冠詞 Nominativ 男性: ein neuer（強変化 -er）",cat:"L9"},
+  {s:"Ich kaufe einen ___ Mantel. (schön, m.)",a:"schönen",h:"不定冠詞 Akkusativ 男性: einen schönen（-en）",cat:"L9"},
+  {s:"Sie wohnt in einer ___ Wohnung. (schön, f.)",a:"schönen",h:"不定冠詞 Dativ 女性: einer schönen（-en）",cat:"L9"},
+  {s:"Das ist ein ___ Licht. (schön, n.)",a:"schönes",h:"不定冠詞 Nominativ 中性: ein schönes（強変化 -es）",cat:"L9"},
+  {s:"Irina hört ___ Rockmusik als Jazz.",a:"lieber",h:"Komparativ: lieber（比較級）",cat:"L9"},
+  {s:"Sie geht genauso gern ins Kino ___ ins Theater.",a:"wie",h:"同等比較: genauso ... wie（〜と同じくらい）",cat:"L9"},
+  {s:"Dieses Buch ist ___ als das andere. (interessant)",a:"interessanter",h:"Komparativ: interessant → interessanter",cat:"L9"},
+  {s:"Das ist der ___ Film. (gut)",a:"beste",h:"Superlativ: gut → best- → der beste",cat:"L9"},
+  {s:"Er läuft am ___. (schnell)",a:"schnellsten",h:"Superlativ副詞: am schnellsten（最も速く）",cat:"L9"},
+  {s:"Ich suche ein ___ Auto. (klein, n.)",a:"kleines",h:"不定冠詞 Akkusativ 中性: ein kleines（強変化 -es）",cat:"L9"},
+
+  // ===== Lektion 10: Passiv / Adjektivdeklination definiter Artikel / Indirekte Frage =====
+  {s:"Das Formular ___ ausgefüllt.",a:"wird",h:"Passiv Präsens: werden（現在形）+ Partizip II",cat:"L10"},
+  {s:"Die Briefe ___ jeden Tag gebracht.",a:"werden",h:"Passiv Präsens 複数: werden + Partizip II",cat:"L10"},
+  {s:"Das Paket ___ verschickt.",a:"wird",h:"Passiv Präsens: es wird + Partizip II",cat:"L10"},
+  {s:"Ich kaufe den ___ Schal. (grün, m.)",a:"grünen",h:"定冠詞 Akkusativ 男性: den grünen（-en）",cat:"L10"},
+  {s:"Das ist die ___ Uhr. (toll, f.)",a:"tolle",h:"定冠詞 Nominativ 女性: die tolle（-e）",cat:"L10"},
+  {s:"Mit dem ___ Handy kann ich surfen. (alt, n.)",a:"alten",h:"定冠詞 Dativ 中性: dem alten（-en）",cat:"L10"},
+  {s:"Kannst du mir sagen, ___ der Kurs anfängt?",a:"wann",h:"間接疑問（W-Frage）: wann（副文・動詞末尾）",cat:"L10"},
+  {s:"Ich frage, ___ ich das Buch kaufen muss.",a:"ob",h:"間接疑問（Ja/Nein-Frage）: ob（〜かどうか）",cat:"L10"},
+  {s:"Wissen Sie, ___ die Bank geöffnet hat?",a:"ob",h:"間接疑問 yes/no → ob",cat:"L10"},
+  {s:"Können Sie mir sagen, ___ ich abbiegen muss?",a:"wo",h:"間接疑問（W-Frage）: wo（どこで）",cat:"L10"},
+
+  // ===== Lektion 11: Lokale Präpositionen / deshalb =====
+  {s:"Luise kommt ___ Deutschland.",a:"aus",h:"出身地: aus + Dativ（国・都市）",cat:"L11"},
+  {s:"Patrick kommt ___ der Tankstelle.",a:"von",h:"出発点: von + Dativ（〜から来る）",cat:"L11"},
+  {s:"Ich fahre ___ dem Bus zur Schule.",a:"mit",h:"手段: mit + Dativ（mit dem Bus）",cat:"L11"},
+  {s:"Geh ___ die Brücke und dann links.",a:"über",h:"橋を渡る: über + Akkusativ",cat:"L11"},
+  {s:"Sie gehen ___ dem See vorbei.",a:"an",h:"〜のそばを通る: an + Dativ + vorbei",cat:"L11"},
+  {s:"Es ist stürmisch. ___ muss man aufpassen.",a:"Deshalb",h:"順接: Deshalb（だから）+ Verb + Subj（Pos. 2）",cat:"L11"},
+  {s:"Das Wetter ist gut. ___ gehen wir spazieren.",a:"Deshalb",h:"順接: Deshalb + 動詞2位",cat:"L11"},
+  {s:"fahren → ___bar",a:"fahrbar",h:"Wortbildung: Verb + -bar = Adjektiv（〜できる）",cat:"L11"},
+  {s:"Gehen Sie ___ die Strasse entlang.",a:"die",h:"entlang + Akkusativ（名詞の後に置く）: die Strasse entlang",cat:"L11"},
+
+  // ===== Lektion 12: Adjektivdeklination ohne Artikel / Temporale Präpositionen =====
+  {s:"___ Balkon hat das Hotel! (groß)",a:"Grosser",h:"無冠詞 Nominativ 男性: Grosser Balkon（強変化 -er）",cat:"L12"},
+  {s:"Das Hotel hat ___ Frühstück. (gut)",a:"gutes",h:"無冠詞 Akkusativ 中性: gutes Frühstück（-es）",cat:"L12"},
+  {s:"Mit ___ Lage ist das Hotel super. (schön, f.)",a:"schöner",h:"無冠詞 Dativ 女性: mit schöner Lage（-er）",cat:"L12"},
+  {s:"___ Produkte kommen aus der Region. (regional)",a:"Regionale",h:"無冠詞 Nominativ 複数: Regionale Produkte（-e）",cat:"L12"},
+  {s:"Von August ___ gibt es wieder freie Plätze.",a:"an",h:"時間的始点: von ... an + Dativ（〜から）",cat:"L12"},
+  {s:"Er hat ___ eine Stunde Aufenthalt in Frankfurt.",a:"über",h:"おおよその時間: über + Akkusativ（1時間以上）",cat:"L12"},
+  {s:"Das Hotel liegt ___ Meer. (an, Wo?)",a:"am",h:"Wo? am = an dem（海のそばに）",cat:"L12"},
+  {s:"Wir fahren ___ die Insel. (auf, Wohin?)",a:"auf",h:"Wohin? auf + Akkusativ（島へ）",cat:"L12"},
+  {s:"Sie fahren ___ den Süden. (in, Wohin?)",a:"in",h:"Wohin? in + Akkusativ（南へ）",cat:"L12"},
+
+  // ===== Lektion 13: Indirekte Fragen / lassen =====
+  {s:"Können Sie mir sagen, ___ ich das Formular ausfüllen muss?",a:"wie",h:"間接疑問 W-Frage: wie（どのように）",cat:"L13"},
+  {s:"Darf ich fragen, ___ die Bank geöffnet hat?",a:"ob",h:"間接疑問 Ja/Nein: ob（〜かどうか）",cat:"L13"},
+  {s:"Wissen Sie, ___ der nächste Bus kommt?",a:"wann",h:"間接疑問: wann（いつ）",cat:"L13"},
+  {s:"Ich würde gern mein Auto ___ lassen.",a:"waschen",h:"lassen + Infinitiv（〜してもらう）: waschen lassen",cat:"L13"},
+  {s:"Sie lässt ihr Konto ___ lassen.",a:"prüfen",h:"lassen + Infinitiv: prüfen lassen（チェックしてもらう）",cat:"L13"},
+  {s:"Er lässt ___ die Pneus wechseln.",a:"sich",h:"sich lassen（自分のために〜させる）",cat:"L13"},
+  {s:"Können Sie mir sagen, ___ man Geld abheben kann?",a:"wo",h:"間接疑問: wo（どこで）",cat:"L13"},
+  {s:"Ich wollte fragen, ___ die Prüfung stattfindet.",a:"wann",h:"間接疑問: wann（いつ）",cat:"L13"},
+  {s:"Wissen Sie, ___ ich das Paket abholen muss?",a:"ob",h:"間接疑問 Ja/Nein → ob",cat:"L13"},
+
+  // ===== Lektion 14: Wiederholung =====
+  {s:"Gestern ___ wir ins Kino gegangen.",a:"sind",h:"Perfekt: gehen → sein + gegangen（移動動詞）",cat:"L14"},
+  {s:"Ich ___ früher viel Sport getrieben.",a:"habe",h:"Perfekt: Sport treiben → haben + getrieben",cat:"L14"},
+  {s:"Als Kind ___ ich nie Gemüse.",a:"mochte",h:"mögen Präteritum: ich mochte nicht（好きじゃなかった）",cat:"L14"},
+  {s:"Ich ___ gern viel reisen.",a:"würde",h:"Konjunktiv II 願望: ich würde gern + Infinitiv",cat:"L14"},
+  {s:"Ich freue mich, ___ du kommst.",a:"dass",h:"dass 副文（従属接続詞→動詞末尾）",cat:"L14"},
+  {s:"Ich singe laut, ___ ich allein bin.",a:"wenn",h:"wenn（〜のとき）副文→動詞末尾",cat:"L14"},
+  {s:"Er ___ wirklich gern verheiratet.",a:"wäre",h:"sein の Konjunktiv II: er wäre（〜だったらいいのに）",cat:"L14"},
+  {s:"Ich ___ Samstagmorgens früh aufstehen.",a:"musste",h:"müssen Präteritum: ich musste",cat:"L14"},
+  {s:"Sie ___ letztes Wochenende nicht kommen.",a:"konnte",h:"können Präteritum: sie konnte nicht（できなかった）",cat:"L14"},
+  {s:"Ich bin traurig, ___ du gehst.",a:"weil",h:"weil 副文（理由）→ 動詞末尾",cat:"L14"},
+];
+
+const TOPICS = [
+  {l:"食の好み（L3）",p:"あなたの食の好みや習慣についてドイツ語で3〜4文書いてください。",ref:"頻度副詞（immer/oft/manchmal/selten/nie）を使う。例: Ich esse nie Fleisch. Ich trinke jeden Morgen Kaffee."},
+  {l:"レストランでの会話（L3）",p:"レストランでの注文・クレーム・支払いの場面をドイツ語で書いてください。",ref:"bestellen / reklamieren / bezahlen。Was darf ich Ihnen bringen? / Könnten wir zahlen? / Zusammen oder getrennt?"},
+  {l:"引っ越しエピソード（L1）",p:"引っ越しの経験や到着した日のことをドイツ語で3〜4文書いてください。",ref:"Perfektを使う: sein（umgezogen, angekommen）または haben（vergessen, gekauft）。weilも使ってみよう。"},
+  {l:"ミスエピソード（L1）",p:"何かを忘れたり、なくしたり、乗り遅れたりした体験を書いてください。",ref:"Ich habe ... vergessen / verloren. Ich habe den Zug verpasst. So ein Pech! Zum Glück..."},
+  {l:"私の部屋（L2）",p:"あなたの部屋や家の中の家具の配置をドイツ語で説明してください。",ref:"stehen/liegen/hängen（Wo? + Dativ）を使う。例: Das Regal steht an der Wand. Die Lampe hängt an der Decke."},
+  {l:"隣人へのお願い（L2）",p:"旅行中に隣人にお願いしたいことをドイツ語で書いてください。",ref:"Könnten Sie bitte ...? / giessen, füttern, kontrollieren などを使う。"},
+  {l:"昨日の天気（L11）",p:"昨日の天気と、それがあなたの行動にどう影響したかを書いてください。",ref:"deshalb / weil を使う。例: Es war stürmisch, deshalb bin ich zu Hause geblieben."},
+  {l:"道案内（L11）",p:"あなたの家から駅またはスーパーへの道をドイツ語で説明してください。",ref:"durch, entlang, gegenüber, bis zum/zur, um...herum などを使う。"},
+  {l:"家族紹介（L1）",p:"あなたの家族についてドイツ語で紹介してください。",ref:"Mein/Meine ... ist/sind ... / Er/Sie wohnt in ... / weil文も使ってみよう"},
+  {l:"願望・夢（Konjunktiv II）",p:"「もし〜なら、〜したい」という願望をドイツ語で3文以上書いてください。",ref:"würde + Infinitiv / hätte / wäre を使う。例: Wenn ich viel Geld hätte, würde ich ans Meer fahren."},
+  {l:"子どもの頃（L4・L6）",p:"子どもの頃にできたこと・できなかったこと・したかったことをドイツ語で書いてください。",ref:"Modalverben Präteritum: durfte / musste / konnte / wollte を使う。例: Als Kind wollte ich Sänger werden."},
+  {l:"健康と生活習慣（L5）",p:"自分の健康的・不健康な習慣についてドイツ語で3〜4文書いてください。",ref:"Reflexive Verben: sich bewegen, sich ernähren, sich ausruhen, sich ärgern。Verben mit Präpositionen も使おう。"},
+  {l:"私の興味・趣味（L5）",p:"あなたの趣味や興味をドイツ語で説明してください。前置詞副詞も使ってみましょう。",ref:"sich interessieren für + Akkusativ / Wofür interessierst du dich? / Ich interessiere mich für..."},
+  {l:"学校の思い出（L6）",p:"好きだった・嫌いだった授業や先生についてドイツ語で書いてください。",ref:"Präteritum + dass。例: Ich finde, dass Mathematik wichtig ist. Mein Lieblingslehrer war..."},
+  {l:"プレゼントについて（L7）",p:"誰かへのプレゼントを選ぶ場面をドイツ語で書いてください。Dativ目的語を使いましょう。",ref:"schenken / geben / empfehlen + Dativ。例: Ich schenke meiner Mutter Blumen."},
+  {l:"週末の計画（L8）",p:"今週末にしたいことを Konjunktiv II で書いてください。",ref:"würde + Infinitiv / hätte gern / Wir könnten... / Ich wäre gern..."},
+  {l:"旅行の計画（L12）",p:"行ってみたい場所への旅行を計画してください。",ref:"Lokale Präpositionen: ans Meer / in die Berge / auf die Insel。例: Ich würde gern ans Meer fahren."},
+  {l:"道の説明（L11）",p:"図書館または駅への道案内をドイツ語で書いてください。",ref:"durch, über, entlang, gegenüber, bis zum/zur, deshalb を使う。"},
+  {l:"銀行・郵便局での会話（L13）",p:"銀行または郵便局での丁寧な会話をドイツ語で書いてください。",ref:"Können Sie mir sagen, ob/wie/wann...? / lassen（prüfen lassen）/ Wissen Sie, ob...?"},
+];
+
+const REFS = [
+  {t:"Indefinitpronomen: ein/kein/welch-（L3）",b:"同じ名詞でも使う場面で形が変わる！\n\n【Nominativ（主語）】\n　男性: einer / keiner\n　女性: eine / keine\n　中性: eins / keins\n　複数: welche / keine\n\n【Akkusativ（目的語）】\n　男性: einen / keinen\n　女性: eine / keine\n　中性: eins / keins\n　複数: welche / keine\n\n例:\n　Ich brauche einen Löffel. — Hast du einen?\n　Wo ist die Tasse? — Ich sehe keine mehr.\n　Haben wir noch Eier? — Ja, wir haben noch welche.\n　Möchtest du ein Dessert? — Nein, ich möchte keins."},
+  {t:"頻度副詞（Frequenzadverbien）（L3）",b:"100% immer（いつも）\n　　 meistens（たいてい）\n　　 oft（よく）\n　　 manchmal（時々）\n　　 selten（めったに〜ない）\n　　 fast nie（ほとんど〜ない）\n0%  nie（決して〜ない）\n\n例:\n　Ich esse immer Frühstück.（いつも朝食を食べる）\n　Ich gehe manchmal ins Restaurant.（時々レストランに行く）\n　Ich esse nie Fleisch.（決して肉を食べない）\n\n※ 頻度副詞は動詞の直後に置く（または文中間）"},
+  {t:"Wechselpräpositionen: Wo? vs Wohin?（L2）",b:"同じ前置詞でも、意味によって格が変わる！\n\n【Wo?（位置・状態）→ Dativ】\n　Die Lampe hängt an der Decke.\n　Das Buch liegt auf dem Tisch.\n　Der Schlüssel steckt im Schloss.\n\n【Wohin?（方向・移動）→ Akkusativ】\n　Ich hänge die Lampe an die Decke.\n　Ich lege das Buch auf den Tisch.\n　Steck den Schlüssel in das Schloss.\n\n主なWechselpräpositionen:\nan / auf / hinter / in / neben / über / unter / vor / zwischen"},
+  {t:"stellen/legen/hängen/stecken vs stehen/liegen/hängen/stecken（L2）",b:"【動作動詞（Wohin? + Akkusativ）】\n　stellen → 縦に置く\n　legen → 横に置く\n　hängen → 掛ける\n　stecken → 差し込む\n\n【状態動詞（Wo? + Dativ）】\n　stehen → 立っている\n　liegen → 横になっている\n　hängen → 掛かっている\n　stecken → 刺さっている"},
+  {t:"方向副詞（Direktionaladverbien）（L2）",b:"hinein（中へ・遠ざかる）/ heraus（外へ・近づく）\nhinauf（上へ・遠ざかる）/ herunter（下へ・近づく）\nhinaus（外へ・遠ざかる）/ herein（中へ・近づく）\n\n「hin-」= 話し手から遠ざかる方向\n「her-」= 話し手に近づく方向"},
+  {t:"Perfekt: haben か sein か（L1）",b:"【sein + Partizip II】移動・場所の変化:\n　fahren → ist gefahren\n　ankommen → ist angekommen\n　umziehen → ist umgezogen\n　passieren → ist passiert\n\n【haben + Partizip II】それ以外:\n　kennenlernen → hat kennengelernt\n　vergessen → hat vergessen\n　verlieren → hat verloren\n　verpassen → hat verpasst"},
+  {t:"Partizip II の作り方",b:"【規則動詞】ge- + 語幹 + -t\n　machen → gemacht / kaufen → gekauft\n\n【不規則動詞】ge- + 語幹変化 + -en\n　fahren → gefahren / essen → gegessen\n\n【非分離動詞（be-/ver-/er-/zer-）】ge-なし！\n　verstehen → verstanden / vergessen → vergessen\n　erklären → erklärt / bemerken → bemerkt\n\n【分離動詞】-ge-を間に挟む\n　aufstehen → aufgestanden / ankommen → angekommen"},
+  {t:"接続詞: weil / deshalb（順接）",b:"weil（なぜなら）→ 副文・動詞末尾\n例: Ich bleibe zu Hause, weil es regnet.\n\ndeshalb（だから）→ 主文・動詞2位\n例: Es regnet. Deshalb bleibe ich zu Hause."},
+  {t:"接続詞: trotzdem / obwohl（逆接）",b:"trotzdem → 主文・動詞2位\n例: Es regnet. Trotzdem gehe ich spazieren.\n\nobwohl → 副文・動詞末尾\n例: Obwohl es regnet, gehe ich spazieren.\n\n✅ Eva hat keine Zeit. Trotzdem kommt sie.（逆接）\n❌ Eva hat keine Zeit. Trotzdem kann sie nicht kommen.（→ Deshalb が正しい）"},
+  {t:"接続詞: dass / ob / wenn",b:"dass（〜ということ）: Ich denke, dass er kommt.\nob（〜かどうか）: Ich frage, ob er kommt.\nwenn（もし/〜のとき）: Wenn es regnet, bleibe ich zu Hause."},
+  {t:"Konjunktiv II（接続法第二式）",b:"願望: Ich würde gern ans Meer fahren.\n提案: An deiner Stelle würde ich...\n丁寧: Könntest du mir bitte helfen?\n\nhaben → hätte / sein → wäre\nwürde + Infinitiv（一般動詞）"},
+  {t:"局所前置詞（durch/über/entlang/um）",b:"durch den Park（通り抜ける）+ Akkusativ\nüber die Strasse（横断する）+ Akkusativ\ndie Strasse entlang（〜に沿って ※名詞の後）\num das Theater herum（〜を回って）+ Akkusativ\nan dem See vorbei（〜のそばを通って）+ Dativ\nbis zum Zoo（〜まで）\ngegenüber dem Schwimmbad（〜の向かいに）+ Dativ"},
+  {t:"Passiv Präsens（受動態）",b:"werden（現在形）+ Partizip II\nDas Formular wird ausgefüllt.\nDie Briefe werden gebracht."},
+  {t:"形容詞変化まとめ",b:"【不定冠詞】\n男性: ein neuer / einen neuen / einem neuen\n女性: eine schöne / eine schöne / einer schönen\n中性: ein schönes / ein schönes / einem schönen\n\n比較: schöner als / genauso schön wie\n最上級: am schönsten / am grössten"},
+  {t:"Modalverben Präteritum（過去形）（L4/L6）",b:"　　　　können　wollen　müssen　dürfen　sollen\nich　　konnte　wollte　musste　durfte　sollte\ndu　　 konntest wolltest musstest durftest solltest\ner/sie konnte　wollte　musste　durfte　sollte\nwir　　konnten wollten mussten durften sollten\nihr　　konntet wolltet musstet durftet solltet\nsie　　konnten wollten mussten durften sollten\n\n例:\n　Als Kind wollte ich Astronaut werden.\n　Wir konnten noch keine Freunde finden.\n　Ich musste früh aufstehen."},
+  {t:"wenn / weil / dass / ob（接続詞）（L4/L6）",b:"【wenn】もし〜なら / 〜のとき\nWenn du Zeit hast, ruf mich an.\n\n【weil】なぜなら（副文→動詞末尾）\nIch bleibe zu Hause, weil es regnet.\n\n【dass】〜ということ\nIch denke, dass das richtig ist.\n\n【ob】〜かどうか（間接Ja/Nein疑問）\nKannst du mir sagen, ob er kommt?\n\n⚠️ すべて副文：動詞は文末へ！"},
+  {t:"Reflexive Verben（再帰動詞）（L5）",b:"sich bewegen（体を動かす）\nsich ausruhen（休む）\nsich ärgern über（〜に腹を立てる）\nsich freuen auf（〜を楽しみにする）\nsich interessieren für（〜に興味がある）\nsich erinnern an（〜を思い出す）\nsich kümmern um（〜の世話をする）\n\n活用（sich bewegen）:\nIch bewege mich / Du bewegst dich\nEr/Sie bewegt sich / Wir bewegen uns\nIhr bewegt euch / Sie bewegen sich"},
+  {t:"Verben mit Präpositionen + Präpositionaladverbien（L5）",b:"【動詞 + 前置詞】\nwarten auf + Akk（〜を待つ）\nsich freuen über + Akk（〜に喜ぶ）\nträumen von + Dat（〜を夢見る）\nsich ärgern über + Akk（〜に怒る）\nsprechen mit + Dat（〜と話す）\n\n【前置詞副詞（Präpositionaladverb）】\n人以外の目的語に使う:\n　Worüber ärgerst du dich? — Darüber.\n　Wofür interessierst du dich? — Dafür.\n\nda(r)- + 前置詞 / wo(r)- + 前置詞（疑問）"},
+  {t:"Dativ als Objekt / Stellung der Objekte（L7）",b:"【間接目的語（Dativ）+ 直接目的語（Akkusativ）】\nJan kauft seinen Freunden Konzertkarten.\n＝ Dativ（人） + Akkusativ（物）\n\n【代名詞の語順】\n代名詞が来ると Akkusativ が先！\nDimi empfiehlt ihm das Tzatziki.\n→ empfiehlt es ihm.（代+代: Akk先）\n\n【Dativpronomen】\nmir / dir / ihm / ihr / ihm / uns / euch / ihnen"},
+  {t:"Konjunktiv II 活用表（L8/L14）",b:"【wäre / hätte / würde】\n　　　 wäre　 hätte　 würde\nich　　wäre　　hätte　　würde\ndu　　wär(e)st hättest würdest\ner/sie wäre　　hätte　　würde\nwir　　wären  hätten  würden\nihr　　wär(e)t hättet  würdet\nsie　　wären  hätten  würden\n\n【könnte / sollte / müsste】も重要！\n\n使い方:\n　Ich würde gern ... + Infinitiv（願望）\n　Könntest du mir helfen?（丁寧な依頼）\n　Wenn ich Zeit hätte, würde ich...（仮定）"},
+  {t:"Adjektivdeklination（形容詞変化）（L9/L10/L12）",b:"【不定冠詞（ein-）】\nNom: ein neuer(m) / eine schöne(f) / ein schönes(n)\nAkk: einen neuen(m) / eine schöne(f) / ein schönes(n)\nDat: einem neuen(m) / einer schönen(f) / einem schönen(n)\n\n【定冠詞（der-）】\nNom: der tolle(m) / die tolle(f) / das tolle(n)\nAkk: den tollen(m) / die tolle(f) / das tolle(n)\nDat: dem tollen(m) / der tollen(f) / dem tollen(n)\n\n【無冠詞】\nNom: grosser(m) / schöne(f) / gutes(n)\nAkk: grossen(m) / schöne(f) / gutes(n)\nDat: grossem(m) / schöner(f) / gutem(n)"},
+  {t:"Passiv Präsens（受動態・現在）（L10）",b:"【形式】werden（現在形）+ Partizip II\n\n活用:\nDas Formular wird ausgefüllt.\nDie Briefe werden gebracht.\nDas wird hineingeschrieben.\n\n【werden の現在形】\nIch werde / Du wirst / Er wird\nWir werden / Ihr werdet / Sie werden\n\n【能動→受動の変換】\nMan schreibt das Datum. →\nDas Datum wird geschrieben."},
+  {t:"間接疑問文（Indirekte Fragen）（L10/L13）",b:"【W-Frage → そのまま副文に】\nWann kommt er? →\nKannst du mir sagen, wann er kommt?\n\n【Ja/Nein-Frage → ob を使う】\nKommt er? →\nIch frage, ob er kommt.\n\n⚠️ 副文なので動詞は末尾へ！\n\n丁寧表現:\n　Können Sie mir sagen, wie/ob/wann/wo...?\n　Wissen Sie, ob...?\n　Darf ich fragen, wann...?"},
+  {t:"lassen（〜させる / 〜してもらう）（L13）",b:"【lassen + Infinitiv】\nIch lasse mein Auto waschen.\n（自分の車を洗ってもらう）\n\nSie lässt ihr Konto prüfen.\n（口座をチェックしてもらう）\n\n【lassen の活用】\nIch lasse / Du lässt / Er lässt\nWir lassen / Ihr lasst / Sie lassen\n\n【位置】\nlassen → Position 2\nInfinitiv → 文末"},
+  {t:"Lokale Präpositionen まとめ（L11/L12）",b:"【Woher? + Dativ】\naus + Dativ: aus Deutschland\nvon + Dativ: von der Haltestelle\nmit + Dativ: mit dem Bus\n\n【Wo? + Dativ（場所）】\nam Meer / im Süden / in den Bergen\nan der Küste / auf der Insel\n\n【Wohin? + Akkusativ（方向）】\nans Meer / in den Süden / in die Berge\nan die Küste / auf die Insel\n\n【移動の前置詞】\ndurch + Akk（通り抜ける）\nüber + Akk（横断）\nentlang（名詞の後）\num ... herum（回る）\nbis zu + Dat（〜まで）"},
+];
+
+// ===== 状態管理（localStorage） =====
+function loadStats() {
+  try {
+    const s = JSON.parse(localStorage.getItem('deutsch_stats') || '{}');
+    return { correct: s.correct||0, total: s.total||0, lastDate: s.lastDate||'' };
+  } catch(e) { return { correct:0, total:0, lastDate:'' }; }
+}
+function saveStats(s) {
+  localStorage.setItem('deutsch_stats', JSON.stringify(s));
+}
+
+let stats = loadStats();
+let vm = 'de-ja', vCat = 'all';
+let usedV = [], usedG = [];
+let gCat = 'all';
+let selTopic = null;
+
+// ===== 履歴・間違い管理 =====
+let vHistory = [];   // 単語の問題履歴インデックス
+let gHistory = [];   // 文法の問題履歴インデックス
+let vHistoryPos = -1; // 単語の現在位置
+let gHistoryPos = -1; // 文法の現在位置
+
+let vTodayWrong = [];   // 今日間違えた単語インデックス（VOCABの元インデックス）
+let gTodayWrong = [];   // 今日間違えた文法インデックス（GRAMMARの元インデックス）
+
+let vReviewMode = null; // null | 'today' | 'last'
+let gReviewMode = null;
+let vReviewPool = [];
+let gReviewPool = [];
+
+function loadWrong(key) {
+  try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) { return []; }
+}
+function saveWrong(key, arr) {
+  localStorage.setItem(key, JSON.stringify(arr));
+}
+
+function updateReviewBtns(mode) {
+  const todayV = vTodayWrong.length;
+  const lastV  = loadWrong('v_last_wrong').length;
+  const todayG = gTodayWrong.length;
+  const lastG  = loadWrong('g_last_wrong').length;
+  document.getElementById('v-today-count').textContent = todayV;
+  document.getElementById('v-last-count').textContent  = lastV;
+  document.getElementById('g-today-count').textContent = todayG;
+  document.getElementById('g-last-count').textContent  = lastG;
+  const vt = document.getElementById('v-today-btn');
+  const vl = document.getElementById('v-last-btn');
+  const gt = document.getElementById('g-today-btn');
+  const gl = document.getElementById('g-last-btn');
+  vt.disabled = todayV === 0;
+  vl.disabled = lastV  === 0;
+  gt.disabled = todayG === 0;
+  gl.disabled = lastG  === 0;
+  vt.classList.toggle('active-review', vReviewMode === 'today');
+  vl.classList.toggle('active-review', vReviewMode === 'last');
+  gt.classList.toggle('active-review', gReviewMode === 'today');
+  gl.classList.toggle('active-review', gReviewMode === 'last');
+}
+
+// ===== 日付・ストリーク =====
+function checkStreak() {
+  const today = new Date().toDateString();
+  const s = loadStats();
+  const el = document.getElementById('streak-badge');
+  if (!s.lastDate) { el.textContent = '🔥 初日'; return; }
+  const last = new Date(s.lastDate);
+  const diff = Math.floor((new Date() - last) / 86400000);
+  if (diff === 0) el.textContent = '🔥 今日練習済み';
+  else if (diff === 1) el.textContent = '🔥 連続中';
+  else el.textContent = '🔥 再開しよう';
+}
+
+// ===== UI =====
+function upStats() {
+  document.getElementById('s-correct').textContent = stats.correct;
+  document.getElementById('s-total').textContent = stats.total;
+  const pct = stats.total > 0 ? Math.round(stats.correct / stats.total * 100) : 0;
+  document.getElementById('s-pct').textContent = stats.total > 0 ? pct + '%' : '—';
+  document.getElementById('s-prog').style.width = pct + '%';
+  document.getElementById('s-pct-label').textContent = pct + '%';
+  stats.lastDate = new Date().toDateString();
+  saveStats(stats);
+}
+
+function resetStats() {
+  if (!confirm('スコアをリセットしますか？')) return;
+  stats = { correct: 0, total: 0, lastDate: '' };
+  saveStats(stats);
+  upStats();
+}
+
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id === 'vocab') nextV();
+  if (id === 'grammar') initGCats();
+  if (id === 'writing') initTopics();
+  if (id === 'ref') initRef();
+}
+
+function shuffle(a) { return [...a].sort(() => Math.random() - 0.5); }
+
+// ===== 単語 =====
+function setVM(m, btn) {
+  vm = m;
+  document.querySelectorAll('#page-vocab .filter-btn').forEach(b => {
+    if (['de-ja','ja-de'].some(x => b.id === 'vm-' + x.split('-')[0])) b.classList.remove('active');
+  });
+  document.getElementById('vm-de').classList.toggle('active', m === 'de-ja');
+  document.getElementById('vm-ja').classList.toggle('active', m === 'ja-de');
+  usedV = []; nextV();
+}
+
+function setVC(cat, btn) {
+  vCat = cat; usedV = [];
+  document.querySelectorAll('#page-vocab .filter-btn').forEach(b => {
+    if (!['vm-de','vm-ja'].includes(b.id)) b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  nextV();
+}
+
+function getVPool() {
+  if (vReviewMode === 'today') return vReviewPool;
+  if (vReviewMode === 'last')  return vReviewPool;
+  return vCat === 'all' ? VOCAB : VOCAB.filter(w => w.cat === vCat);
+}
+
+function nextV() {
+  // 履歴の途中にいたら末尾へ
+  if (vHistoryPos < vHistory.length - 1) {
+    vHistoryPos = vHistory.length - 1;
+  }
+  const pool = getVPool();
+  if (!pool.length) {
+    document.getElementById('v-q').textContent = '間違えた問題がありません';
+    document.getElementById('v-opts').innerHTML = '';
+    return;
+  }
+  if (usedV.length >= pool.length) usedV = [];
+  const avail = pool.filter((_, i) => !usedV.includes(i));
+  const idx = Math.floor(Math.random() * avail.length);
+  const w = avail[idx];
+  const poolIdx = pool.indexOf(w);
+  usedV.push(poolIdx);
+  vHistory.push({pool: [...pool], poolIdx, w});
+  vHistoryPos = vHistory.length - 1;
+  renderV(w);
+  updateBackBtn('v');
+}
+
+function prevV() {
+  if (vHistoryPos <= 0) return;
+  vHistoryPos--;
+  const {w} = vHistory[vHistoryPos];
+  renderV(w);
+  updateBackBtn('v');
+}
+
+function updateBackBtn(mode) {
+  const id = mode === 'v' ? 'v-back-btn' : 'g-back-btn';
+  const pos = mode === 'v' ? vHistoryPos : gHistoryPos;
+  document.getElementById(id).style.display = pos > 0 ? 'inline-flex' : 'none';
+}
+
+function renderV(w) {
+  document.getElementById('v-dir').textContent = vm === 'de-ja' ? 'ドイツ語 → 日本語' : '日本語 → ドイツ語';
+  document.getElementById('v-q').textContent = vm === 'de-ja' ? w.de : w.ja;
+  const correct = vm === 'de-ja' ? w.ja : w.de;
+  const wrongs = (vm === 'de-ja' ? w.jaAlt : w.alt).slice(0, 3);
+  const opts = shuffle([correct, ...wrongs]);
+  const c = document.getElementById('v-opts');
+  c.innerHTML = '';
+  opts.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn'; b.textContent = o;
+    b.onclick = () => {
+      document.querySelectorAll('#v-opts .opt-btn').forEach(x => {
+        x.disabled = true;
+        if (x.textContent === correct) x.classList.add('correct');
+      });
+      const fb = document.getElementById('v-fb');
+      fb.style.display = 'block'; stats.total++;
+      const vocabIdx = VOCAB.indexOf(w);
+      if (o === correct) {
+        b.classList.add('correct');
+        fb.className = 'feedback-box correct'; fb.textContent = '✓ 正解！';
+        stats.correct++;
+        // 正解したら間違いリストから除去
+        vTodayWrong = vTodayWrong.filter(i => i !== vocabIdx);
+      } else {
+        b.classList.add('wrong');
+        fb.className = 'feedback-box wrong'; fb.textContent = '✗ 不正解。正解: ' + correct;
+        // 間違いを記録
+        if (!vTodayWrong.includes(vocabIdx)) vTodayWrong.push(vocabIdx);
+      }
+      upStats();
+      updateReviewBtns();
+    };
+    c.appendChild(b);
+  });
+  document.getElementById('v-fb').style.display = 'none';
+}
+
+function reviewToday(mode) {
+  if (mode === 'vocab') {
+    if (vTodayWrong.length === 0) return;
+    if (vReviewMode === 'today') {
+      // 解除
+      vReviewMode = null; vReviewPool = []; usedV = [];
+    } else {
+      vReviewMode = 'today';
+      vReviewPool = vTodayWrong.map(i => VOCAB[i]).filter(Boolean);
+      usedV = [];
+    }
+    nextV();
+  } else {
+    if (gTodayWrong.length === 0) return;
+    if (gReviewMode === 'today') {
+      gReviewMode = null; gReviewPool = []; usedG = [];
+    } else {
+      gReviewMode = 'today';
+      gReviewPool = gTodayWrong.map(i => GRAMMAR[i]).filter(Boolean);
+      usedG = [];
+    }
+    nextG();
+  }
+  updateReviewBtns();
+}
+
+function reviewLast(mode) {
+  if (mode === 'vocab') {
+    const last = loadWrong('v_last_wrong');
+    if (last.length === 0) return;
+    if (vReviewMode === 'last') {
+      vReviewMode = null; vReviewPool = []; usedV = [];
+    } else {
+      vReviewMode = 'last';
+      vReviewPool = last.map(i => VOCAB[i]).filter(Boolean);
+      usedV = [];
+    }
+    nextV();
+  } else {
+    const last = loadWrong('g_last_wrong');
+    if (last.length === 0) return;
+    if (gReviewMode === 'last') {
+      gReviewMode = null; gReviewPool = []; usedG = [];
+    } else {
+      gReviewMode = 'last';
+      gReviewPool = last.map(i => GRAMMAR[i]).filter(Boolean);
+      usedG = [];
+    }
+    nextG();
+  }
+  updateReviewBtns();
+}
+
+// ===== 文法 =====
+function initGCats() {
+  const cats = [
+    {k:'all', l:'すべて'},
+    {k:'L1', l:'Lektion 1'},
+    {k:'L2', l:'Lektion 2'},
+    {k:'L3', l:'Lektion 3'},
+    {k:'L4', l:'Lektion 4'},
+    {k:'L5', l:'Lektion 5'},
+    {k:'L6', l:'Lektion 6'},
+    {k:'L7', l:'Lektion 7'},
+    {k:'L8', l:'Lektion 8'},
+    {k:'L9', l:'Lektion 9'},
+    {k:'L10', l:'Lektion 10'},
+    {k:'L11', l:'Lektion 11'},
+    {k:'L12', l:'Lektion 12'},
+    {k:'L13', l:'Lektion 13'},
+    {k:'L14', l:'Lektion 14'},
+    {k:'GR', l:'文法総まとめ'},
+  ];
+  const bar = document.getElementById('g-cat-bar');
+  bar.innerHTML = '';
+  cats.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'filter-btn' + (c.k === gCat ? ' active' : '');
+    b.textContent = c.l;
+    b.onclick = () => {
+      gCat = c.k; usedG = [];
+      bar.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      nextG();
+    };
+    bar.appendChild(b);
+  });
+  nextG();
+}
+
+function getGPool() {
+  if (gReviewMode === 'today' || gReviewMode === 'last') return gReviewPool;
+  return gCat === 'all' ? GRAMMAR : GRAMMAR.filter(q => q.cat === gCat);
+}
+
+function nextG() {
+  if (gHistoryPos < gHistory.length - 1) {
+    gHistoryPos = gHistory.length - 1;
+  }
+  const pool = getGPool();
+  if (!pool.length) {
+    document.getElementById('g-q').textContent = '間違えた問題がありません';
+    return;
+  }
+  if (usedG.length >= pool.length) usedG = [];
+  const avail = pool.filter((_, i) => !usedG.includes(i));
+  const q = avail[Math.floor(Math.random() * avail.length)];
+  const poolIdx = pool.indexOf(q);
+  usedG.push(poolIdx);
+  gHistory.push({pool: [...pool], poolIdx, q});
+  gHistoryPos = gHistory.length - 1;
+  renderG(q);
+  updateBackBtn('g');
+}
+
+function prevG() {
+  if (gHistoryPos <= 0) return;
+  gHistoryPos--;
+  const {q} = gHistory[gHistoryPos];
+  renderG(q);
+  updateBackBtn('g');
+}
+
+function renderG(q) {
+  const badges = {L1:'badge-L1',L2:'badge-L2',L3:'badge-L3',L4:'badge-L4',L5:'badge-L5',L6:'badge-L6',L7:'badge-L7',L8:'badge-L8',L9:'badge-L9',L10:'badge-L10',L11:'badge-L11',L12:'badge-L12',L13:'badge-L13',L14:'badge-L14',GR:'badge-GR'};
+  const labels = {L1:'Lektion 1',L2:'Lektion 2',L3:'Lektion 3',L4:'Lektion 4',L5:'Lektion 5',L6:'Lektion 6',L7:'Lektion 7',L8:'Lektion 8',L9:'Lektion 9',L10:'Lektion 10',L11:'Lektion 11',L12:'Lektion 12',L13:'Lektion 13',L14:'Lektion 14',GR:'文法総まとめ'};
+  document.getElementById('g-badge').innerHTML = `<span class="cat-badge ${badges[q.cat]||''}">${labels[q.cat]||''}</span>`;
+  const parts = q.s.split('___');
+  document.getElementById('g-q').innerHTML = parts[0] + '<span class="blank-span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' + (parts[1]||'');
+  document.getElementById('g-hint').textContent = 'ヒント: ' + q.h;
+  const inp = document.getElementById('g-input');
+  inp.value = ''; inp.disabled = false; inp.focus();
+  document.getElementById('g-fb').style.display = 'none';
+}
+
+function checkG() {
+  const val = document.getElementById('g-input').value.trim();
+  if (!val) return;
+  const {q} = gHistory[gHistoryPos] || {};
+  if (!q) return;
+  const grammarIdx = GRAMMAR.indexOf(q);
+  const fb = document.getElementById('g-fb');
+  fb.style.display = 'block'; stats.total++;
+  if (val.toLowerCase() === q.a.toLowerCase()) {
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ 正解！　完成文: ' + q.s.replace('___', q.a);
+    stats.correct++;
+    // 正解したら今日の間違いから除去
+    gTodayWrong = gTodayWrong.filter(i => i !== grammarIdx);
+  } else {
+    fb.className = 'feedback-box wrong';
+    fb.textContent = '✗ 不正解。正解: ' + q.a + '　完成文: ' + q.s.replace('___', q.a);
+    // 間違いを記録
+    if (grammarIdx >= 0 && !gTodayWrong.includes(grammarIdx)) gTodayWrong.push(grammarIdx);
+  }
+  document.getElementById('g-input').disabled = true;
+  upStats();
+  updateReviewBtns();
+}
+
+// ===== ライティング =====
+function initTopics() {
+  const grid = document.getElementById('w-topics');
+  grid.innerHTML = '';
+  TOPICS.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'topic-btn'; b.textContent = t.l;
+    b.onclick = () => {
+      document.querySelectorAll('.topic-btn').forEach(x => x.classList.remove('sel'));
+      b.classList.add('sel'); selTopic = t;
+      document.getElementById('w-prompt-text').textContent = t.p;
+      document.getElementById('w-ref-hint').innerHTML = '<strong>使うべき表現:</strong> ' + t.ref;
+      document.getElementById('w-input').value = '';
+      document.getElementById('w-result').style.display = 'none';
+      document.getElementById('w-prompt-area').style.display = 'block';
+    };
+    grid.appendChild(b);
+  });
+  document.getElementById('w-prompt-area').style.display = 'none';
+}
+
+function resetWriting() { initTopics(); }
+
+async function submitWriting() {
+  const text = document.getElementById('w-input').value.trim();
+  if (!text || !selTopic) return;
+  const res = document.getElementById('w-result');
+  res.style.display = 'block';
+  res.innerHTML = '<span class="loading-dot">●</span> AIが校正中...';
+  const prompt = `あなたはドイツ語教師です。以下は日本語母語話者が書いたドイツ語の文章です。文法の正確さを中心に日本語で丁寧にフィードバックしてください。
+
+テーマ: ${selTopic.l}
+お題: ${selTopic.p}
+使うべき表現のヒント: ${selTopic.ref}
+
+学習者の文章:
+${text}
+
+以下の形式でフィードバックしてください：
+【全体評価】（1〜2文）
+【文法エラーの指摘】（箇条書き。正しい形も示す）
+【改善後の文章】
+【よかった点】（1〜2つ）
+
+Schritte plus neu 4で学習中の内容（Perfekt、非分離動詞、Wechselpräpositionen【Wo?+Dativ/Wohin?+Akkusativ】、方向副詞hinein/heraus/hinauf/hinunter、局所前置詞、接続詞weil/deshalb/trotzdem/obwohl）が正しく使えているかも確認してください。`;
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: prompt }] })
+    });
+    const d = await r.json();
+    res.textContent = d.content.map(c => c.text || '').join('');
+  } catch(e) {
+    res.textContent = 'エラーが発生しました。インターネット接続を確認してください。';
+  }
+}
+
+// ===== 文法参照 =====
+function initRef() {
+  const c = document.getElementById('ref-container');
+  c.innerHTML = '';
+  REFS.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'ref-accordion';
+    div.innerHTML = `
+      <div class="ref-accordion-head" onclick="this.parentElement.classList.toggle('open')">
+        <span>${r.t}</span>
+        <span class="ref-chevron">▼</span>
+      </div>
+      <div class="ref-accordion-body">${r.b}</div>`;
+    c.appendChild(div);
+  });
+}
+
+// ===== 初期化 =====
+upStats();
+checkStreak();
+nextV();
+initTopics();
+updateReviewBtns();
+
+// ページを離れる前に「今日の間違い」をlocalStorageに保存（次回の「前回」になる）
+window.addEventListener('beforeunload', () => {
+  if (vTodayWrong.length > 0) saveWrong('v_last_wrong', vTodayWrong);
+  if (gTodayWrong.length > 0) saveWrong('g_last_wrong', gTodayWrong);
+});
+</script>
+</body>
+</html>
