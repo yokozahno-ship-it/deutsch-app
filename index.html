@@ -551,6 +551,9 @@ html, body {
           <div class="dash-card-desc">文法ルールをいつでも確認</div>
         </div>
       </div>
+      <div style="margin-top:16px;text-align:center;">
+        <button onclick="resetStats()" style="background:none;border:1.5px solid var(--border2);border-radius:99px;padding:8px 22px;font-size:13px;color:var(--text3);font-family:inherit;cursor:pointer;">🔄 進捗をリセット</button>
+      </div>
     </div>
 
     <!-- ===== 単語ページ ===== -->
@@ -1674,8 +1677,8 @@ const GRAMMAR = [
   {s:"Sie gehen ___ dem See vorbei.",a:"an",h:"〜のそばを通る: an + Dativ + vorbei",cat:"L11"},
   {s:"Es ist stürmisch. ___ muss man aufpassen.",a:"Deshalb",h:"順接: Deshalb（だから）+ Verb + Subj（Pos. 2）",cat:"L11"},
   {s:"Das Wetter ist gut. ___ gehen wir spazieren.",a:"Deshalb",h:"順接: Deshalb + 動詞2位",cat:"L11"},
-  {s:"fahren → ___bar",a:"fahrbar",h:"Wortbildung: Verb + -bar = Adjektiv（〜できる）",cat:"L11"},
-  {s:"Gehen Sie ___ die Strasse entlang.",a:"die",h:"entlang + Akkusativ（名詞の後に置く）: die Strasse entlang",cat:"L11"},
+  {s:"fahren → ___",a:"fahrbar",h:"Wortbildung: Verb（fahr-）+ -bar = Adjektiv（〜できる）",cat:"L11"},
+  {s:"Gehen Sie ___ Strasse entlang.",a:"die",h:"entlang + Akkusativ（名詞の後に置く）: die Strasse entlang",cat:"L11"},
 
   // ===== Lektion 12: Adjektivdeklination ohne Artikel / Temporale Präpositionen =====
   {s:"___ Balkon hat das Hotel! (groß)",a:"Grosser",h:"無冠詞 Nominativ 男性: Grosser Balkon（強変化 -er）",cat:"L12"},
@@ -2033,9 +2036,9 @@ const GRAMMAR = [
   {s:"Wissen Sie, ___ ich das Paket abholen kann?",a:"wo",h:"間接疑問: wo（どこで）",cat:"L10"},
   {s:"Er kommt ___ dem Bus.",a:"mit",h:"手段: mit + Dativ（mit dem Bus）",cat:"L11"},
   {s:"Sie kommt ___ dem Hotel.",a:"aus",h:"Woher? aus + Dativ（ホテルから出てくる）",cat:"L11"},
-  {s:"Er fährt ___ dem Meer.",a:"vom",h:"Woher? von + Dativ（vom = von dem）",cat:"L11"},
+  {s:"Er fährt ___ Meer.",a:"vom",h:"Woher? von + Dativ（vom = von dem）",cat:"L11"},
   {s:"Sie kommt ___ der S-Bahn.",a:"aus",h:"aus + Dativ（S-Bahnから出てくる）",cat:"L11"},
-  {s:"Er wohnt ___ dem Bus-Haltestelle.",a:"an",h:"an + Dativ（〜のそばに）",cat:"L11"},
+  {s:"Er wohnt ___ Bus-Haltestelle.",a:"an der",h:"an + Dativ（〜のそばに）。die Haltestelle（f.）→ an der Haltestelle",cat:"L11"},
   {s:"Sie kommt ___ der Tankstelle.",a:"von",h:"Woher? von + Dativ（タンクステルから）",cat:"L11"},
   {s:"Patrick kommt ___ der Tankstelle.",a:"von",h:"von + Dativ: von der Tankstelle（〜から）",cat:"L11"},
   {s:"Luise kommt ___ Frankreich.",a:"aus",h:"aus + Dativ 国名: aus Frankreich（フランスから）",cat:"L11"},
@@ -2043,7 +2046,7 @@ const GRAMMAR = [
   {s:"Fahren Sie ___ die Brücke.",a:"über",h:"über + Akkusativ（橋を渡って）",cat:"L11"},
   {s:"Gehen Sie ___ die Kreuzung und dann links.",a:"über",h:"über + Akkusativ（交差点を渡って）",cat:"L11"},
   {s:"Fahren Sie ___ den Kreisel herum.",a:"um",h:"um + Akkusativ + herum（ロータリーを回って）",cat:"L11"},
-  {s:"Gehen Sie ___ die Strasse entlang.",a:"die",h:"entlang + Akkusativ（名詞の後に置く）: die Strasse entlang",cat:"L11"},
+  {s:"Gehen Sie ___ Strasse entlang.",a:"die",h:"entlang + Akkusativ（名詞の後に置く）: die Strasse entlang",cat:"L11"},
   {s:"Gehen Sie ___ dem See vorbei.",a:"an",h:"an + Dativ + vorbei（〜のそばを通って）",cat:"L11"},
   {s:"Fahren Sie ___ zum Zoo.",a:"bis",h:"bis zum（〜まで）+ Dativ",cat:"L11"},
   {s:"Der Eingang ist ___ dem Schwimmbad.",a:"gegenüber",h:"gegenüber + Dativ（〜の向かいに）",cat:"L11"},
@@ -2146,7 +2149,7 @@ const GRAMMAR = [
   {s:"___ du mir helfen? (können, Konj. II)",a:"Könntest",h:"Konjunktiv II 依頼: Könntest du...?",cat:"GR"},
   {s:"An deiner Stelle ___ ich das nicht tun.",a:"würde",h:"An deiner Stelle würde ich...（君なら〜する）",cat:"GR"},
   {s:"Er kommt ___ dem Bus.",a:"aus",h:"aus + Dativ（バスから出てくる）",cat:"GR"},
-  {s:"Sie fährt ___ die Berge.",a:"in die",h:"Wohin? in + Akkusativ: in die Berge（山へ）",cat:"GR"},
+  {s:"Sie fährt ___ Berge.",a:"in die",h:"Wohin? in + Akkusativ: in die Berge（山へ）",cat:"GR"},
   {s:"Er ist ___ den Bergen.",a:"in",h:"Wo? in + Dativ: in den Bergen（山の中に）",cat:"GR"},
   {s:"Sie kommt ___ dem Hotel.",a:"aus",h:"aus + Dativ（ホテルから出てくる）",cat:"GR"},
   {s:"Er fährt ___ dem Bus zur Schule.",a:"mit",h:"mit + Dativ（手段）",cat:"GR"},
@@ -2160,8 +2163,62 @@ const GRAMMAR = [
   {s:"Darf ich fragen, ___ man das nachschauen kann?",a:"wo",h:"間接疑問: wo（どこで）",cat:"GR"},
   {s:"der Sturm → ___",a:"stürmisch",h:"Wortbildung: Nomen + -isch = Adjektiv（嵐→嵐のような）",cat:"GR"},
   {s:"das Eis → ___",a:"eisig",h:"Wortbildung: Nomen + -ig = Adjektiv（氷→氷のような）",cat:"GR"},
-  {s:"fahren → ___bar",a:"fahrbar",h:"Wortbildung: Verb + -bar = Adjektiv（乗れる）",cat:"GR"},
-  {s:"Nomen + Nomen: die Arbeit + der Kollege → ___",a:"der Arbeitskollege",h:"Komposita: Nomen + Nomen（複合語）",cat:"GR"}
+  {s:"fahren → ___",a:"fahrbar",h:"Wortbildung: Verb（fahr-）+ -bar = Adjektiv（乗れる）",cat:"GR"},
+  {s:"Nomen + Nomen: die Arbeit + der Kollege → ___",a:"der Arbeitskollege",h:"Komposita: Nomen + Nomen（複合語）",cat:"GR"},
+  {s:"Woher kommt der Junge? → Er kommt ___ der Schule. (建物から出る)",a:"aus",h:"Woher + 閉じた空間（建物）→ aus + Dativ。aus der Schule（建物から出てきた）",cat:"L11"},
+  {s:"Woher kommen die Kinder? → Sie kommen ___ der Schule. (活動・その場所から)",a:"von",h:"Woher + Aktivität・Platz → von + Dativ。von der Schule（活動拠点から）",cat:"L11"},
+  {s:"Wo waren die Kinder? → Sie waren ___ der Schule.",a:"in",h:"Wo + 閉じた空間 → in + Dativ。in der Schule（学校の中に）",cat:"L11"},
+  {s:"Wohin gehen die Kinder? → Sie gehen ___ Hause.",a:"nach",h:"nach Hause（家へ）は慣用表現。Wohin → nach Hause",cat:"L11"},
+  {s:"Woher kommt die Frau? → Sie kommt ___ Coiffeur. (人のところから)",a:"vom",h:"Woher + Person → von + Dativ。vom = von dem Coiffeur",cat:"L11"},
+  {s:"Wo war die Frau? → Sie war ___ Coiffeur. (人のところに)",a:"beim",h:"Wo + Person → bei + Dativ。beim = bei dem Coiffeur",cat:"L11"},
+  {s:"Wo war die Frau? → Sie war ___ Coiffeursalon. (閉じた空間)",a:"im",h:"Wo + 閉じた空間 (m.) → im = in dem Coiffeursalon",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Supermarkt. (der Supermarkt)",a:"in den",h:"Wohin + geschlossener Ort (m.) → in + Akkusativ。in den Supermarkt",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Supermarkt. (der Supermarkt)",a:"im",h:"Wo + geschlossener Ort (m.) → in + Dativ。im = in dem Supermarkt",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Zoo. (der Zoo)",a:"in den",h:"Wohin + Zoo (m.) → in + Akkusativ。in den Zoo",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Zoo. (der Zoo)",a:"im",h:"Wo + Zoo (m.) → in + Dativ。im = in dem Zoo",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Garage. (die Garage)",a:"in die",h:"Wohin + Garage (f.) → in + Akkusativ。in die Garage",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Garage. (die Garage)",a:"in der",h:"Wo + Garage (f.) → in + Dativ。in der Garage",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Küche. (die Küche)",a:"in die",h:"Wohin + Küche (f.) → in + Akkusativ。in die Küche",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Küche. (die Küche)",a:"in der",h:"Wo + Küche (f.) → in + Dativ。in der Küche",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Kino. (das Kino)",a:"ins",h:"Wohin + Kino (n.) → ins = in das Kino",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Kino. (das Kino)",a:"im",h:"Wo + Kino (n.) → im = in dem Kino",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Büro. (das Büro)",a:"ins",h:"Wohin + Büro (n.) → ins = in das Büro",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Büro. (das Büro)",a:"im",h:"Wo + Büro (n.) → im = in dem Büro",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Arzt. (Person, der Arzt)",a:"zum",h:"Wohin + Person (m.) → zu + Dativ。zum = zu dem Arzt",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Arzt. (Person, der Arzt)",a:"beim",h:"Wo + Person (m.) → bei + Dativ。beim = bei dem Arzt",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Bäcker. (Person, der Bäcker)",a:"zum",h:"Wohin + Person (m.) → zu + Dativ。zum = zu dem Bäcker",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Bäcker. (Person, der Bäcker)",a:"beim",h:"Wo + Person (m.) → bei + Dativ。beim = bei dem Bäcker",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Nachbarin. (Person, die Nachbarin)",a:"zur",h:"Wohin + Person (f.) → zu + Dativ。zur = zu der Nachbarin",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Nachbarin. (Person, die Nachbarin)",a:"bei der",h:"Wo + Person (f.) → bei + Dativ。bei der Nachbarin",cat:"L11"},
+  {s:"Wohin gehst du? → Ich gehe ___ Kindern. (Personen, Pl.)",a:"zu den",h:"Wohin + Personen (Pl.) → zu + Dativ。zu den Kindern",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Kindern. (Personen, Pl.)",a:"bei den",h:"Wo + Personen (Pl.) → bei + Dativ。bei den Kindern",cat:"L11"},
+  {s:"Wohin fährst du? → Ich fahre ___ Deutschland. (中性・冠詞なし国名)",a:"nach",h:"Wohin + 冠詞なし国名 → nach。nach Deutschland",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Deutschland. (中性・冠詞なし国名)",a:"in",h:"Wo + 冠詞なし国名 → in（格変化なし）。in Deutschland",cat:"L11"},
+  {s:"Wohin fährst du? → Ich fahre ___ Schweiz. (die Schweiz)",a:"in die",h:"Wohin + 女性国名 die Schweiz → in + Akkusativ。in die Schweiz",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Schweiz. (die Schweiz)",a:"in der",h:"Wo + 女性国名 die Schweiz → in + Dativ。in der Schweiz",cat:"L11"},
+  {s:"Wohin fährst du? → Ich fahre ___ Libanon. (der Libanon)",a:"in den",h:"Wohin + 男性国名 der Libanon → in + Akkusativ。in den Libanon",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ Libanon. (der Libanon)",a:"im",h:"Wo + 男性国名 der Libanon → in + Dativ。im = in dem Libanon",cat:"L11"},
+  {s:"Wohin fährst du? → Ich fahre ___ USA. (die USA, Pl.)",a:"in die",h:"Wohin + 複数国名 die USA → in + Akkusativ。in die USA",cat:"L11"},
+  {s:"Wo bist du? → Ich bin ___ USA. (die USA, Pl.)",a:"in den",h:"Wo + 複数国名 die USA → in + Dativ。in den USA",cat:"L11"},
+  {s:"Jemand kommt ___ dem Supermarkt. (Woher, 建物)",a:"aus",h:"Woher + 閉じた空間 → aus + Dativ。aus dem Supermarkt",cat:"L11"},
+  {s:"Jemand kommt ___ einem Fest. (Woher, イベント・Aktivität)",a:"von",h:"Woher + Aktivität/Veranstaltung → von + Dativ。von einem Fest",cat:"L11"},
+  {s:"Jemand war ___ Supermarkt. (Wo)",a:"im",h:"Wo + 閉じた空間 (m.) → im = in dem Supermarkt",cat:"L11"},
+  {s:"Jemand geht ___ den Supermarkt. (Wohin)",a:"in",h:"Wohin + 閉じた空間 (m.) → in + Akkusativ。in den Supermarkt",cat:"L11"},
+  {s:"Er kommt ___ Fussballplatz. (Woher, 場所・Platz)",a:"vom",h:"Woher + Platz → von + Dativ。vom = von dem Fussballplatz",cat:"L11"},
+  {s:"Er war ___ dem Fussballplatz. (Wo, offener Platz)",a:"auf",h:"Wo + offener Platz → auf + Dativ。auf dem Fussballplatz",cat:"L11"},
+  {s:"Er geht ___ den Fussballplatz. (Wohin, offener Platz)",a:"auf",h:"Wohin + offener Platz → auf + Akkusativ。auf den Fussballplatz",cat:"L11"},
+  {s:"Der Mann fährt ___ Südamerika. (Wohin, 冠詞なし地名)",a:"nach",h:"Wohin + 冠詞なし地名 → nach。nach Südamerika",cat:"L11"},
+  {s:"Der Mann war ___ Südamerika. (Wo, 冠詞なし地名)",a:"in",h:"Wo + 冠詞なし地名 → in（格変化なし）。in Südamerika",cat:"L11"},
+  {s:"Ich gehe ___ Hause. (Wohin, 慣用表現)",a:"nach",h:"nach Hause（家へ）は慣用表現。Wohin → nach Hause",cat:"L11"},
+  {s:"Ich bin ___ Hause. (Wo, 慣用表現)",a:"zu",h:"zu Hause（家に）は慣用表現。Wo → zu Hause",cat:"L11"},
+  {s:"Wir fahren ___ Atlantik. (Wohin, an + m.)",a:"an den",h:"Wohin + an + 男性名詞 → an + Akkusativ。an den Atlantik",cat:"L12"},
+  {s:"Wir sind ___ Atlantik. (Wo, an + m.)",a:"am",h:"Wo + an + 男性名詞 → am = an dem Atlantik",cat:"L12"},
+  {s:"Wir fahren ___ Meer. (Wohin, an + n.)",a:"ans",h:"Wohin + an + Meer (n.) → ans = an das Meer",cat:"L12"},
+  {s:"Wir sind ___ Meer. (Wo, an + n.)",a:"am",h:"Wo + an + Meer (n.) → am = an dem Meer",cat:"L12"},
+  {s:"Wir fahren ___ Küste. (Wohin, an + f.)",a:"an die",h:"Wohin + an + Küste (f.) → an + Akkusativ。an die Küste",cat:"L12"},
+  {s:"Wir sind ___ Küste. (Wo, an + f.)",a:"an der",h:"Wo + an + Küste (f.) → an + Dativ。an der Küste",cat:"L12"},
+  {s:"Wir fahren ___ Tessin. (Wohin, in + n.)",a:"ins",h:"Wohin + in + Tessin (n.) → ins = in das Tessin",cat:"L12"},
+  {s:"Wir waren ___ Tessin. (Wo, in + n.)",a:"im",h:"Wo + in + Tessin (n.) → im = in dem Tessin",cat:"L12"}
 ];
 
 const TOPICS = [
@@ -2222,6 +2279,16 @@ function loadStats() {
   catch(e) { return {correct:0,total:0,streak:0,lastDate:""}; }
 }
 function saveStats() { localStorage.setItem('dl_stats', JSON.stringify(stats)); }
+function resetStats() {
+  if (!confirm('進捗（正解数・合計・連続日数）をリセットしますか？')) return;
+  localStorage.removeItem('dl_stats');
+  localStorage.removeItem('v_last_wrong');
+  localStorage.removeItem('g_last_wrong');
+  stats = {correct:0, total:0, streak:0, lastDate:''};
+  vTodayWrong = []; gTodayWrong = [];
+  upStats();
+  alert('リセットしました！');
+}
 function upStats() {
   document.getElementById('m-correct').textContent = stats.correct;
   document.getElementById('m-total').textContent   = stats.total;
@@ -2363,13 +2430,25 @@ function getGPool() {
   return gCat === 'all' ? GRAMMAR : GRAMMAR.filter(q => q.cat === gCat);
 }
 
+// カテゴリ重み設定: L11・L12（局所前置詞・方向副詞）を3倍出やすく
+const CAT_WEIGHTS = { L11: 3, L12: 3 };
+
+function weightedPickG(pool) {
+  const weighted = [];
+  pool.forEach((q, i) => {
+    const w = CAT_WEIGHTS[q.cat] || 1;
+    for (let j = 0; j < w; j++) weighted.push(i);
+  });
+  return pool[weighted[Math.floor(Math.random() * weighted.length)]];
+}
+
 function nextG() {
   if (gHistoryPos < gHistory.length - 1) gHistoryPos = gHistory.length - 1;
   const pool = getGPool();
   if (!pool.length) { document.getElementById('g-q').textContent = '間違えた問題がありません'; return; }
   if (usedG.length >= pool.length) usedG = [];
   const avail = pool.filter((_, i) => !usedG.includes(i));
-  const q = avail[Math.floor(Math.random() * avail.length)];
+  const q = gCat === 'all' ? weightedPickG(avail) : avail[Math.floor(Math.random() * avail.length)];
   usedG.push(pool.indexOf(q));
   gHistory.push({q});
   gHistoryPos = gHistory.length - 1;
