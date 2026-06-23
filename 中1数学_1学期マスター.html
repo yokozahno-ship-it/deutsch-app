@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>中1数学 1学期マスター(啓林館対応)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ダークモード(黒板風)をデフォルトに */
+  --bg:#1B2420;
+  --paper-line:rgba(255,255,255,0.035);
+  --ink:#F2F1EA;
+  --ink-soft:#9AA79C;
+  --green:#7FD9A8;
+  --green-soft:rgba(127,217,168,0.16);
+  --coral:#FF9466;
+  --coral-soft:rgba(255,148,102,0.16);
+  --yellow:#F5D76E;
+  --yellow-soft:rgba(245,215,110,0.16);
+  --line:rgba(255,255,255,0.12);
+  --card:#222E28;
+  --header-bg:rgba(27,36,32,0.88);
+  --radius:18px;
+  --shadow: 0 2px 0 rgba(0,0,0,0.25), 0 8px 24px rgba(0,0,0,0.45);
+}
+body[data-theme="light"]{
+  --bg:#FAF7F0;
+  --paper-line:#E9E3D4;
+  --ink:#1F2A44;
+  --ink-soft:#6B7184;
+  --green:#2F6B4F;
+  --green-soft:#DCEEE3;
+  --coral:#E2622F;
+  --coral-soft:#FBE3D7;
+  --yellow:#E3A92B;
+  --yellow-soft:#FCF0CE;
+  --line:#E4DFD3;
+  --card:#FFFFFF;
+  --header-bg:rgba(250,247,240,0.92);
+  --shadow: 0 2px 0 rgba(31,42,68,0.04), 0 8px 24px rgba(31,42,68,0.07);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 27px,
+      var(--paper-line) 28px
+  );
+  color:var(--ink);
+  font-family:"Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  padding-bottom:84px;
+}
+.display{font-family:"Kaisei Decol", serif;}
+a,button{font-family:inherit;}
+button{cursor:pointer;}
+.app{max-width:520px;margin:0 auto;padding:0 16px;}
+
+/* ---------- Header ---------- */
+header.top{
+  position:sticky; top:0; z-index:20;
+  background:var(--header-bg);
+  backdrop-filter: blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.top-inner{
+  max-width:520px;margin:0 auto;padding:14px 16px 10px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brand{display:flex;flex-direction:column;gap:1px;}
+.brand .title{font-family:"Kaisei Decol",serif;font-size:17px;font-weight:700;letter-spacing:.02em;}
+.brand .sub{font-size:11px;color:var(--ink-soft);}
+.streak-badge{
+  display:flex;align-items:center;gap:6px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;
+  box-shadow:var(--shadow);
+  white-space:nowrap;
+}
+.streak-badge .flame{font-size:15px;}
+
+/* ---------- Nav ---------- */
+nav.tabs{
+  display:flex;gap:8px;margin:14px 0 18px;
+}
+nav.tabs button{
+  flex:1; border:1px solid var(--line); background:var(--card);
+  border-radius:14px; padding:9px 4px; font-size:12.5px; font-weight:700;
+  color:var(--ink-soft);
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  transition:.15s;
+}
+nav.tabs button .ico{font-size:16px;}
+nav.tabs button.active{
+  background:var(--ink); color:#fff; border-color:var(--ink);
+}
+nav.tabs button .count{
+  font-size:10px; background:var(--coral); color:#fff; border-radius:999px;
+  padding:0 6px; position:relative; top:-1px;
+}
+nav.tabs button.active .count{background:#fff;color:var(--coral);}
+
+main{display:none;}
+main.show{display:block; animation:fadein .25s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* ---------- Cards / generic ---------- */
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:18px;
+}
+.section-label{
+  font-size:11.5px; font-weight:700; color:var(--ink-soft);
+  letter-spacing:.06em; text-transform:uppercase; margin:22px 2px 8px;
+}
+.section-label:first-of-type{margin-top:4px;}
+
+/* ---------- Range select ---------- */
+.chip-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
+.chip{
+  border:1px solid var(--line); background:var(--card); color:var(--ink-soft);
+  border-radius:999px; padding:7px 13px; font-size:12.5px; font-weight:700;
+}
+.chip.active{background:var(--green); border-color:var(--green); color:#fff;}
+.chip.weak.active{background:var(--coral); border-color:var(--coral);}
+
+/* ---------- Flash toolbar ---------- */
+.flash-toolbar{display:flex; justify-content:flex-start; margin-bottom:8px;}
+.btn.small{padding:8px 14px; font-size:12.5px;}
+
+/* ---------- Flash card ---------- */
+.flash-wrap{ perspective:1400px; margin-top:6px;}
+.flashcard{
+  position:relative; min-height:120px;
+  transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.4,.2,.2,1), height .25s ease;
+}
+.flashcard.flipped{transform:rotateY(180deg);}
+.face{
+  position:absolute; top:0; left:0; width:100%; backface-visibility:hidden;
+  border-radius:var(--radius); border:1px solid var(--line);
+  background:var(--card); box-shadow:var(--shadow);
+  padding:22px 20px; display:flex; flex-direction:column;
+}
+.face.back{transform:rotateY(180deg);}
+.unit-tag{
+  display:inline-block; align-self:flex-start;
+  background:var(--green-soft); color:var(--green); font-weight:700;
+  font-size:11.5px; padding:4px 10px; border-radius:999px; margin-bottom:12px;
+}
+.qtext{
+  font-size:18.5px; line-height:1.65; font-weight:500; flex:1;
+  white-space:pre-wrap;
+}
+.input-row{display:flex; gap:8px; margin-top:14px;}
+.input-row input{
+  flex:1; border:1.5px solid var(--line); border-radius:12px; padding:12px 14px;
+  font-size:17px; font-weight:700; font-family:inherit; background:var(--bg); color:var(--ink);
+  letter-spacing:.02em;
+}
+.input-row input:focus{outline:none; border-color:var(--green);}
+.input-row input::placeholder{font-weight:400; color:var(--ink-soft); opacity:.7;}
+.keypad{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-top:10px;
+}
+.keypad .key{
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+  border-radius:11px; padding:13px 0; font-size:17px; font-weight:700;
+  font-family:inherit; transition:.1s;
+}
+.keypad .key:active{transform:scale(.94); background:var(--green-soft);}
+.keypad .key.fn{color:var(--coral); font-size:14px;}
+.btn{
+  border:none; border-radius:12px; padding:12px 18px; font-size:14.5px; font-weight:700;
+  color:#fff; background:var(--ink);
+}
+.btn.block{width:100%; margin-top:12px;}
+.btn.green{background:var(--green);}
+.btn.coral{background:var(--coral);}
+.btn.ghost{background:var(--card); color:var(--ink); border:1.5px solid var(--line);}
+.btn:disabled{opacity:.45;}
+.hint{font-size:12px; color:var(--ink-soft); margin-top:6px;}
+
+.back .result-badge{
+  font-weight:900; font-size:15px; padding:6px 14px; border-radius:999px;
+  display:inline-flex; align-items:center; gap:6px; align-self:flex-start; margin-bottom:10px;
+}
+.result-badge.ok{background:var(--green-soft); color:var(--green);}
+.result-badge.ng{background:var(--coral-soft); color:var(--coral);}
+.answer-line{font-size:17px; font-weight:700; margin-bottom:10px;}
+.answer-line .lab{font-size:11.5px; color:var(--ink-soft); font-weight:700; display:block; margin-bottom:2px;}
+.steps{
+  background:var(--bg); border:1px dashed var(--line); border-radius:12px;
+  padding:12px 13px; font-size:13.5px; color:var(--ink); line-height:1.6; white-space:pre-wrap;
+}
+.steps .lab{font-size:11.5px; color:var(--ink-soft); font-weight:700; display:block; margin-bottom:4px;}
+.btnrow{display:flex; gap:8px; margin-top:12px;}
+.btnrow .btn{flex:1;}
+
+/* ---------- Dashboard ---------- */
+.stat-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:18px;}
+.stat-box{
+  background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 8px;
+  text-align:center;
+}
+.stat-box .num{font-family:"Kaisei Decol",serif; font-size:22px; font-weight:700;}
+.stat-box .lab{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+
+.ch-card{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:14px 16px; margin-bottom:10px;
+}
+.ch-card .head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;}
+.ch-card .head .name{font-weight:700; font-size:14.5px;}
+.ch-card .head .pct{font-size:13px; color:var(--ink-soft); font-weight:700;}
+.bar{height:8px; border-radius:999px; background:var(--line); overflow:hidden; margin-bottom:8px;}
+.bar > div{height:100%; background:var(--green); border-radius:999px; transition:width .4s;}
+.subrow{display:flex; justify-content:space-between; font-size:12px; color:var(--ink-soft); padding:3px 0;}
+.subrow .tag-weak{color:var(--coral); font-weight:700;}
+
+/* ---------- Review list ---------- */
+.review-item{
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:13px 14px; margin-bottom:9px;
+}
+.review-item .rtop{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+.review-item .runit{font-size:11px; color:var(--green); font-weight:700;}
+.review-item .rq{font-size:14.5px; margin-top:3px; line-height:1.55;}
+.review-item .rwrong{font-size:11px; color:var(--coral); font-weight:700; white-space:nowrap;}
+.review-item .ranswer{
+  margin-top:8px; font-size:13px; background:var(--bg); border-radius:10px; padding:9px 11px; display:none;
+}
+.review-item .ranswer.open{display:block;}
+.review-item .rtoggle{font-size:12px; color:var(--ink-soft); margin-top:6px; text-decoration:underline; background:none; border:none; padding:0;}
+
+.empty{
+  text-align:center; padding:50px 20px; color:var(--ink-soft);
+}
+.empty .emoji{font-size:34px; display:block; margin-bottom:10px;}
+
+/* ---------- Settings ---------- */
+.set-row{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:13px 0; border-bottom:1px solid var(--line);
+}
+.set-row:last-child{border-bottom:none;}
+.set-row .t{font-size:14px; font-weight:700;}
+.set-row .d{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+footer.note{
+  text-align:center; font-size:11px; color:var(--ink-soft); margin:26px 0 10px;
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="title display">1学期マスター</div>
+      <div class="sub">中1数学・啓林館対応</div>
+    </div>
+    <div class="streak-badge"><span class="flame">🔥</span><span id="streakNum">0</span></div>
+  </div>
+</header>
+
+<div class="app">
+  <nav class="tabs">
+    <button data-tab="flash" class="active"><span class="ico">⚡</span>フラッシュ</button>
+    <button data-tab="review"><span class="ico">📌</span>復習リスト<span class="count" id="weakCount" style="display:none;">0</span></button>
+    <button data-tab="dash"><span class="ico">📊</span>進捗</button>
+    <button data-tab="set"><span class="ico">⚙️</span>設定</button>
+  </nav>
+
+  <!-- FLASH TAB -->
+  <main id="tab-flash" class="show">
+    <div class="chip-row" id="rangeChips"></div>
+    <div class="chip-row" id="levelChips"></div>
+
+    <div class="flash-toolbar">
+      <button class="btn ghost small" id="backBtn" disabled>← 前の問題</button>
+    </div>
+
+    <div class="flash-wrap">
+      <div class="flashcard" id="flashcard">
+        <div class="face front">
+          <span class="unit-tag" id="frontUnit">第1章</span>
+          <div class="qtext" id="qtext">読み込み中...</div>
+          <div id="inputArea"></div>
+        </div>
+        <div class="face back">
+          <span class="result-badge" id="resultBadge">○ 正解</span>
+          <div class="answer-line"><span class="lab">正しい答え</span><span id="backAnswer"></span></div>
+          <div class="steps"><span class="lab">解き方</span><span id="backSteps"></span></div>
+          <div class="btnrow" id="selfGradeRow" style="display:none;">
+            <button class="btn coral" id="selfNg">✕ 不正解だった</button>
+            <button class="btn green" id="selfOk">○ 正解だった</button>
+          </div>
+          <button class="btn block" id="nextBtn">次の問題 →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- REVIEW TAB -->
+  <main id="tab-review">
+    <div id="reviewStartWrap"></div>
+    <div id="reviewList"></div>
+  </main>
+
+  <!-- DASHBOARD TAB -->
+  <main id="tab-dash">
+    <div class="stat-grid">
+      <div class="stat-box"><div class="num" id="statTotal">0</div><div class="lab">解いた問題数</div></div>
+      <div class="stat-box"><div class="num" id="statAcc">0%</div><div class="lab">正解率</div></div>
+      <div class="stat-box"><div class="num" id="statMastered">0</div><div class="lab">習得済み</div></div>
+    </div>
+    <div class="section-label">章ごとの定着度</div>
+    <div id="chapterBars"></div>
+  </main>
+
+  <!-- SETTINGS TAB -->
+  <main id="tab-set">
+    <div class="card">
+      <div class="set-row">
+        <div>
+          <div class="t">テーマ</div>
+          <div class="d">ダークモード(黒板風)/ライトモード(ノート風)</div>
+        </div>
+        <button class="btn ghost" id="themeBtn">🌙 ダーク</button>
+      </div>
+      <div class="set-row" style="flex-direction:column; align-items:stretch;">
+        <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+          <div>
+            <div class="t">学習データをリセット</div>
+            <div class="d">進捗・復習リスト・連続正解数をすべて消去します</div>
+          </div>
+          <button class="btn coral" id="resetBtn">リセット</button>
+        </div>
+        <div id="resetConfirm" style="display:none; margin-top:12px; padding:12px; border:1px dashed var(--line); border-radius:12px; background:var(--bg);">
+          <div style="font-size:13px; color:var(--ink-soft); margin-bottom:10px;">本当に学習データをすべて消去しますか?この操作は取り消せません。</div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn ghost" id="resetCancelBtn" style="flex:1;">キャンセル</button>
+            <button class="btn coral" id="resetConfirmBtn" style="flex:1;">消去する</button>
+          </div>
+        </div>
+      </div>
+      <div class="set-row">
+        <div>
+          <div class="t">対応教科書</div>
+          <div class="d">啓林館「未来へひろがる数学1」</div>
+        </div>
+      </div>
+      <div class="set-row">
+        <div>
+          <div class="t">出題範囲</div>
+          <div class="d">第1章 正の数・負の数／第2章 文字と式／第3章 方程式(入り口)</div>
+        </div>
+      </div>
+      <div class="set-row">
+        <div>
+          <div class="t">収録問題数</div>
+          <div class="d" id="totalQCount">- 問</div>
+        </div>
+      </div>
+    </div>
+    <footer class="note">データはこの端末のブラウザ内のみに保存されます。</footer>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   問題データ
+   type: "in"  = 入力して自動採点
+         "rv"  = カードを開いて自分で○✕を判定
+   ========================================================= */
+const QUESTIONS = [
+// ---------- 第1章 1. 正の数・負の数の意味 ----------
+{id:101, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"-7 の絶対値を答えなさい。", a:"7", ph:"数値を入力(マイナスは-を使う)", steps:"絶対値とは、数直線上で0からその数までの距離のこと。-7と0の距離は7だから、絶対値は7。"},
+{id:102, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"絶対値が4である数のうち、負の数を答えなさい。", a:"-4", ph:"数値を入力(マイナスは-を使う)", steps:"絶対値が4になる数は+4と-4の2つ。負の数なので-4。"},
+{id:103, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"次の数の中で最も小さい数を答えなさい。\n-3, 5, -8, 2", a:"-8", ph:"数値を入力(マイナスは-を使う)", steps:"負の数は絶対値が大きいほど小さい数になる。-3と-8を比べると、絶対値が大きい-8の方が小さい。"},
+{id:104, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"次の数の中で最も大きい数を答えなさい。\n-1, -6, 0, -4", a:"0", ph:"数値を入力(マイナスは-を使う)", steps:"0はどんな負の数よりも大きい。よって最大は0。"},
+{id:105, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"-2 と -9 のうち、大きい方の数を答えなさい。", a:"-2", ph:"数値を入力(マイナスは-を使う)", steps:"負の数では、絶対値が小さい方が大きい数。2<9なので-2の方が大きい。"},
+{id:106, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"0 より 5 小さい数を答えなさい。", a:"-5", ph:"数値を入力(マイナスは-を使う)", steps:"0から5小さい数は0-5=-5。"},
+{id:107, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"絶対値が最も大きい数を選びなさい。\n3, -7, 5, -4", a:"-7", ph:"数値を入力(マイナスは-を使う)", steps:"それぞれの絶対値は3,7,5,4。最大は7なので、答えは-7。"},
+{id:108, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"-3.5 の絶対値を答えなさい。", a:"3.5", ph:"数値を入力(マイナスは-を使う)", steps:"0から-3.5までの距離なので3.5。"},
+
+// ---------- 第1章 2. 加法と減法 ----------
+{id:111, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(+3)+(+5) を計算しなさい。", a:"8", ph:"数値を入力(マイナスは-を使う)", steps:"同符号(+と+)の加法は、絶対値の和に共通の符号をつける。3+5=8、符号は+なので8。"},
+{id:112, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(-4)+(-7) を計算しなさい。", a:"-11", ph:"数値を入力(マイナスは-を使う)", steps:"同符号の加法。4+7=11、符号は-なので-11。"},
+{id:113, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(+6)+(-9) を計算しなさい。", a:"-3", ph:"数値を入力(マイナスは-を使う)", steps:"異符号の加法は、絶対値の差(大きい方-小さい方)に絶対値が大きい方の符号をつける。9-6=3、絶対値が大きいのは-9なので-3。"},
+{id:114, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(-5)+(+8) を計算しなさい。", a:"3", ph:"数値を入力(マイナスは-を使う)", steps:"異符号の加法。8-5=3、絶対値が大きいのは+8なので+3。"},
+{id:115, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(+4)-(+9) を計算しなさい。", a:"-5", ph:"数値を入力(マイナスは-を使う)", steps:"減法は引く数の符号を変えて加法に直す。(+4)-(+9)=(+4)+(-9)=-5。"},
+{id:116, ch:1, lv:2, sub:"加法と減法", type:"in", q:"(-3)-(-7) を計算しなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"引く数の符号を変えて加法に直す。(-3)-(-7)=(-3)+(+7)=4。"},
+{id:117, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(-6)-(+2) を計算しなさい。", a:"-8", ph:"数値を入力(マイナスは-を使う)", steps:"(-6)-(+2)=(-6)+(-2)=-8。"},
+{id:118, ch:1, lv:2, sub:"加法と減法", type:"in", q:"(+7)-(-3) を計算しなさい。", a:"10", ph:"数値を入力(マイナスは-を使う)", steps:"(+7)-(-3)=(+7)+(+3)=10。"},
+{id:119, ch:1, lv:2, sub:"加法と減法", type:"in", q:"-8+5-3 を計算しなさい。", a:"-6", ph:"数値を入力(マイナスは-を使う)", steps:"左から順に計算する。-8+5=-3、-3-3=-6。"},
+{id:120, ch:1, lv:2, sub:"加法と減法", type:"in", q:"3-(-4)+(-9) を計算しなさい。", a:"-2", ph:"数値を入力(マイナスは-を使う)", steps:"3-(-4)=3+4=7、7+(-9)=-2。"},
+
+// ---------- 第1章 3. 乗法と除法 ----------
+{id:121, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(-3)×(+4) を計算しなさい。", a:"-12", ph:"数値を入力(マイナスは-を使う)", steps:"異符号どうしの積は負になる。3×4=12なので-12。"},
+{id:122, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(-6)×(-7) を計算しなさい。", a:"42", ph:"数値を入力(マイナスは-を使う)", steps:"同符号どうしの積は正になる。6×7=42。"},
+{id:123, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(+8)÷(-2) を計算しなさい。", a:"-4", ph:"数値を入力(マイナスは-を使う)", steps:"異符号どうしの商は負になる。8÷2=4なので-4。"},
+{id:124, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(-15)÷(-3) を計算しなさい。", a:"5", ph:"数値を入力(マイナスは-を使う)", steps:"同符号どうしの商は正になる。15÷3=5。"},
+{id:125, ch:1, lv:2, sub:"乗法と除法", type:"rv", q:"(-2)の3乗 を計算しなさい。", a:"-8", steps:"(-2)×(-2)×(-2)=4×(-2)=-8。負の数の奇数回の積は負になる。"},
+{id:126, ch:1, lv:1, sub:"乗法と除法", type:"rv", q:"(-2)の2乗 を計算しなさい。", a:"4", steps:"(-2)×(-2)=4。負の数の偶数回の積は正になる。"},
+{id:127, ch:1, lv:2, sub:"乗法と除法", type:"rv", q:"-2の2乗(2だけを2乗する)を計算しなさい。", a:"-4", steps:"-2²は「2を2乗してからマイナスをつける」という意味。(-2)²とは違うので注意!2×2=4にマイナスをつけて-4。"},
+{id:128, ch:1, lv:1, sub:"乗法と除法", type:"rv", q:"12を素因数分解しなさい。", a:"2×2×3", steps:"小さい素数から順に割っていく。12=2×6=2×2×3。"},
+{id:129, ch:1, lv:2, sub:"乗法と除法", type:"in", q:"(-4)×(-3)×(-2) を計算しなさい。", a:"-24", ph:"数値を入力(マイナスは-を使う)", steps:"負の数が3個(奇数個)あるので積は負になる。4×3×2=24なので-24。"},
+{id:130, ch:1, lv:2, sub:"乗法と除法", type:"in", q:"(-36)÷9×(-2) を計算しなさい。", a:"8", ph:"数値を入力(マイナスは-を使う)", steps:"左から順に計算する。-36÷9=-4、-4×(-2)=8。"},
+
+// ---------- 第1章 4. 正負の数の利用 ----------
+{id:131, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"ある日の最高気温は7℃、最低気温は-3℃でした。気温の差は何℃ですか。", a:"10", ph:"数値を入力(マイナスは-を使う)", steps:"差は大きい数から小さい数を引く。7-(-3)=7+3=10(℃)。"},
+{id:132, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"Aさんの身長160cmを基準にすると、Bさんは+5cm、Cさんは-8cmです。Cさんの身長は何cmですか。", a:"152", ph:"数値を入力(マイナスは-を使う)", steps:"基準160cmに差をたす。160+(-8)=152(cm)。"},
+{id:133, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"標高0mを基準として、A地点は+120m、B地点は-35mです。2地点の標高差は何mですか。", a:"155", ph:"数値を入力(マイナスは-を使う)", steps:"高い方から低い方を引く。120-(-35)=120+35=155(m)。"},
+{id:134, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"ある商品の基準の重さを500gとし、実際との差を測ったところ-12gでした。実際の重さは何gですか。", a:"488", ph:"数値を入力(マイナスは-を使う)", steps:"基準500gに差をたす。500+(-12)=488(g)。"},
+{id:135, ch:1, lv:2, sub:"正負の数の利用", type:"in", q:"月曜日の気温を基準(0)とし、火曜日は+3℃、水曜日は-2℃でした。火曜日と水曜日の気温差は何℃ですか。", a:"5", ph:"数値を入力(マイナスは-を使う)", steps:"3-(-2)=3+2=5(℃)。"},
+{id:136, ch:1, lv:2, sub:"正負の数の利用", type:"in", q:"ある株価が月曜+200円、火曜-150円、水曜-80円変化しました。3日間の合計の変化は何円ですか。", a:"-30", ph:"数値を入力(マイナスは-を使う)", steps:"200+(-150)+(-80)=200-230=-30(円)。"},
+
+// ---------- 第2章 1. 文字を使った式の表し方 ----------
+{id:141, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"xを5個と3をたした数を、文字式で表しなさい。", a:"5x+3", ph:"式の形で入力 例:7y-2", steps:"xが5個分なのでx×5=5x。数字は文字の前に書く。これに3をたすので5x+3。"},
+{id:142, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"xから4を引いた数を3倍した式を表しなさい。", a:"3(x-4)", ph:"式の形で入力 例:7y-2", steps:"「xから4を引いた数」は(x-4)。それを3倍するので3(x-4)。かっこを忘れないこと!"},
+{id:143, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"aの2倍からbをひいた数を式で表しなさい。", a:"2a-b", ph:"式の形で入力 例:7y-2", steps:"aの2倍は2a。そこからbをひくので2a-b。"},
+{id:144, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"xを7で割った数を式で表しなさい。", a:"x/7", ph:"分数の形(分子/分母)で入力 例:a/5", steps:"割る数は分母にする。x÷7はx/7と表す。"},
+{id:145, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"1個150円のりんごをx個買ったときの代金を式で表しなさい(円)。", a:"150x", ph:"式の形で入力 例:7y-2", steps:"1個150円がx個分なので150×x=150x(円)。"},
+{id:146, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"xにyをたしてから2をかけた式を表しなさい。", a:"2(x+y)", ph:"式の形で入力 例:7y-2", steps:"「xにyをたした数」は(x+y)。それに2をかけるので2(x+y)。"},
+{id:147, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"100円硬貨をa枚と50円硬貨をb枚持っているときの合計金額を式で表しなさい(円)。", a:"100a+50b", ph:"式の形で入力 例:7y-2", steps:"100円がa枚で100a円、50円がb枚で50b円。合計は100a+50b(円)。"},
+{id:148, ch:2, lv:1, sub:"文字を使った式", type:"rv", q:"ある数xの2乗から3をひいた式を表しなさい。", a:"x²-3 (x^2-3)", steps:"xの2乗はx²。そこから3をひくのでx²-3。"},
+{id:149, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"1本80円のペンをx本と、1冊120円のノートをy冊買った合計金額を式で表しなさい(円)。", a:"80x+120y", ph:"式の形で入力 例:7y-2", steps:"ペンの代金80x円とノートの代金120y円を合わせる。80x+120y(円)。"},
+{id:150, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"xkmの道のりを時速4kmで歩いたときにかかる時間を式で表しなさい(時間)。", a:"x/4", ph:"分数の形(分子/分母)で入力 例:a/5", steps:"時間=道のり÷速さ。x÷4=x/4(時間)。"},
+
+// ---------- 第2章 2. 式の値 ----------
+{id:151, ch:2, lv:1, sub:"式の値", type:"in", q:"x=3 のとき、2x+5 の値を求めなさい。", a:"11", ph:"数値を入力(マイナスは-を使う)", steps:"xに3を代入する。2×3+5=6+5=11。"},
+{id:152, ch:2, lv:1, sub:"式の値", type:"in", q:"x=-2 のとき、3x-4 の値を求めなさい。", a:"-10", ph:"数値を入力(マイナスは-を使う)", steps:"3×(-2)-4=-6-4=-10。"},
+{id:153, ch:2, lv:1, sub:"式の値", type:"in", q:"a=4 のとき、a²の値を求めなさい。", a:"16", ph:"数値を入力(マイナスは-を使う)", steps:"4×4=16。"},
+{id:154, ch:2, lv:1, sub:"式の値", type:"in", q:"x=-3 のとき、x²の値を求めなさい。", a:"9", ph:"数値を入力(マイナスは-を使う)", steps:"(-3)×(-3)=9。負の数の2乗は正になる。"},
+{id:155, ch:2, lv:2, sub:"式の値", type:"in", q:"x=-3 のとき、-x²の値を求めなさい。", a:"-9", ph:"数値を入力(マイナスは-を使う)", steps:"-x²は「x²を求めてからマイナスをつける」という意味。x²=9なので、答えは-9。"},
+{id:156, ch:2, lv:1, sub:"式の値", type:"in", q:"x=5 のとき、-2x+1 の値を求めなさい。", a:"-9", ph:"数値を入力(マイナスは-を使う)", steps:"-2×5+1=-10+1=-9。"},
+{id:157, ch:2, lv:2, sub:"式の値", type:"in", q:"a=-2, b=3 のとき、a+2b の値を求めなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"-2+2×3=-2+6=4。"},
+{id:158, ch:2, lv:1, sub:"式の値", type:"in", q:"x=-4 のとき、x/2+3 の値を求めなさい。", a:"1", ph:"数値を入力(マイナスは-を使う)", steps:"-4÷2+3=-2+3=1。"},
+
+// ---------- 第2章 3. 項と係数、一次式の加法・減法 ----------
+{id:161, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"rv", q:"3x-7 の項をすべて答えなさい。", a:"3x と -7", steps:"項とは、式を+でつないだときの一つ一つのまとまり。3x-7=3x+(-7)なので、項は3xと-7。"},
+{id:162, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"3x の係数を答えなさい。", a:"3", ph:"数値を入力(マイナスは-を使う)", steps:"係数とは、文字にかけられている数。3xの係数は3。"},
+{id:163, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"-5x の係数を答えなさい。", a:"-5", ph:"数値を入力(マイナスは-を使う)", steps:"-5xの係数は-5(マイナスも含める)。"},
+{id:164, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"(3x+2)+(5x-4) を計算しなさい。", a:"8x-2", ph:"式の形で入力 例:7y-2", steps:"文字の項どうし、数の項どうしをまとめる。3x+5x=8x、2-4=-2。よって8x-2。"},
+{id:165, ch:2, lv:2, sub:"項・係数・一次式の加減", type:"in", q:"(4x-3)-(2x-6) を計算しなさい。", a:"2x+3", ph:"式の形で入力 例:7y-2", steps:"-( )の中の符号をすべて変える。-(2x-6)=-2x+6。4x-3-2x+6=2x+3。"},
+{id:166, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"(-2x+5)+(3x-1) を計算しなさい。", a:"x+4", ph:"式の形で入力 例:7y-2", steps:"-2x+3x=x、5-1=4。よってx+4。"},
+{id:167, ch:2, lv:2, sub:"項・係数・一次式の加減", type:"in", q:"(6x-2)-(6x-5) を計算しなさい。", a:"3", ph:"数値を入力(マイナスは-を使う)", steps:"6x-6x=0、-2-(-5)=-2+5=3。よって3。"},
+{id:168, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"3x+4-x-7 を計算しなさい。", a:"2x-3", ph:"式の形で入力 例:7y-2", steps:"3x-x=2x、4-7=-3。よって2x-3。"},
+{id:169, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"-x+2+5x-9 を計算しなさい。", a:"4x-7", ph:"式の形で入力 例:7y-2", steps:"-x+5x=4x、2-9=-7。よって4x-7。"},
+{id:170, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"(2x-5)+(-3x+1) を計算しなさい。", a:"-x-4", ph:"式の形で入力 例:7y-2", steps:"2x-3x=-x、-5+1=-4。よって-x-4。"},
+
+// ---------- 第2章 4. 一次式と数の乗法・除法 ----------
+{id:171, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"3(2x-5) を計算しなさい。(かっこをはずす)", a:"6x-15", ph:"式の形で入力 例:7y-2", steps:"分配法則を使う。3×2x=6x、3×(-5)=-15。よって6x-15。"},
+{id:172, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"-2(3x-4) を計算しなさい。", a:"-6x+8", ph:"式の形で入力 例:7y-2", steps:"-2×3x=-6x、-2×(-4)=8。よって-6x+8。"},
+{id:173, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"(6x-9)÷3 を計算しなさい。", a:"2x-3", ph:"式の形で入力 例:7y-2", steps:"それぞれを3で割る。6x÷3=2x、-9÷3=-3。よって2x-3。"},
+{id:174, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"(-12x+8)÷4 を計算しなさい。", a:"-3x+2", ph:"式の形で入力 例:7y-2", steps:"-12x÷4=-3x、8÷4=2。よって-3x+2。"},
+{id:175, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"4(x-2)+3(x+1) を計算しなさい。", a:"7x-5", ph:"式の形で入力 例:7y-2", steps:"それぞれのかっこをはずす。4x-8+3x+3=7x-5。"},
+{id:176, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"2(x+3)-(x-5) を計算しなさい。", a:"x+11", ph:"式の形で入力 例:7y-2", steps:"2x+6-x+5=x+11。"},
+{id:177, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"-3(2x-1)+4 を計算しなさい。", a:"-6x+7", ph:"式の形で入力 例:7y-2", steps:"-6x+3+4=-6x+7。"},
+{id:178, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"(15x-10)÷5 を計算しなさい。", a:"3x-2", ph:"式の形で入力 例:7y-2", steps:"15x÷5=3x、-10÷5=-2。よって3x-2。"},
+
+// ---------- 第3章 1. 方程式と解・等式の性質 ----------
+{id:181, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"rv", q:"次のうち、x=3 が解であるものを選びなさい。\n① x+2=5　② 2x=4", a:"①", steps:"①にx=3を代入:3+2=5で成り立つ。②にx=3を代入:2×3=6で4にならない。よって①。"},
+{id:182, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"rv", q:"「方程式」とは何か、簡単に説明しなさい。", a:"文字の値によって成り立つかどうかが決まる等式", steps:"例えばx+1=4はx=3のときだけ成り立つ。このような等式を方程式という。x=3のような、方程式を成り立たせる値を「解」という。"},
+{id:183, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"rv", q:"等式の性質を1つ説明しなさい(両辺に同じ数をたす場合)。", a:"等式の両辺に同じ数をたしても、等式は成り立つ", steps:"A=BならばA+C=B+Cが成り立つ。同じように、両辺から同じ数をひいたり、同じ数をかけたり(0でない数で)わったりしても等式は成り立つ。"},
+{id:184, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x+5=8 の解を求めなさい。", a:"x=3", ph:"x=◯ の形で入力", steps:"両辺から5をひく。x=8-5=3。"},
+{id:185, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x-4=2 の解を求めなさい。", a:"x=6", ph:"x=◯ の形で入力", steps:"両辺に4をたす。x=2+4=6。"},
+{id:186, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"3x=12 の解を求めなさい。", a:"x=4", ph:"x=◯ の形で入力", steps:"両辺を3でわる。x=12÷3=4。"},
+{id:187, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x/4=3 の解を求めなさい。", a:"x=12", ph:"x=◯ の形で入力", steps:"両辺に4をかける。x=3×4=12。"},
+{id:188, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"-2x=10 の解を求めなさい。", a:"x=-5", ph:"x=◯ の形で入力", steps:"両辺を-2でわる。x=10÷(-2)=-5。"},
+
+// ---------- 第3章 2. 方程式の解き方(移項) ----------
+{id:191, ch:3, lv:1, sub:"方程式の解き方(移項)", type:"in", q:"2x+3=9 を解きなさい。", a:"x=3", ph:"x=◯ の形で入力", steps:"3を右辺に移項(符号を変えて移す)。2x=9-3=6。両辺を2でわる。x=3。"},
+{id:192, ch:3, lv:1, sub:"方程式の解き方(移項)", type:"in", q:"3x-5=10 を解きなさい。", a:"x=5", ph:"x=◯ の形で入力", steps:"-5を右辺に移項。3x=10+5=15。両辺を3でわる。x=5。"},
+{id:193, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"5x+2=2x+8 を解きなさい。", a:"x=2", ph:"x=◯ の形で入力", steps:"2xを左辺に、2を右辺に移項。5x-2x=8-2。3x=6。x=2。"},
+{id:194, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"4x-7=x+5 を解きなさい。", a:"x=4", ph:"x=◯ の形で入力", steps:"xを左辺に、-7を右辺に移項。4x-x=5+7。3x=12。x=4。"},
+{id:195, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"6-2x=x+9 を解きなさい。", a:"x=-1", ph:"x=◯ の形で入力", steps:"-2xを右辺、9を左辺に移項。6-9=x+2x。-3=3x。x=-1。"},
+{id:196, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"7x+1=3x-11 を解きなさい。", a:"x=-3", ph:"x=◯ の形で入力", steps:"3xを左辺、1を右辺に移項。7x-3x=-11-1。4x=-12。x=-3。"},
+{id:197, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"2(x+3)=10 を解きなさい。", a:"x=2", ph:"x=◯ の形で入力", steps:"かっこをはずす。2x+6=10。6を移項。2x=4。x=2。"},
+{id:198, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"3(x-2)=x+4 を解きなさい。", a:"x=5", ph:"x=◯ の形で入力", steps:"かっこをはずす。3x-6=x+4。移項して3x-x=4+6。2x=10。x=5。"},
+{id:199, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"5x-3=2(x+3) を解きなさい。", a:"x=3", ph:"x=◯ の形で入力", steps:"右辺のかっこをはずす。5x-3=2x+6。移項して5x-2x=6+3。3x=9。x=3。"},
+{id:200, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"4(x+1)=2(x+5) を解きなさい。", a:"x=3", ph:"x=◯ の形で入力", steps:"両辺のかっこをはずす。4x+4=2x+10。移項して4x-2x=10-4。2x=6。x=3。"},
+
+// ---------- 第3章 3. いろいろな方程式(小数・分数) ----------
+{id:201, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"0.2x=4 を解きなさい。", a:"x=20", ph:"x=◯ の形で入力", steps:"両辺を10倍して整数にする。2x=40。x=20。"},
+{id:202, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"0.3x-1=0.5 を解きなさい。", a:"x=5", ph:"x=◯ の形で入力", steps:"両辺を10倍。3x-10=5。移項して3x=15。x=5。"},
+{id:203, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"x/2+1=4 を解きなさい。", a:"x=6", ph:"x=◯ の形で入力", steps:"両辺を2倍して分母をはらう。x+2=8。移項してx=6。"},
+{id:204, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"x/3-2=1 を解きなさい。", a:"x=9", ph:"x=◯ の形で入力", steps:"両辺を3倍。x-6=3。移項してx=9。"},
+{id:205, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"x/2=x/3+1 を解きなさい。", a:"x=6", ph:"x=◯ の形で入力", steps:"両辺を6倍(2と3の最小公倍数)。3x=2x+6。移項してx=6。"},
+{id:206, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"0.5x+0.4=1.4 を解きなさい。", a:"x=2", ph:"x=◯ の形で入力", steps:"両辺を10倍。5x+4=14。移項して5x=10。x=2。"},
+{id:207, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"(x+1)/2=3 を解きなさい。", a:"x=5", ph:"x=◯ の形で入力", steps:"両辺を2倍。x+1=6。移項してx=5。"},
+{id:208, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"(x-2)/3=2 を解きなさい。", a:"x=8", ph:"x=◯ の形で入力", steps:"両辺を3倍。x-2=6。移項してx=8。"},
+// ---------- 追加問題セット(100問) ----------
+// ---------- 第1章 1. 正の数・負の数の意味(追加) ----------
+{id:301, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"+9 の絶対値を答えなさい。", a:"9", ph:"数値を入力(マイナスは-を使う)", steps:"絶対値とは0からの距離。+9と0の距離は9なので絶対値は9。"},
+{id:302, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"絶対値が6である数のうち、正の数を答えなさい。", a:"6", ph:"数値を入力(マイナスは-を使う)", steps:"絶対値が6になる数は+6と-6。正の数なので+6。"},
+{id:303, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"次の数の中で2番目に大きい数を答えなさい。\n-5, 3, -1, 4", a:"3", ph:"数値を入力(マイナスは-を使う)", steps:"大きい順に並べると4, 3, -1, -5。2番目に大きいのは3。"},
+{id:304, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"次の数の中で絶対値が最も小さい数を答えなさい。\n-6, 2, -3, 5", a:"2", ph:"数値を入力(マイナスは-を使う)", steps:"各数の絶対値は6,2,3,5。最も小さいのは2の絶対値2。"},
+{id:305, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"-4 と -1 のうち、小さい方の数を答えなさい。", a:"-4", ph:"数値を入力(マイナスは-を使う)", steps:"負の数では絶対値が大きいほど小さい。4>1なので-4の方が小さい。"},
+{id:306, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"0 より 8 大きい数を答えなさい。", a:"8", ph:"数値を入力(マイナスは-を使う)", steps:"0から8大きい数は0+8=8。"},
+{id:307, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"絶対値が7より小さい整数のうち、最も小さいものを答えなさい。", a:"-6", ph:"数値を入力(マイナスは-を使う)", steps:"絶対値が7より小さい整数は-6から6まで。最も小さいのは-6。"},
+{id:308, ch:1, lv:1, sub:"数の大小・絶対値", type:"in", q:"-2.8 の絶対値を答えなさい。", a:"2.8", ph:"数値を入力(マイナスは-を使う)", steps:"-2.8と0の距離は2.8。よって絶対値は2.8。"},
+{id:309, ch:1, lv:2, sub:"数の大小・絶対値", type:"in", q:"次の数を大きい順に並べたとき、3番目になる数を答えなさい。\n-7, 1, -3, 6", a:"-3", ph:"数値を入力(マイナスは-を使う)", steps:"大きい順:6,1,-3,-7。3番目は-3。"},
+
+// ---------- 第1章 2. 加法と減法(追加) ----------
+{id:311, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(+8)+(+2) を計算しなさい。", a:"10", ph:"数値を入力(マイナスは-を使う)", steps:"同符号の加法は絶対値の和に共通の符号をつける。8+2=10、符号は+。"},
+{id:312, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(-9)+(-3) を計算しなさい。", a:"-12", ph:"数値を入力(マイナスは-を使う)", steps:"同符号の加法。9+3=12、符号は-。よって-12。"},
+{id:313, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(+5)+(-12) を計算しなさい。", a:"-7", ph:"数値を入力(マイナスは-を使う)", steps:"異符号の加法は絶対値の差に絶対値が大きい方の符号。12-5=7、絶対値が大きいのは-12なので-7。"},
+{id:314, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(-8)+(+15) を計算しなさい。", a:"7", ph:"数値を入力(マイナスは-を使う)", steps:"異符号の加法。15-8=7、絶対値が大きいのは+15なので+7。"},
+{id:315, ch:1, lv:2, sub:"加法と減法", type:"in", q:"(-6)-(-10) を計算しなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"引くことは符号を変えて加えること。-6-(-10)=-6+10=4。"},
+{id:316, ch:1, lv:1, sub:"加法と減法", type:"in", q:"(+4)-(+9) を計算しなさい。", a:"-5", ph:"数値を入力(マイナスは-を使う)", steps:"+4-(+9)=+4-9=-5。"},
+{id:317, ch:1, lv:2, sub:"加法と減法", type:"in", q:"(+3)-(-8) を計算しなさい。", a:"11", ph:"数値を入力(マイナスは-を使う)", steps:"+3-(-8)=+3+8=11。"},
+{id:318, ch:1, lv:2, sub:"加法と減法", type:"in", q:"-5+9-7 を計算しなさい。", a:"-3", ph:"数値を入力(マイナスは-を使う)", steps:"左から計算する。-5+9=4、4-7=-3。"},
+{id:319, ch:1, lv:2, sub:"加法と減法", type:"in", q:"7-(-2)+(-10) を計算しなさい。", a:"-1", ph:"数値を入力(マイナスは-を使う)", steps:"7-(-2)=7+2=9。9+(-10)=-1。"},
+
+// ---------- 第1章 3. 乗法と除法(追加) ----------
+{id:321, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(-5)×(+3) を計算しなさい。", a:"-15", ph:"数値を入力(マイナスは-を使う)", steps:"異符号の積は負。5×3=15なので-15。"},
+{id:322, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(-7)×(-4) を計算しなさい。", a:"28", ph:"数値を入力(マイナスは-を使う)", steps:"同符号の積は正。7×4=28。"},
+{id:323, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(+18)÷(-3) を計算しなさい。", a:"-6", ph:"数値を入力(マイナスは-を使う)", steps:"異符号の商は負。18÷3=6なので-6。"},
+{id:324, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(-24)÷(-6) を計算しなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"同符号の商は正。24÷6=4。"},
+{id:325, ch:1, lv:2, sub:"乗法と除法", type:"in", q:"(-3)^3 を計算しなさい。", a:"-27", ph:"数値を入力(マイナスは-を使う)", steps:"(-3)を3回かける。(-3)×(-3)×(-3)=9×(-3)=-27。奇数回かけると負になる。"},
+{id:326, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"(-4)^2 を計算しなさい。", a:"16", ph:"数値を入力(マイナスは-を使う)", steps:"(-4)×(-4)=16。偶数回かけると正になる。"},
+{id:327, ch:1, lv:2, sub:"乗法と除法", type:"in", q:"-3^2 を計算しなさい。", a:"-9", ph:"数値を入力(マイナスは-を使う)", steps:"指数は3だけにかかるので、-(3×3)=-9。-3を2乗するわけではない点に注意。"},
+{id:328, ch:1, lv:1, sub:"乗法と除法", type:"in", q:"18 を素因数分解しなさい。", a:"2×3×3", ph:"例: 2×3×3", steps:"18=2×9=2×3×3。"},
+{id:329, ch:1, lv:2, sub:"乗法と除法", type:"in", q:"(-2)×(-5)×(-3) を計算しなさい。", a:"-30", ph:"数値を入力(マイナスは-を使う)", steps:"負の数を3個(奇数個)かけているので結果は負。2×5×3=30なので-30。"},
+
+// ---------- 第1章 4. 正負の数の利用(追加) ----------
+{id:331, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"ある日の最高気温は7℃、最低気温は-3℃でした。この日の気温差は何℃ですか。", a:"10", ph:"数値を入力", steps:"気温差=最高-最低=7-(-3)=10。"},
+{id:332, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"Aさんの身長は160cmを基準にして+5cmです。Aさんの身長は何cmですか。", a:"165", ph:"数値を入力", steps:"160+5=165(cm)。"},
+{id:333, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"ある山の山頂の標高は2400m、ふもとの標高は600mです。標高差は何mですか。", a:"1800", ph:"数値を入力", steps:"2400-600=1800(m)。"},
+{id:334, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"ある荷物の重さは、基準の5kgに対して-1.5kgでした。実際の重さは何kgですか。", a:"3.5", ph:"数値を入力", steps:"5+(-1.5)=3.5(kg)。"},
+{id:335, ch:1, lv:2, sub:"正負の数の利用", type:"in", q:"月曜の気温は基準より+3℃、火曜は基準より-5℃でした。火曜は月曜より何℃低いですか。", a:"8", ph:"数値を入力", steps:"月曜と火曜の差=(+3)-(-5)=3+5=8(℃)。"},
+{id:336, ch:1, lv:2, sub:"正負の数の利用", type:"in", q:"ある会社の株価が1日目+200円、2日目-350円、3日目+80円変化しました。3日間の合計の変化は何円ですか。", a:"-70", ph:"数値を入力(マイナスは-を使う)", steps:"200+(-350)+80=-70(円)。"},
+{id:337, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"基準の体重60kgに対して-3kgの人の体重は何kgですか。", a:"57", ph:"数値を入力", steps:"60+(-3)=57(kg)。"},
+{id:338, ch:1, lv:2, sub:"正負の数の利用", type:"in", q:"Bさんの得点は基準点より+12点、Cさんは基準点より-8点でした。BさんはCさんより何点高いですか。", a:"20", ph:"数値を入力", steps:"BとCの差=(+12)-(-8)=12+8=20(点)。"},
+{id:339, ch:1, lv:1, sub:"正負の数の利用", type:"in", q:"ある日の朝の気温は-2℃で、昼には朝より6℃上がりました。昼の気温は何℃ですか。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"-2+6=4(℃)。"},
+
+// ---------- 第2章 1. 文字を使った式(追加) ----------
+{id:401, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"xを4倍して7を加えた数を、xを使った式で表しなさい。", a:"4x+7", ph:"例: 4x+7", steps:"xを4倍するのは4x、それに7を加えるので4x+7。"},
+{id:402, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"xから5をひいた数を3倍した数を、xを使った式で表しなさい。", a:"3(x-5)", ph:"例: 3(x-5)", steps:"xから5をひく→x-5。それを3倍するのでかっこをつけて3(x-5)。"},
+{id:403, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"aを2倍した数からbをひいた数を、文字式で表しなさい。", a:"2a-b", ph:"例: 2a-b", steps:"aを2倍は2a、そこからbをひくので2a-b。"},
+{id:404, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"yを9で割った数を、文字式で表しなさい。", a:"y/9", ph:"例: y/9", steps:"yを9で割るのでy/9(分数の形)。"},
+{id:405, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"1個200円のりんごをx個買ったときの代金を、文字式で表しなさい。", a:"200x", ph:"例: 200x", steps:"1個200円をx個買うので200×x=200x。"},
+{id:406, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"xとyの和を2倍した数を、文字式で表しなさい。", a:"2(x+y)", ph:"例: 2(x+y)", steps:"xとyの和はx+y。それを2倍するのでかっこをつけて2(x+y)。"},
+{id:407, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"1本150円のペンをa本、1個90円の消しゴムをb個買ったときの代金の合計を、文字式で表しなさい。", a:"150a+90b", ph:"例: 150a+90b", steps:"ペンの代金150a、消しゴムの代金90bを合わせて150a+90b。"},
+{id:408, ch:2, lv:1, sub:"文字を使った式", type:"in", q:"xを2乗した数から7をひいた数を、文字式で表しなさい。", a:"x^2-7", ph:"例: x^2-7", steps:"xを2乗はx^2、そこから7をひくのでx^2-7。"},
+{id:409, ch:2, lv:2, sub:"文字を使った式", type:"in", q:"akmの道のりを時速4kmで歩くときにかかる時間を、文字式で表しなさい。", a:"a/4", ph:"例: a/4", steps:"時間=道のり÷速さ。a÷4=a/4(時間)。"},
+
+// ---------- 第2章 2. 式の値(追加) ----------
+{id:411, ch:2, lv:1, sub:"式の値", type:"in", q:"x=4のとき、3x+2 の値を求めなさい。", a:"14", ph:"数値を入力(マイナスは-を使う)", steps:"3×4+2=12+2=14。"},
+{id:412, ch:2, lv:1, sub:"式の値", type:"in", q:"x=-3のとき、2x-5 の値を求めなさい。", a:"-11", ph:"数値を入力(マイナスは-を使う)", steps:"2×(-3)-5=-6-5=-11。"},
+{id:413, ch:2, lv:1, sub:"式の値", type:"in", q:"a=5のとき、a^2 の値を求めなさい。", a:"25", ph:"数値を入力(マイナスは-を使う)", steps:"5×5=25。"},
+{id:414, ch:2, lv:1, sub:"式の値", type:"in", q:"x=-2のとき、x^2 の値を求めなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"(-2)×(-2)=4。負の数の2乗は正になる。"},
+{id:415, ch:2, lv:2, sub:"式の値", type:"in", q:"x=-2のとき、-x^2 の値を求めなさい。", a:"-4", ph:"数値を入力(マイナスは-を使う)", steps:"x^2=(-2)^2=4。マイナスは最後につけるので-x^2=-4。"},
+{id:416, ch:2, lv:1, sub:"式の値", type:"in", q:"x=6のとき、-3x+4 の値を求めなさい。", a:"-14", ph:"数値を入力(マイナスは-を使う)", steps:"-3×6+4=-18+4=-14。"},
+{id:417, ch:2, lv:2, sub:"式の値", type:"in", q:"a=3, b=-2のとき、2a+3b の値を求めなさい。", a:"0", ph:"数値を入力(マイナスは-を使う)", steps:"2×3+3×(-2)=6-6=0。"},
+{id:418, ch:2, lv:1, sub:"式の値", type:"in", q:"x=-6のとき、x/3+1 の値を求めなさい。", a:"-1", ph:"数値を入力(マイナスは-を使う)", steps:"-6/3+1=-2+1=-1。"},
+{id:419, ch:2, lv:2, sub:"式の値", type:"in", q:"x=-4のとき、x^2-2x の値を求めなさい。", a:"24", ph:"数値を入力(マイナスは-を使う)", steps:"x^2=(-4)^2=16。2x=2×(-4)=-8。16-(-8)=16+8=24。"},
+
+// ---------- 第2章 3. 項・係数・一次式の加減(追加) ----------
+{id:421, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"4x-7 の項を答えなさい。", a:"4x,-7", ph:"例: 4x,-7", steps:"加法だけの形に直すと4x+(-7)。項は4xと-7。"},
+{id:422, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"-6x の係数を答えなさい。", a:"-6", ph:"数値を入力(マイナスは-を使う)", steps:"文字の前についている数が係数。-6x の係数は-6。"},
+{id:423, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"x の係数を答えなさい。", a:"1", ph:"数値を入力", steps:"xは1×xと考えられるので係数は1。"},
+{id:424, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"(2x+5)+(4x-3) を計算しなさい。", a:"6x+2", ph:"例: 6x+2", steps:"xの項どうし、数の項どうしをまとめる。2x+4x=6x、5+(-3)=2。よって6x+2。"},
+{id:425, ch:2, lv:2, sub:"項・係数・一次式の加減", type:"in", q:"(5x-2)-(3x-8) を計算しなさい。", a:"2x+6", ph:"例: 2x+6", steps:"ひくときはかっこの中の符号を変えて加える。5x-2-3x+8=2x+6。"},
+{id:426, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"(-3x+4)+(2x-9) を計算しなさい。", a:"-x-5", ph:"例: -x-5", steps:"-3x+2x=-x、4+(-9)=-5。よって-x-5。"},
+{id:427, ch:2, lv:2, sub:"項・係数・一次式の加減", type:"in", q:"(4x-1)-(4x-7) を計算しなさい。", a:"6", ph:"数値を入力", steps:"4x-1-4x+7=6。xの項が消えて数だけ残る。"},
+{id:428, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"5x-2-2x+8 を計算しなさい。", a:"3x+6", ph:"例: 3x+6", steps:"5x-2x=3x、-2+8=6。よって3x+6。"},
+{id:429, ch:2, lv:1, sub:"項・係数・一次式の加減", type:"in", q:"-2x+7+5x-10 を計算しなさい。", a:"3x-3", ph:"例: 3x-3", steps:"-2x+5x=3x、7-10=-3。よって3x-3。"},
+
+// ---------- 第2章 4. 一次式と数の乗除(追加) ----------
+{id:431, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"4(2x-3) を計算しなさい。", a:"8x-12", ph:"例: 8x-12", steps:"4を( )の中それぞれにかける。4×2x=8x、4×(-3)=-12。よって8x-12。"},
+{id:432, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"-3(4x-2) を計算しなさい。", a:"-12x+6", ph:"例: -12x+6", steps:"-3を( )の中それぞれにかける。-3×4x=-12x、-3×(-2)=6。よって-12x+6。"},
+{id:433, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"(8x-16)÷4 を計算しなさい。", a:"2x-4", ph:"例: 2x-4", steps:"それぞれを4で割る。8x÷4=2x、-16÷4=-4。よって2x-4。"},
+{id:434, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"(-15x+9)÷3 を計算しなさい。", a:"-5x+3", ph:"例: -5x+3", steps:"それぞれを3で割る。-15x÷3=-5x、9÷3=3。よって-5x+3。"},
+{id:435, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"3(x-1)+2(x+4) を計算しなさい。", a:"5x+5", ph:"例: 5x+5", steps:"それぞれかっこを外す。3x-3+2x+8=5x+5。"},
+{id:436, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"5(x+2)-3(x-1) を計算しなさい。", a:"2x+13", ph:"例: 2x+13", steps:"かっこを外す。5x+10-3x+3=2x+13。引くときは符号に注意。"},
+{id:437, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"-2(3x-1)+5 を計算しなさい。", a:"-6x+7", ph:"例: -6x+7", steps:"-2(3x-1)=-6x+2。それに5を加えて-6x+7。"},
+{id:438, ch:2, lv:1, sub:"一次式と数の乗除", type:"in", q:"(20x-8)÷4 を計算しなさい。", a:"5x-2", ph:"例: 5x-2", steps:"それぞれを4で割る。20x÷4=5x、-8÷4=-2。よって5x-2。"},
+{id:439, ch:2, lv:2, sub:"一次式と数の乗除", type:"in", q:"4(x-3)-2(x-5) を計算しなさい。", a:"2x-2", ph:"例: 2x-2", steps:"かっこを外す。4x-12-2x+10=2x-2。"},
+
+// ---------- 第3章 1. 方程式と解・等式の性質(追加) ----------
+{id:501, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"次の方程式のうち、x=3が解であるものを選びなさい。\nア 2x+1=7  イ x-5=1  ウ 3x=12", a:"ア", ph:"ア・イ・ウで答える", steps:"x=3を代入する。ア:2×3+1=7(成立)。イ:3-5=-2≠1。ウ:3×3=9≠12。よってア。"},
+{id:502, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x+7=10 の解を答えなさい。", a:"3", ph:"数値を入力(マイナスは-を使う)", steps:"両辺から7をひく。x=10-7=3。"},
+{id:503, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x-9=-2 の解を答えなさい。", a:"7", ph:"数値を入力(マイナスは-を使う)", steps:"両辺に9を加える。x=-2+9=7。"},
+{id:504, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"5x=35 の解を答えなさい。", a:"7", ph:"数値を入力(マイナスは-を使う)", steps:"両辺を5で割る。x=35/5=7。"},
+{id:505, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x/3=6 の解を答えなさい。", a:"18", ph:"数値を入力(マイナスは-を使う)", steps:"両辺に3をかける。x=6×3=18。"},
+{id:506, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"-4x=20 の解を答えなさい。", a:"-5", ph:"数値を入力(マイナスは-を使う)", steps:"両辺を-4で割る。x=20÷(-4)=-5。"},
+{id:507, ch:3, lv:2, sub:"方程式と解・等式の性質", type:"in", q:"A=Bのとき、A+5とB+5の関係について、正しいものを選びなさい。\nア A+5>B+5  イ A+5=B+5  ウ A+5<B+5", a:"イ", ph:"ア・イ・ウで答える", steps:"等式の両辺に同じ数を加えても等しさは変わらない(等式の性質)。よってA+5=B+5。"},
+{id:508, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x+(-6)=2 の解を答えなさい。", a:"8", ph:"数値を入力(マイナスは-を使う)", steps:"x-6=2と同じ。両辺に6を加えてx=8。"},
+{id:509, ch:3, lv:1, sub:"方程式と解・等式の性質", type:"in", q:"x/(-5)=3 の解を答えなさい。", a:"-15", ph:"数値を入力(マイナスは-を使う)", steps:"両辺に-5をかける。x=3×(-5)=-15。"},
+
+// ---------- 第3章 2. 方程式の解き方(移項)(追加) ----------
+{id:511, ch:3, lv:1, sub:"方程式の解き方(移項)", type:"in", q:"3x+4=19 を解きなさい。", a:"5", ph:"数値を入力(マイナスは-を使う)", steps:"4を右辺に移項。3x=19-4=15。両辺を3で割ってx=5。"},
+{id:512, ch:3, lv:1, sub:"方程式の解き方(移項)", type:"in", q:"5x-7=18 を解きなさい。", a:"5", ph:"数値を入力(マイナスは-を使う)", steps:"-7を右辺に移項。5x=18+7=25。両辺を5で割ってx=5。"},
+{id:513, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"4x+5=2x+13 を解きなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"xの項を左辺、数の項を右辺に移項。4x-2x=13-5。2x=8。x=4。"},
+{id:514, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"6x-3=3x+9 を解きなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"6x-3x=9+3。3x=12。x=4。"},
+{id:515, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"8-3x=2x-7 を解きなさい。", a:"3", ph:"数値を入力(マイナスは-を使う)", steps:"-3x-2x=-7-8。-5x=-15。x=3。"},
+{id:516, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"5x+2=3x-8 を解きなさい。", a:"-5", ph:"数値を入力(マイナスは-を使う)", steps:"5x-3x=-8-2。2x=-10。x=-5。"},
+{id:517, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"2(x-3)=8 を解きなさい。", a:"7", ph:"数値を入力(マイナスは-を使う)", steps:"かっこを外す。2x-6=8。2x=14。x=7。"},
+{id:518, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"4(x+2)=3x-1 を解きなさい。", a:"-9", ph:"数値を入力(マイナスは-を使う)", steps:"かっこを外す。4x+8=3x-1。4x-3x=-1-8。x=-9。"},
+{id:519, ch:3, lv:2, sub:"方程式の解き方(移項)", type:"in", q:"3x-4=2(x+3) を解きなさい。", a:"10", ph:"数値を入力(マイナスは-を使う)", steps:"右辺を展開。3x-4=2x+6。3x-2x=6+4。x=10。"},
+
+// ---------- 第3章 3. いろいろな方程式(追加) ----------
+{id:521, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"0.4x=8 を解きなさい。", a:"20", ph:"数値を入力(マイナスは-を使う)", steps:"両辺を0.4で割る。x=8÷0.4=20。"},
+{id:522, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"0.3x+2=0.5x-4 を解きなさい。", a:"30", ph:"数値を入力(マイナスは-を使う)", steps:"両辺を10倍して小数を消す。3x+20=5x-40。3x-5x=-40-20。-2x=-60。x=30。"},
+{id:523, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"x/4+2=5 を解きなさい。", a:"12", ph:"数値を入力(マイナスは-を使う)", steps:"2を右辺に移項。x/4=3。両辺に4をかけてx=12。"},
+{id:524, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"x/5-1=2 を解きなさい。", a:"15", ph:"数値を入力(マイナスは-を使う)", steps:"-1を右辺に移項。x/5=3。両辺に5をかけてx=15。"},
+{id:525, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"x/3=x/4+1 を解きなさい。", a:"12", ph:"数値を入力(マイナスは-を使う)", steps:"両辺を12倍して分母を消す。4x=3x+12。4x-3x=12。x=12。"},
+{id:526, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"0.2x-0.5=0.3 を解きなさい。", a:"4", ph:"数値を入力(マイナスは-を使う)", steps:"両辺を10倍する。2x-5=3。2x=8。x=4。"},
+{id:527, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"(x+3)/2=5 を解きなさい。", a:"7", ph:"数値を入力(マイナスは-を使う)", steps:"両辺に2をかける。x+3=10。x=7。"},
+{id:528, ch:3, lv:1, sub:"いろいろな方程式", type:"in", q:"(x-1)/4=3 を解きなさい。", a:"13", ph:"数値を入力(マイナスは-を使う)", steps:"両辺に4をかける。x-1=12。x=13。"},
+{id:529, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"x/2-x/5=3 を解きなさい。", a:"10", ph:"数値を入力(マイナスは-を使う)", steps:"両辺を10倍して分母を消す。5x-2x=30。3x=30。x=10。"},
+{id:530, ch:3, lv:2, sub:"いろいろな方程式", type:"in", q:"0.5(x-2)=x-5 を解きなさい。", a:"8", ph:"数値を入力(マイナスは-を使う)", steps:"0.5(x-2)=0.5x-1なので、0.5x-1=x-5。両辺を2倍するとx-2=2x-10。移項してx-2x=-10+2、-x=-8、x=8。"},
+];
+
+const CH_NAMES = {1:"第1章 正の数・負の数", 2:"第2章 文字と式", 3:"第3章 方程式"};
+
+/* =========================================================
+   状態管理 (localStorage)
+   ========================================================= */
+const STORE_KEY = "kr1math_progress_v1";
+const STREAK_KEY = "kr1math_streak_v1";
+
+function safeLocalGet(key, fallback){
+  try{
+    const v = localStorage.getItem(key);
+    return v === null ? fallback : v;
+  }catch(e){ return fallback; }
+}
+function safeLocalSet(key, value){
+  try{ localStorage.setItem(key, value); }catch(e){ /* storageが使えない環境では無視 */ }
+}
+
+function loadProgress(){
+  try{
+    const raw = safeLocalGet(STORE_KEY, null);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
+}
+function saveProgress(p){
+  safeLocalSet(STORE_KEY, JSON.stringify(p));
+}
+function getState(id){
+  if(!progress[id]) progress[id] = {correct:0, wrong:0, streak:0, weak:false, w:5, lastSeen:0};
+  return progress[id];
+}
+
+let progress = loadProgress();
+let streak = parseInt(safeLocalGet(STREAK_KEY, "0"), 10);
+
+/* =========================================================
+   採点用の正規化
+   ========================================================= */
+function normalize(s){
+  if(s===undefined || s===null) return "";
+  s = s.toString();
+  // 全角英数・記号(！～～:FF01-FF5E)を半角に変換。数字・x・括弧・ピリオド・スラッシュ・プラス・マイナス・イコールなどを網羅する
+  s = s.replace(/[！-～]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0));
+  // 上の範囲に入らない長音記号・マイナス記号のゆれも統一
+  s = s.replace(/[ーー−‐]/g, "-");
+  s = s.replace(/×/g, "*");
+  s = s.replace(/÷/g, "/");
+  s = s.replace(/²/g, "^2").replace(/³/g, "^3");
+  s = s.replace(/\s+/g, "");
+  return s.toLowerCase();
+}
+function isCorrect(input, answer){
+  return normalize(input) === normalize(answer);
+}
+
+/* =========================================================
+   出題範囲 & プール
+   ========================================================= */
+let currentRange = "all"; // "all" | 1 | 2 | 3 | "weak"
+let currentLevel = "all"; // "all" | 1 | 2
+const RANGE_LABELS = [
+  {key:"all", label:"全範囲"},
+  {key:1, label:"第1章"},
+  {key:2, label:"第2章"},
+  {key:3, label:"第3章"},
+  {key:"weak", label:"弱点だけ"},
+];
+const LEVEL_LABELS = [
+  {key:"all", label:"レベル:全部"},
+  {key:1, label:"やさしい"},
+  {key:2, label:"むずかしい"},
+];
+
+function getPool(){
+  let pool;
+  if(currentRange === "all") pool = QUESTIONS;
+  else if(currentRange === "weak") pool = QUESTIONS.filter(q => getState(q.id).weak);
+  else pool = QUESTIONS.filter(q => q.ch === currentRange);
+  if(currentLevel !== "all") pool = pool.filter(q => q.lv === currentLevel);
+  return pool;
+}
+
+function pickQuestion(excludeId){
+  let pool = getPool();
+  if(pool.length === 0) return null;
+  if(pool.length > 1 && excludeId !== undefined){
+    const filtered = pool.filter(q => q.id !== excludeId);
+    if(filtered.length) pool = filtered;
+  }
+  const weights = pool.map(q => getState(q.id).w || 5);
+  const total = weights.reduce((a,b)=>a+b, 0);
+  let r = Math.random() * total;
+  for(let i=0;i<pool.length;i++){
+    r -= weights[i];
+    if(r <= 0) return pool[i];
+  }
+  return pool[pool.length-1];
+}
+
+
+/* =========================================================
+   フラッシュカード ロジック
+   ========================================================= */
+let curQ = null;
+let lastQId = undefined;
+let historyStack = []; // 直前まで表示していた問題idのスタック(「前の問題」用)
+const HISTORY_MAX = 50;
+
+const flashcardEl = document.getElementById("flashcard");
+const qtextEl = document.getElementById("qtext");
+const frontUnitEl = document.getElementById("frontUnit");
+const inputAreaEl = document.getElementById("inputArea");
+const resultBadgeEl = document.getElementById("resultBadge");
+const backAnswerEl = document.getElementById("backAnswer");
+const backStepsEl = document.getElementById("backSteps");
+const selfGradeRowEl = document.getElementById("selfGradeRow");
+const nextBtnEl = document.getElementById("nextBtn");
+const backBtnEl = document.getElementById("backBtn");
+
+function syncFlashHeight(selector){
+  const face = flashcardEl.querySelector(selector);
+  if(face) flashcardEl.style.height = face.scrollHeight + "px";
+}
+
+function updateBackBtnState(){
+  backBtnEl.disabled = historyStack.length === 0;
+}
+
+// 問題qをフロント面に表示する(履歴操作はしない)
+function showQuestionFront(q){
+  flashcardEl.classList.remove("flipped");
+  curQ = q;
+  lastQId = q.id;
+  frontUnitEl.textContent = CH_NAMES[q.ch].split(" ")[0] + "・" + q.sub;
+  qtextEl.textContent = q.q;
+
+  if(q.type === "in"){
+    inputAreaEl.innerHTML = `
+      <div class="input-row">
+        <input type="text" id="ansInput" inputmode="none" readonly placeholder="${q.ph || '答えを入力'}" value="">
+      </div>
+      <div class="keypad" id="keypad"></div>
+      <button class="btn block" id="checkBtn">答え合わせ</button>
+      <div class="hint">わからないときは空のまま「答え合わせ」を押すと答えが見られます。</div>
+    `;
+    renderKeypad();
+    document.getElementById("checkBtn").addEventListener("click", onCheckInput);
+  }else{
+    inputAreaEl.innerHTML = `<button class="btn block" id="revealBtn">答えを見る</button>`;
+    document.getElementById("revealBtn").addEventListener("click", onReveal);
+  }
+  syncFlashHeight(".face.front");
+}
+
+function renderFront(){
+  // 既に表示していた問題があれば履歴に積んでおく(「前の問題」で戻れるように)
+  if(curQ){
+    historyStack.push(curQ.id);
+    if(historyStack.length > HISTORY_MAX) historyStack.shift();
+  }
+  const next = pickQuestion(lastQId);
+  if(!next){
+    flashcardEl.classList.remove("flipped");
+    curQ = null;
+    qtextEl.textContent = "この範囲には問題がありません。範囲を変えてみてください。";
+    inputAreaEl.innerHTML = "";
+    frontUnitEl.textContent = "-";
+    syncFlashHeight(".face.front");
+    updateBackBtnState();
+    return;
+  }
+  showQuestionFront(next);
+  updateBackBtnState();
+}
+
+function goToPrevQuestion(){
+  if(historyStack.length === 0) return;
+  const prevId = historyStack.pop();
+  const q = QUESTIONS.find(qq => qq.id === prevId);
+  updateBackBtnState();
+  if(!q) return;
+  showQuestionFront(q);
+}
+
+backBtnEl.addEventListener("click", goToPrevQuestion);
+
+
+const KEYPAD_KEYS = [
+  ["(",")","x","⌫"],
+  ["7","8","9","/"],
+  ["4","5","6","-"],
+  ["1","2","3","+"],
+  ["0",".","=","C"],
+];
+function renderKeypad(){
+  const wrap = document.getElementById("keypad");
+  if(!wrap) return;
+  wrap.innerHTML = "";
+  KEYPAD_KEYS.flat().forEach(k=>{
+    const b = document.createElement("button");
+    b.className = "key" + ((k==="⌫"||k==="C") ? " fn" : "");
+    b.type = "button";
+    b.textContent = k;
+    b.addEventListener("click", ()=> handleKeyTap(k));
+    wrap.appendChild(b);
+  });
+}
+function handleKeyTap(k){
+  const input = document.getElementById("ansInput");
+  if(!input) return;
+  if(k === "⌫") input.value = input.value.slice(0, -1);
+  else if(k === "C") input.value = "";
+  else input.value += k;
+}
+
+function onCheckInput(){
+  const val = document.getElementById("ansInput").value;
+  const ok = val.trim() !== "" && isCorrect(val, curQ.a);
+  showBack(ok, ok ? null : true); // 自動採点。不正解時は自己上書きボタンも出す
+}
+
+function onReveal(){
+  // reveal型は必ず自己採点モードで開く
+  showBack(null, true);
+}
+
+function showBack(autoResult, allowSelfGrade){
+  backAnswerEl.textContent = curQ.a;
+  backStepsEl.textContent = curQ.steps;
+
+  if(autoResult === true){
+    resultBadgeEl.textContent = "○ 正解!";
+    resultBadgeEl.className = "result-badge ok";
+    selfGradeRowEl.style.display = "none";
+    applyResult(true);
+  }else if(autoResult === false){
+    resultBadgeEl.textContent = "✕ ちがう答え";
+    resultBadgeEl.className = "result-badge ng";
+    selfGradeRowEl.style.display = "flex";
+    applyResult(false);
+  }else{
+    resultBadgeEl.textContent = "👀 答えを確認しよう";
+    resultBadgeEl.className = "result-badge ok";
+    selfGradeRowEl.style.display = "flex";
+  }
+  syncFlashHeight(".face.back");
+  flashcardEl.classList.add("flipped");
+}
+
+document.getElementById("selfOk").addEventListener("click", ()=>{
+  resultBadgeEl.textContent = "○ 正解!";
+  resultBadgeEl.className = "result-badge ok";
+  selfGradeRowEl.style.display = "none";
+  applyResult(true, true);
+  syncFlashHeight(".face.back");
+});
+document.getElementById("selfNg").addEventListener("click", ()=>{
+  resultBadgeEl.textContent = "✕ 不正解";
+  resultBadgeEl.className = "result-badge ng";
+  selfGradeRowEl.style.display = "none";
+  applyResult(false, true);
+  syncFlashHeight(".face.back");
+});
+
+function applyResult(correct, isOverride){
+  const st = getState(curQ.id);
+  st.lastSeen = Date.now();
+  if(correct){
+    st.correct += 1;
+    st.streak += 1;
+    if(st.streak >= 3) st.weak = false;
+    st.w = Math.max(1, 5 - st.streak);
+    streak += 1;
+  }else{
+    st.wrong += 1;
+    st.streak = 0;
+    st.weak = true;
+    st.w = 8;
+    streak = 0;
+  }
+  progress[curQ.id] = st;
+  saveProgress(progress);
+  safeLocalSet(STREAK_KEY, streak.toString());
+  updateStreakBadge();
+  updateWeakCount();
+}
+
+nextBtnEl.addEventListener("click", renderFront);
+
+function updateStreakBadge(){
+  document.getElementById("streakNum").textContent = streak;
+}
+
+/* =========================================================
+   範囲チップ
+   ========================================================= */
+function renderRangeChips(){
+  const wrap = document.getElementById("rangeChips");
+  wrap.innerHTML = "";
+  RANGE_LABELS.forEach(r=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (currentRange===r.key ? " active":"") + (r.key==="weak" ? " weak":"");
+    b.textContent = r.label;
+    b.addEventListener("click", ()=>{
+      currentRange = r.key;
+      renderRangeChips();
+      lastQId = undefined;
+      historyStack = [];
+      updateBackBtnState();
+      renderFront();
+    });
+    wrap.appendChild(b);
+  });
+}
+
+function renderLevelChips(){
+  const wrap = document.getElementById("levelChips");
+  wrap.innerHTML = "";
+  LEVEL_LABELS.forEach(lv=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (currentLevel===lv.key ? " active":"");
+    b.textContent = lv.label;
+    b.addEventListener("click", ()=>{
+      currentLevel = lv.key;
+      renderLevelChips();
+      lastQId = undefined;
+      historyStack = [];
+      updateBackBtnState();
+      renderFront();
+    });
+    wrap.appendChild(b);
+  });
+}
+
+/* =========================================================
+   タブ切り替え
+   ========================================================= */
+const tabButtons = document.querySelectorAll("nav.tabs button");
+tabButtons.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    tabButtons.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll("main").forEach(m=>m.classList.remove("show"));
+    const target = document.getElementById("tab-"+btn.dataset.tab);
+    target.classList.add("show");
+    if(btn.dataset.tab === "review") renderReview();
+    if(btn.dataset.tab === "dash") renderDashboard();
+  });
+});
+
+/* =========================================================
+   復習リスト
+   ========================================================= */
+function renderReview(){
+  const weakQs = QUESTIONS.filter(q => getState(q.id).weak);
+  const startWrap = document.getElementById("reviewStartWrap");
+  const listWrap = document.getElementById("reviewList");
+
+  if(weakQs.length === 0){
+    startWrap.innerHTML = "";
+    listWrap.innerHTML = `<div class="empty"><span class="emoji">🎉</span>今のところ弱点はありません。<br>フラッシュ問題に挑戦してみよう!</div>`;
+    return;
+  }
+
+  startWrap.innerHTML = `
+    <div class="card" style="margin-bottom:16px;">
+      <div style="font-weight:700; margin-bottom:6px;">弱点ストック: ${weakQs.length}問</div>
+      <div style="font-size:13px; color:var(--ink-soft); margin-bottom:10px;">間違えた問題だけを集中して練習できます。</div>
+      <button class="btn green block" id="startWeakBtn">復習フラッシュを始める</button>
+    </div>
+  `;
+  document.getElementById("startWeakBtn").addEventListener("click", ()=>{
+    currentRange = "weak";
+    currentLevel = "all";
+    renderRangeChips();
+    renderLevelChips();
+    document.querySelector('nav.tabs button[data-tab="flash"]').click();
+    lastQId = undefined;
+    historyStack = [];
+    updateBackBtnState();
+    renderFront();
+  });
+
+  listWrap.innerHTML = "";
+  // 章ごとにまとめる
+  [1,2,3].forEach(ch=>{
+    const chQs = weakQs.filter(q=>q.ch===ch);
+    if(chQs.length===0) return;
+    const label = document.createElement("div");
+    label.className = "section-label";
+    label.textContent = CH_NAMES[ch];
+    listWrap.appendChild(label);
+    chQs.forEach(q=>{
+      const st = getState(q.id);
+      const item = document.createElement("div");
+      item.className = "review-item";
+      item.innerHTML = `
+        <div class="rtop">
+          <div>
+            <div class="runit">${q.sub}</div>
+            <div class="rq">${q.q.replace(/\n/g,"<br>")}</div>
+          </div>
+          <div class="rwrong">✕${st.wrong}回</div>
+        </div>
+        <button class="rtoggle">答えを見る</button>
+        <div class="ranswer">
+          <strong>答え: ${q.a}</strong><br>${q.steps}
+        </div>
+      `;
+      const toggle = item.querySelector(".rtoggle");
+      const ans = item.querySelector(".ranswer");
+      toggle.addEventListener("click", ()=>{
+        ans.classList.toggle("open");
+        toggle.textContent = ans.classList.contains("open") ? "答えを閉じる" : "答えを見る";
+      });
+      listWrap.appendChild(item);
+    });
+  });
+}
+
+function updateWeakCount(){
+  const n = QUESTIONS.filter(q => getState(q.id).weak).length;
+  const badge = document.getElementById("weakCount");
+  if(n > 0){ badge.style.display = "inline-block"; badge.textContent = n; }
+  else{ badge.style.display = "none"; }
+}
+
+/* =========================================================
+   進捗ダッシュボード
+   ========================================================= */
+function renderDashboard(){
+  let totalAnswered=0, totalCorrect=0, totalMastered=0;
+  QUESTIONS.forEach(q=>{
+    const st = getState(q.id);
+    if(st.correct + st.wrong > 0) totalAnswered++;
+    totalCorrect += st.correct;
+    if(st.streak >= 3) totalMastered++;
+  });
+  let totalTries=0;
+  QUESTIONS.forEach(q=>{ const st=getState(q.id); totalTries += st.correct+st.wrong; });
+
+  document.getElementById("statTotal").textContent = totalTries;
+  document.getElementById("statAcc").textContent = totalTries>0 ? Math.round(totalCorrect/totalTries*100)+"%" : "0%";
+  document.getElementById("statMastered").textContent = totalMastered + "/" + QUESTIONS.length;
+
+  const wrap = document.getElementById("chapterBars");
+  wrap.innerHTML = "";
+  [1,2,3].forEach(ch=>{
+    const qs = QUESTIONS.filter(q=>q.ch===ch);
+    const mastered = qs.filter(q=>getState(q.id).streak>=3).length;
+    const pct = Math.round(mastered/qs.length*100);
+    const subs = [...new Set(qs.map(q=>q.sub))];
+
+    const card = document.createElement("div");
+    card.className = "ch-card";
+    let subHtml = "";
+    subs.forEach(sub=>{
+      const subQs = qs.filter(q=>q.sub===sub);
+      const weakInSub = subQs.filter(q=>getState(q.id).weak).length;
+      const masteredInSub = subQs.filter(q=>getState(q.id).streak>=3).length;
+      subHtml += `<div class="subrow"><span>${sub}</span><span>${masteredInSub>0?`習得${masteredInSub}/${subQs.length}`:""}${weakInSub>0?` <span class="tag-weak">弱点${weakInSub}</span>`:""}</span></div>`;
+    });
+
+    card.innerHTML = `
+      <div class="head"><span class="name">${CH_NAMES[ch]}</span><span class="pct">${pct}%</span></div>
+      <div class="bar"><div style="width:${pct}%;"></div></div>
+      ${subHtml}
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+/* =========================================================
+   設定
+   ========================================================= */
+const resetConfirmEl = document.getElementById("resetConfirm");
+
+document.getElementById("resetBtn").addEventListener("click", ()=>{
+  resetConfirmEl.style.display = "block";
+});
+document.getElementById("resetCancelBtn").addEventListener("click", ()=>{
+  resetConfirmEl.style.display = "none";
+});
+document.getElementById("resetConfirmBtn").addEventListener("click", ()=>{
+  progress = {};
+  streak = 0;
+  saveProgress(progress);
+  safeLocalSet(STREAK_KEY, "0");
+  updateStreakBadge();
+  updateWeakCount();
+  lastQId = undefined;
+  currentRange = "all";
+  currentLevel = "all";
+  historyStack = [];
+  updateBackBtnState();
+  renderRangeChips();
+  renderLevelChips();
+  renderFront();
+
+  resetConfirmEl.innerHTML = '<div style="font-size:13px; color:var(--ink-soft); font-weight:700;">✅ リセットしました。</div>';
+  setTimeout(()=>{ resetConfirmEl.style.display = "none"; }, 1600);
+});
+document.getElementById("totalQCount").textContent = QUESTIONS.length + " 問";
+
+
+/* =========================================================
+   テーマ切り替え
+   ========================================================= */
+const THEME_KEY = "kr1math_theme_v1";
+const themeBtn = document.getElementById("themeBtn");
+function applyTheme(theme){
+  if(theme === "light"){
+    document.body.setAttribute("data-theme", "light");
+    themeBtn.textContent = "☀️ ライト";
+  }else{
+    document.body.removeAttribute("data-theme");
+    themeBtn.textContent = "🌙 ダーク";
+  }
+}
+let savedTheme = safeLocalGet(THEME_KEY, "dark");
+applyTheme(savedTheme);
+themeBtn.addEventListener("click", ()=>{
+  savedTheme = (savedTheme === "dark") ? "light" : "dark";
+  safeLocalSet(THEME_KEY, savedTheme);
+  applyTheme(savedTheme);
+});
+
+/* =========================================================
+   初期化
+   ========================================================= */
+renderRangeChips();
+renderLevelChips();
+renderFront();
+updateStreakBadge();
+updateWeakCount();
+
+window.addEventListener("resize", ()=>{
+  syncFlashHeight(flashcardEl.classList.contains("flipped") ? ".face.back" : ".face.front");
+});
+</script>
+</body>
+</html>
